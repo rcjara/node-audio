@@ -3,7 +3,8 @@ var interact = (function() {
 
 
   var connect_to_server = function() {
-    socket = io.connect('localhost');
+    //here is a comment
+    socket = io.connect('/');
 
     socket.on('connect', function () {
       echo('connected');
