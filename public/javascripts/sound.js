@@ -39,16 +39,16 @@ define(function() {
     if (volume !== undefined) {
       volumes[soundName].gain = volume;
     }
-    sources[soundName].start(0);
+    sources[soundName].noteOn(0);
   };
 
   public.playNote = function(soundName, freq) {
     makeOscillator(soundName, freq);
-    sources[soundName].start(0);
+    sources[soundName].noteOn(0);
   };
 
   public.stopPlaying = function(soundName) {
-    sources[soundName].stop(0);
+    sources[soundName].noteOff(0);
   };
 
   public.loadSound = function(soundName, url) {
@@ -124,7 +124,7 @@ define(function() {
 
         soundSource.buffer = soundBuffer;
         soundSource.connect(ctx.destination);
-        soundSource.start(ctx.currentTime);
+        soundSource.noteOn(ctx.currentTime);
     };
 
     request.send();
