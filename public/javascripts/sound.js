@@ -1,4 +1,4 @@
-define(["./keyboard.js"], function(KEYBOARD) {
+define(function() {
   var sources        = {}
     , volumes        = {}
     , soundsLoaded   = 0
@@ -7,17 +7,6 @@ define(["./keyboard.js"], function(KEYBOARD) {
     , doneLoading    = function() {}
     , ctx
     ;
-
-  var checkKeyboard = function() {
-    console.log("inside of sound");
-    if(KEYBOARD === undefined) {
-      console.log("keyboard is undefined");
-    } else if (KEYBOARD) {
-      console.log("Keyboard is truthy");
-    } else {
-      console.log("Keyboard is not truthy but not defined");
-    }
-  }
 
   var init = function() {
     if (typeof AudioContext !== "undefined") {
@@ -29,29 +18,6 @@ define(["./keyboard.js"], function(KEYBOARD) {
     } else {
         throw new Error('AudioContext not supported. :(');
     }
-  }
-
-  var echoTest = function() {
-    echo('Echo test');
-    if (ctx !== undefined) {
-      echo('Audio context exists');
-    }
-  };
-
-  var multiSoundTest = function() {
-    echo('starting multiSoundTest');
-
-    loadSound('beep', 'audio/beep-1.mp3');
-    loadSound('hello', 'http://thelab.thingsinjars.com/web-audio-tutorial/hello.mp3');
-
-    doneLoading = function() {
-      play('hello');
-      play('beep', 0.6);
-
-      var currTime = ctx.currentTime;
-      volumes['hello'].gain.linearRampToValueAtTime(0, currTime);
-      volumes['hello'].gain.linearRampToValueAtTime(1, currTime + 10.1);
-    };
   };
 
   var play = function(ident, volume) {
@@ -59,7 +25,16 @@ define(["./keyboard.js"], function(KEYBOARD) {
       volumes[ident].gain = volume;
     }
     sources[ident].start(ctx.currentTime);
-  }
+  };
+
+  var playNote = function(ident, freq) {
+    makeOscillator(ident, freq);
+    sources[ident].start(0);
+  };
+
+  var stopPlaying = function(ident) {
+    sources[ident].stop(0);
+  };
 
   var loadSound = function(ident, url) {
     echo('starting loadSound');
@@ -92,17 +67,31 @@ define(["./keyboard.js"], function(KEYBOARD) {
   };
 
   var makeOscillator = function(ident, freq) {
+    if (sources[ident]) { stop(ident); }
+
     var source = ctx.createOscillator();
+    var volumeNode = createVolumeNode(ident);
+
     source.frequency.value = freq;
-
-    var volumeNode = ctx.createGainNode();
-    volumeNode.volume = DefaultVolume;
-
     source.connect(volumeNode);
     volumeNode.connect(ctx.destination);
 
     sources[ident] = source;
-    volumes[ident] = volumeNode;
+    return source;
+  };
+
+  var createVolumeNode = function(ident, volume) {
+    if (volume === undefined) {
+      volume = DefaultVolume;
+    }
+
+    if (!volumes[ident]) {
+      var volumeNode = ctx.createGainNode();
+      volumeNode.volume = volume;
+      volumes[ident] = volumeNode;
+    }
+
+    return volumes[ident];
   }
 
   var soundTest = function() {
@@ -127,47 +116,13 @@ define(["./keyboard.js"], function(KEYBOARD) {
 
   };
 
-  var noteTest = function() {
-
-    $('body').keydown(function(e) {
-      if (e.which === 67) {
-        if (!KEYBOARD.isPushed(67)) {
-          KEYBOARD.push(67);
-          makeOscillator('middle c', 400);
-          sources['middle c'].start(0);
-        }
-      }
-    });
-
-    $('body').keyup(function(e) {
-      if (e.which === 67) {
-        sources['middle c'].stop(0);
-        KEYBOARD.release(67);
-      }
-    });
-  };
-
-  var startKeyTest = function() {
-    loadSound('c', 'audio/pianoMiddleC.mp3');
-    doneLoading = function() {
-      sources['c'].loop = true;
-    }
-    $('body').keydown(function(e) {
-      if (e.which === 70) {
-        sources['c'].start(0);
-      }
-    });
-  };
-
   init();
 
   return {
-    echoTest: echoTest
-  , soundTest: soundTest
-  , checkKeyboard: checkKeyboard
-  , noteTest: noteTest
-  , multiSoundTest: multiSoundTest
-  , startKeyTest: startKeyTest
-  , sources: sources
+    play:        play
+  , playNote:    playNote
+  , stopPlaying: stopPlaying
+  , loadSound:   loadSound
+  , soundTest:   soundTest
   };
 });

@@ -13,17 +13,16 @@
     <script src="javascripts/main.js"></script>
     <script>
       require(['socket.io/socket.io.js'
-             , './javascripts/sound.js'
              , './javascripts/interact.js'
+             , './javascripts/keyboardSynth.js'
              ],
-      function(io, sound, interact) { //, interact) {
+      function(io, interact, synth) { //, interact) {
         console.log('require ready');
 
         $(document).ready(function() {
           console.log("Document Ready");
-          sound.checkKeyboard();
           interact.connect();
-          sound.noteTest();
+          synth.activate();
         });
       });
     </script>
