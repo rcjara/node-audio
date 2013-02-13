@@ -1,5 +1,6 @@
 define(function() {
-  var sources        = {}
+  var public         = {}
+    , sources        = {}
     , volumes        = {}
     , soundsLoaded   = 0
     , soundsToLoad   = 0
@@ -8,7 +9,7 @@ define(function() {
     , ctx
     ;
 
-  var init = function() {
+  var loadAudioContext = function() {
     if (typeof AudioContext !== "undefined") {
         ctx = new AudioContext();
         console.log("Using AudioContext");
@@ -20,23 +21,23 @@ define(function() {
     }
   };
 
-  var play = function(ident, volume) {
+  public.play = function(soundName, volume) {
     if (volume !== undefined) {
-      volumes[ident].gain = volume;
+      volumes[soundName].gain = volume;
     }
-    sources[ident].start(ctx.currentTime);
+    sources[soundName].start(0);
   };
 
-  var playNote = function(ident, freq) {
-    makeOscillator(ident, freq);
-    sources[ident].start(0);
+  public.playNote = function(soundName, freq) {
+    makeOscillator(soundName, freq);
+    sources[soundName].start(0);
   };
 
-  var stopPlaying = function(ident) {
-    sources[ident].stop(0);
+  public.stopPlaying = function(soundName) {
+    sources[soundName].stop(0);
   };
 
-  var loadSound = function(ident, url) {
+  public.loadSound = function(soundName, url) {
     echo('starting loadSound');
     soundsToLoad++;
     var request = new XMLHttpRequest();
@@ -47,17 +48,17 @@ define(function() {
           source    = ctx.createBufferSource();
           buffer    = ctx.createBuffer(audioData, true/*make mono*/);
       source.buffer = buffer;
-      sources[ident] = source;
+      sources[soundName] = source;
 
       volumeNode = ctx.createGainNode();
       volumeNode.gain.value = 0.1;
-      volumes[ident] = volumeNode;
+      volumes[soundName] = volumeNode;
 
       source.connect(volumeNode);
       volumeNode.connect(ctx.destination);
       soundsLoaded++;
 
-      echo('ident: ' + ident + 'soundsLoaded: ' + soundsLoaded);
+      echo('soundName: ' + soundName + 'soundsLoaded: ' + soundsLoaded);
       if (soundsLoaded >= soundsToLoad) {
         doneLoading();
       }
@@ -66,17 +67,16 @@ define(function() {
     request.send();
   };
 
-  var makeOscillator = function(ident, freq) {
-    if (sources[ident]) { stop(ident); }
+  var makeOscillator = function(soundName, freq) {
+    if (sources[soundName]) { stop(soundName); }
 
     var source = ctx.createOscillator();
-    var volumeNode = createVolumeNode(ident);
+    var volumeNode = createVolumeNode(soundName);
 
-    source.frequency.value = freq;
     source.connect(volumeNode);
-    volumeNode.connect(ctx.destination);
+    source.frequency.value = freq;
 
-    sources[ident] = source;
+    sources[soundName] = source;
     return source;
   };
 
@@ -94,7 +94,7 @@ define(function() {
     return volumes[ident];
   }
 
-  var soundTest = function() {
+  public.soundTest = function() {
     console.log('starting sound test');
     var request = new XMLHttpRequest();
     request.open("GET", 'audio/beep-1.mp3', true);
@@ -116,13 +116,7 @@ define(function() {
 
   };
 
-  init();
+  loadAudioContext();
 
-  return {
-    play:        play
-  , playNote:    playNote
-  , stopPlaying: stopPlaying
-  , loadSound:   loadSound
-  , soundTest:   soundTest
-  };
+  return public;
 });

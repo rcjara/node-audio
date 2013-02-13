@@ -1,5 +1,7 @@
 define(['./keyboard.js', './sound.js'], function(keyboard, sound) {
   //keyboard key code, note identifier, frequency
+  var public = {};
+
   var keys = {
     90: { name: "A3", freq: 220.000 }  //z
   , 88: { name: "B3", freq: 246.942 }  //x
@@ -16,9 +18,9 @@ define(['./keyboard.js', './sound.js'], function(keyboard, sound) {
   , 69: { name: "C#6", freq: 1108.73 } //e
   , 82: { name: "E6", freq: 1318.51 }  //r
   , 84: { name: "F#6", freq: 1479.98 } //t
-  }
+  };
 
-  var activate = function() {
+  public.activate = function() {
     $('body').keydown(function(e) {
       var keyCode = e.which;
       if (keys[keyCode] !== undefined) {
@@ -46,7 +48,5 @@ define(['./keyboard.js', './sound.js'], function(keyboard, sound) {
     });
   };
 
-  return {
-    activate: activate
-  };
+  return public;
 });

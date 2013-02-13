@@ -1,8 +1,9 @@
 define(function() {
-  var socket;
+  var public = {}
+    , socket
+    ;
 
-
-  var connectToServer = function() {
+  public.connectToServer = function() {
     //here is a comment
     socket = io.connect('/');
     //var socket = require('socket.io')('/');
@@ -34,8 +35,5 @@ define(function() {
 
   };
 
-  return {
-    socket: function() { return socket; },
-    connect: connectToServer
-  };
+  return public;
 });
