@@ -13,24 +13,24 @@ if (typeof AudioContext !== "undefined") {
 var sound = (function() {
   var sources        = {},
       volumes        = {},
-      sounds_loaded  = 0,
-      sounds_to_load = 0,
-      done_loading   = function() {};
+      soundsLoaded  = 0,
+      soundsToLoad = 0,
+      doneLoading   = function() {};
 
-  var echo_test = function() {
+  var echoTest = function() {
     echo('Echo test');
     if (audioCtx !== undefined) {
       echo('Audio context exists');
     }
   };
 
-  var multi_sound_test = function() {
-    echo('starting multi_sound_test');
+  var multiSoundTest = function() {
+    echo('starting multiSoundTest');
 
-    load_sound('beep', 'audio/beep-1.mp3');
-    load_sound('hello', 'http://thelab.thingsinjars.com/web-audio-tutorial/hello.mp3');
+    loadSound('beep', 'audio/beep-1.mp3');
+    loadSound('hello', 'http://thelab.thingsinjars.com/web-audio-tutorial/hello.mp3');
 
-    done_loading = function() {
+    doneLoading = function() {
       play('hello');
       play('beep', 0.6);
 
@@ -47,9 +47,9 @@ var sound = (function() {
     sources[ident].noteOn(audioCtx.currentTime);
   }
 
-  var load_sound = function(ident, url) {
-    echo('starting load_sound');
-    sounds_to_load++;
+  var loadSound = function(ident, url) {
+    echo('starting loadSound');
+    soundsToLoad++;
     var request = new XMLHttpRequest();
     request.open("GET", url, true);
     request.responseType = 'arraybuffer';
@@ -66,25 +66,26 @@ var sound = (function() {
 
       source.connect(volumeNode);
       volumeNode.connect(audioCtx.destination);
-      sounds_loaded++;
+      soundsLoaded++;
 
-      echo('ident: ' + ident + 'sounds_loaded: ' + sounds_loaded);
-      if (sounds_loaded >= sounds_to_load) {
-        done_loading();
+      echo('ident: ' + ident + 'soundsLoaded: ' + soundsLoaded);
+      if (soundsLoaded >= soundsToLoad) {
+        doneLoading();
       }
     };
 
     request.send();
   };
 
-  var make_oscillator = function(ident) {
+  var makeOscillator = function(ident, freq) {
     var source = audioCtx.createOscillator();
-    source.frequency.value = 400;
+    source.frequency.value = freq;
 
+    var gainNode = audioCtx.createGainNode();
 
   }
 
-  var sound_test = function() {
+  var soundTest = function() {
     console.log('starting sound test');
     var request = new XMLHttpRequest();
     request.open("GET", 'audio/beep-1.mp3', true);
@@ -106,9 +107,11 @@ var sound = (function() {
 
   };
 
-  var start_key_test = function() {
-    load_sound('c', 'audio/piano_middle_C.mp3');
-    done_loading = function() {
+  var noteTest.
+
+  var startKeyTest = function() {
+    loadSound('c', 'audio/pianoMiddleC.mp3');
+    doneLoading = function() {
       sources['c'].loop = true;
     }
     $('body').keydown(function(e) {
@@ -120,10 +123,10 @@ var sound = (function() {
   };
 
   return {
-    echo_test: echo_test,
-    sound_test: sound_test,
-    multi_sound_test: multi_sound_test,
-    start_key_test: start_key_test,
+    echoTest: echoTest,
+    soundTest: soundTest,
+    multiSoundTest: multiSoundTest,
+    startKeyTest: startKeyTest,
     sources: sources
   };
 })();

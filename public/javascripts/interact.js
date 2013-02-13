@@ -2,7 +2,7 @@ var interact = (function() {
   var socket;
 
 
-  var connect_to_server = function() {
+  var connectToServer = function() {
     //here is a comment
     socket = io.connect('/');
 
@@ -35,6 +35,6 @@ var interact = (function() {
 
   return {
     socket: function() { return socket; },
-    connect: connect_to_server
+    connect: connectToServer
   };
 })();
