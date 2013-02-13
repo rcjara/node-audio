@@ -2,6 +2,7 @@ define(function() {
   var public         = {}
     , sources        = {}
     , volumes        = {}
+    , destination
     , soundsLoaded   = 0
     , soundsToLoad   = 0
     , DefaultVolume  = 0.3
@@ -19,6 +20,19 @@ define(function() {
     } else {
         throw new Error('AudioContext not supported. :(');
     }
+
+    setupDynamicCompressor();
+  };
+
+  var setupDynamicCompressor = function() {
+    console.log('setting up compressor');
+    /* We want all sound to be routed through
+     * the compressor to avoid clipping,
+     * so the compressor will pretend to be
+     * the final destination */
+    destination = ctx.createDynamicsCompressor();
+    destination.connect(ctx.destination);
+    destination.threshold.value = -28;
   };
 
   public.play = function(soundName, volume) {
@@ -80,18 +94,19 @@ define(function() {
     return source;
   };
 
-  var createVolumeNode = function(ident, volume) {
-    if (volume === undefined) {
-      volume = DefaultVolume;
-    }
+  var createVolumeNode = function(soundName, volume) {
+    if (volume === undefined) { volume = DefaultVolume; }
 
-    if (!volumes[ident]) {
+    if (volumes[soundName]) {
+      var volumeNode = volumes[soundName];
+    } else {
       var volumeNode = ctx.createGainNode();
       volumeNode.volume = volume;
-      volumes[ident] = volumeNode;
+      volumes[soundName] = volumeNode;
     }
 
-    return volumes[ident];
+    volumeNode.connect(destination);
+    return volumeNode;
   }
 
   public.soundTest = function() {
