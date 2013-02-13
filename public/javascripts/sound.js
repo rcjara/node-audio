@@ -1,12 +1,23 @@
-define(function() {
+define(["./keyboard.js"], function(KEYBOARD) {
   var sources        = {}
     , volumes        = {}
     , soundsLoaded   = 0
     , soundsToLoad   = 0
-    , DefaultVolume  = 0.5
+    , DefaultVolume  = 0.3
     , doneLoading    = function() {}
     , ctx
     ;
+
+  var checkKeyboard = function() {
+    console.log("inside of sound");
+    if(KEYBOARD === undefined) {
+      console.log("keyboard is undefined");
+    } else if (KEYBOARD) {
+      console.log("Keyboard is truthy");
+    } else {
+      console.log("Keyboard is not truthy but not defined");
+    }
+  }
 
   var init = function() {
     if (typeof AudioContext !== "undefined") {
@@ -120,14 +131,18 @@ define(function() {
 
     $('body').keydown(function(e) {
       if (e.which === 67) {
-        makeOscillator('middle c', 400);
-        sources['middle c'].start(0);
+        if (!KEYBOARD.isPushed(67)) {
+          KEYBOARD.push(67);
+          makeOscillator('middle c', 400);
+          sources['middle c'].start(0);
+        }
       }
     });
 
     $('body').keyup(function(e) {
       if (e.which === 67) {
         sources['middle c'].stop(0);
+        KEYBOARD.release(67);
       }
     });
   };
@@ -138,7 +153,6 @@ define(function() {
       sources['c'].loop = true;
     }
     $('body').keydown(function(e) {
-      console.log('keydown');
       if (e.which === 70) {
         sources['c'].start(0);
       }
@@ -150,6 +164,7 @@ define(function() {
   return {
     echoTest: echoTest
   , soundTest: soundTest
+  , checkKeyboard: checkKeyboard
   , noteTest: noteTest
   , multiSoundTest: multiSoundTest
   , startKeyTest: startKeyTest

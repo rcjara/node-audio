@@ -12,16 +12,18 @@
     <script src="javascripts/vendor/require-jquery.js"></script>
     <script src="javascripts/main.js"></script>
     <script>
-      require(['./javascripts/sound.js'
+      require(['socket.io/socket.io.js'
+             , './javascripts/sound.js'
              , './javascripts/interact.js'
-             , 'socket.io/socket.io.js'
-      ],
-      function(sound, interact, io) { //, interact) {
+             ],
+      function(io, sound, interact) { //, interact) {
         console.log('require ready');
+
         $(document).ready(function() {
           console.log("Document Ready");
-          sound.noteTest();
+          sound.checkKeyboard();
           interact.connect();
+          sound.noteTest();
         });
       });
     </script>
