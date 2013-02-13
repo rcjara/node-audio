@@ -1,10 +1,11 @@
-var interact = (function() {
+define(function() {
   var socket;
 
 
   var connectToServer = function() {
     //here is a comment
     socket = io.connect('/');
+    //var socket = require('socket.io')('/');
 
     socket.on('connect', function () {
       echo('connected');
@@ -37,4 +38,4 @@ var interact = (function() {
     socket: function() { return socket; },
     connect: connectToServer
   };
-})();
+});

@@ -1,25 +1,28 @@
-//Create a toplevel audio context
-var audioCtx;
-if (typeof AudioContext !== "undefined") {
-    audioCtx = new AudioContext();
-    console.log("Using AudioContext");
-} else if (typeof webkitAudioContext !== "undefined") {
-    audioCtx = new webkitAudioContext();
-    console.log("Using webkitAudioContext");
-} else {
-    throw new Error('AudioContext not supported. :(');
-}
+define(function() {
+  var sources        = {}
+    , volumes        = {}
+    , soundsLoaded   = 0
+    , soundsToLoad   = 0
+    , DefaultVolume  = 0.5
+    , doneLoading    = function() {}
+    , ctx
+    ;
 
-var sound = (function() {
-  var sources        = {},
-      volumes        = {},
-      soundsLoaded  = 0,
-      soundsToLoad = 0,
-      doneLoading   = function() {};
+  var init = function() {
+    if (typeof AudioContext !== "undefined") {
+        ctx = new AudioContext();
+        console.log("Using AudioContext");
+    } else if (typeof webkitAudioContext !== "undefined") {
+        ctx = new webkitAudioContext();
+        console.log("Using webkitAudioContext");
+    } else {
+        throw new Error('AudioContext not supported. :(');
+    }
+  }
 
   var echoTest = function() {
     echo('Echo test');
-    if (audioCtx !== undefined) {
+    if (ctx !== undefined) {
       echo('Audio context exists');
     }
   };
@@ -34,7 +37,7 @@ var sound = (function() {
       play('hello');
       play('beep', 0.6);
 
-      var currTime = audioCtx.currentTime;
+      var currTime = ctx.currentTime;
       volumes['hello'].gain.linearRampToValueAtTime(0, currTime);
       volumes['hello'].gain.linearRampToValueAtTime(1, currTime + 10.1);
     };
@@ -44,7 +47,7 @@ var sound = (function() {
     if (volume !== undefined) {
       volumes[ident].gain = volume;
     }
-    sources[ident].noteOn(audioCtx.currentTime);
+    sources[ident].start(ctx.currentTime);
   }
 
   var loadSound = function(ident, url) {
@@ -55,17 +58,17 @@ var sound = (function() {
     request.responseType = 'arraybuffer';
     request.onload = function() {
       var audioData = request.response,
-          source    = audioCtx.createBufferSource();
-          buffer    = audioCtx.createBuffer(audioData, true/*make mono*/);
+          source    = ctx.createBufferSource();
+          buffer    = ctx.createBuffer(audioData, true/*make mono*/);
       source.buffer = buffer;
       sources[ident] = source;
 
-      volumeNode = audioCtx.createGainNode();
+      volumeNode = ctx.createGainNode();
       volumeNode.gain.value = 0.1;
       volumes[ident] = volumeNode;
 
       source.connect(volumeNode);
-      volumeNode.connect(audioCtx.destination);
+      volumeNode.connect(ctx.destination);
       soundsLoaded++;
 
       echo('ident: ' + ident + 'soundsLoaded: ' + soundsLoaded);
@@ -78,11 +81,17 @@ var sound = (function() {
   };
 
   var makeOscillator = function(ident, freq) {
-    var source = audioCtx.createOscillator();
+    var source = ctx.createOscillator();
     source.frequency.value = freq;
 
-    var gainNode = audioCtx.createGainNode();
+    var volumeNode = ctx.createGainNode();
+    volumeNode.volume = DefaultVolume;
 
+    source.connect(volumeNode);
+    volumeNode.connect(ctx.destination);
+
+    sources[ident] = source;
+    volumes[ident] = volumeNode;
   }
 
   var soundTest = function() {
@@ -95,19 +104,33 @@ var sound = (function() {
     request.onload = function() {
         echo('loaded');
         var audioData = request.response,
-            soundSource = audioCtx.createBufferSource();
-            soundBuffer = audioCtx.createBuffer(audioData, true/*make mono*/);
+            soundSource = ctx.createBufferSource();
+            soundBuffer = ctx.createBuffer(audioData, true/*make mono*/);
 
         soundSource.buffer = soundBuffer;
-        soundSource.connect(audioCtx.destination);
-        soundSource.noteOn(audioCtx.currentTime);
+        soundSource.connect(ctx.destination);
+        soundSource.start(ctx.currentTime);
     };
 
     request.send();
 
   };
 
-  var noteTest.
+  var noteTest = function() {
+
+    $('body').keydown(function(e) {
+      if (e.which === 67) {
+        makeOscillator('middle c', 400);
+        sources['middle c'].start(0);
+      }
+    });
+
+    $('body').keyup(function(e) {
+      if (e.which === 67) {
+        sources['middle c'].stop(0);
+      }
+    });
+  };
 
   var startKeyTest = function() {
     loadSound('c', 'audio/pianoMiddleC.mp3');
@@ -117,16 +140,19 @@ var sound = (function() {
     $('body').keydown(function(e) {
       console.log('keydown');
       if (e.which === 70) {
-        sources['c'].noteOn(0);
+        sources['c'].start(0);
       }
     });
   };
 
+  init();
+
   return {
-    echoTest: echoTest,
-    soundTest: soundTest,
-    multiSoundTest: multiSoundTest,
-    startKeyTest: startKeyTest,
-    sources: sources
+    echoTest: echoTest
+  , soundTest: soundTest
+  , noteTest: noteTest
+  , multiSoundTest: multiSoundTest
+  , startKeyTest: startKeyTest
+  , sources: sources
   };
-})();
+});

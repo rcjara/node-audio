@@ -7,16 +7,22 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <script src="javascripts/vendor/jquery-1.9.0.min.js"></script>
+    <script src=></script>
     <script src="javascripts/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="javascripts/vendor/require-jquery.js"></script>
     <script src="javascripts/main.js"></script>
-    <script src="socket.io/socket.io.js"></script>
-    <script src="javascripts/interact.js"></script>
     <script>
-      $(document).ready(function() {
-        console.log("Document Ready");
-        //sound.echo_test();
-        interact.connect();
+      require(['./javascripts/sound.js'
+             , './javascripts/interact.js'
+             , 'socket.io/socket.io.js'
+      ],
+      function(sound, interact, io) { //, interact) {
+        console.log('require ready');
+        $(document).ready(function() {
+          console.log("Document Ready");
+          sound.noteTest();
+          interact.connect();
+        });
       });
     </script>
   </body>
