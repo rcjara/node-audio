@@ -34,66 +34,65 @@ define(['./sound.js'], function(sound) {
 
   };
 
+
   Note.prototype.play = function() {
-    console.log('play!');
+    if (this.playing) { return; }
 
-    if (!this.playing) {
-      var gainNode = ctx.createGainNode();
-      gainNode.connect(dest);
+    this.setupGainNode();
+    this.setupSource();
+    this.rampUpGain();
 
-      gainNode.gain.value = ZERO;
-      this.gainNode = gainNode;
-
-      var source = ctx.createOscillator();
-      source.connect(gainNode);
-      source.frequency.value = this.frequency;
-      this.source = source;
-
-      source.noteOn( now() );
-
-      var endTime = now() + this.attr.attack
-        , targetVolume = this.attr.targetVolume
-        ;
-
-      var attack = function() {
-        console.log('endTime: ' + endTime);
-        console.log('targetVolume: ' +targetVolume);
-        console.log('gainNode' + gainNode.gain.value);
-
-        gainNode.gain.setValueAtTime(ZERO, now() );
-        gainNode.gain.linearRampToValueAtTime(targetVolume,
-                                                   endTime);
-      }
-      setTimeout(attack, 1);
-
-      this.playing = true;
-    }
-  }
+    this.playing = true;
+  };
 
   Note.prototype.stop = function() {
-    console.log('release: ' + this.attr.release);
+    if (!this.playing) { return; }
 
-    if (this.playing) {
-      var endTime = now() + this.attr.release;
-      var curGain = this.gainNode.gain.value;
-      console.log('curGain: ' + curGain);
+    var endTime = now() + this.attr.release
+      , gain    = this.gainNode.gain
+      , curGain = gain.value
 
-      this.gainNode.gain.cancelScheduledValues( now() );
-      this.gainNode.gain.setValueAtTime(curGain, now() );
-      this.gainNode
-          .gain
-          .exponentialRampToValueAtTime(ZERO, endTime);
+    gain.cancelScheduledValues( now() );
+    gain.setValueAtTime(curGain, now() );
+    gain.exponentialRampToValueAtTime(ZERO, endTime);
 
 
-      var target = this;
-      var killNoteFn = function() {
-        target.source.noteOff(0);
-        console.log('note killed');
-      };
-      setTimeout(killNoteFn, this.attr.release * 1000 + 10);
-
-    }
+    var target = this;
+    var killNoteFn = function() {
+      target.source.noteOff(0);
+      console.log('note killed');
+    };
+    setTimeout(killNoteFn, this.attr.release * 1000 + 10);
   }
+
+  Note.prototype.setupSource = function() {
+    var gainNode = this.gainNode
+      , source = ctx.createOscillator()
+      ;
+
+    this.source = source;
+
+    source.connect(gainNode);
+    source.frequency.value = this.frequency;
+    source.noteOn( now() );
+  };
+
+  Note.prototype.rampUpGain = function() {
+    var endTime = now() + this.attr.attack
+      , targetVolume = this.attr.targetVolume
+      ;
+
+    var gain = this.gainNode.gain;
+    gain.value = ZERO;
+    gain.setValueAtTime(ZERO, now() );
+    gain.linearRampToValueAtTime(targetVolume, endTime);
+  };
+
+  Note.prototype.setupGainNode = function() {
+    var gainNode = ctx.createGainNode();
+    this.gainNode = gainNode;
+    gainNode.connect(dest);
+  };
 
   return Note;
 });
