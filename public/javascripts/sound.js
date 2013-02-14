@@ -44,11 +44,13 @@ define(function() {
 
   public.playNote = function(soundName, freq) {
     makeOscillator(soundName, freq);
+    volumes[soundName].gain.value = 0;
     sources[soundName].noteOn(0);
+    volumes[soundName].gain.linearRampToValueAtTime(0.3, ctx.currentTime);
   };
 
   public.stopPlaying = function(soundName) {
-    sources[soundName].noteOff(0);
+    volumes[soundName].gain.exponentialRampToValueAtTime(0, ctx.currentTime + 3.2);
   };
 
   public.loadSound = function(soundName, url) {
