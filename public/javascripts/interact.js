@@ -1,4 +1,4 @@
-define(['./keyboardSynth.js'], function(keyboard) {
+define(['./keyboardSynth.js'], function(synth) {
   var public = {}
     , socket
     ;
@@ -12,8 +12,12 @@ define(['./keyboardSynth.js'], function(keyboard) {
       echo('connected');
     });
 
-    socket.on('keypress', function (msg) {
-      echo('someone else pressed f');
+    socket.on('keydown', function (msg) {
+      synth.keydown(msg.key);
+    });
+
+    socket.on('keyup', function (msg) {
+      synth.keyup(msg.key);
     });
 
     socket.on('message', function (msg) {
@@ -26,10 +30,11 @@ define(['./keyboardSynth.js'], function(keyboard) {
 
 
     $('body').keydown(function(e) {
-      if (e.which === 70) {
-        echo('I pressed f');
-        socket.emit('keypress', {keypress: 70});
-      }
+      socket.emit('keydown', { key: e.which});
+    });
+
+    $('body').keyup(function(e) {
+      socket.emit('keyup', { key: e.which});
     });
 
   };

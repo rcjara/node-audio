@@ -48,8 +48,12 @@ io.on('connection', function(client) {
   client.emit('message', {text: 'Welcome to the server'});
   client.broadcast.emit('message', {text: 'Someone just connected.'});
 
-  client.on('keypress', function(msg) {
-    client.broadcast.emit('message', { text: 'Some dude just pressed f.' });
+  client.on('keydown', function(msg) {
+    client.broadcast.emit('keydown', msg);
+  });
+
+  client.on('keyup', function(msg) {
+    client.broadcast.emit('keyup', msg);
   });
 });
 
