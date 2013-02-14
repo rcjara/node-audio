@@ -5,7 +5,7 @@ define(function() {
     , destination
     , soundsLoaded   = 0
     , soundsToLoad   = 0
-    , DefaultVolume  = 0.3
+    , DEFAULT_VOLUME  = 0.3
     , doneLoading    = function() {}
     , ctx
     ;
@@ -32,7 +32,7 @@ define(function() {
      * the final destination */
     destination = ctx.createDynamicsCompressor();
     destination.connect(ctx.destination);
-    destination.threshold.value = -28;
+    destination.threshold.value = -60;
   };
 
   public.play = function(soundName, volume) {
@@ -50,7 +50,7 @@ define(function() {
   };
 
   public.stopPlaying = function(soundName) {
-    volumes[soundName].gain.exponentialRampToValueAtTime(0, ctx.currentTime + 3.2);
+    volumes[soundName].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.2);
   };
 
   public.loadSound = function(soundName, url) {
@@ -97,7 +97,7 @@ define(function() {
   };
 
   var createVolumeNode = function(soundName, volume) {
-    if (volume === undefined) { volume = DefaultVolume; }
+    if (volume === undefined) { volume = DEFAULT_VOLUME; }
 
     if (volumes[soundName]) {
       var volumeNode = volumes[soundName];
@@ -132,6 +132,9 @@ define(function() {
     request.send();
 
   };
+
+  public.getCtx  = function() { return ctx; };
+  public.getDest = function() { return destination; };
 
   loadAudioContext();
 

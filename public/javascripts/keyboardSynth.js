@@ -1,4 +1,4 @@
-define(['./keyboard.js', './sound.js'], function(keyboard, sound) {
+define(['./keyboard.js', './note.js'], function(keyboard, Note) {
   //keyboard key code, note identifier, frequency
   var public = {};
 
@@ -20,16 +20,23 @@ define(['./keyboard.js', './sound.js'], function(keyboard, sound) {
   , 84: { name: "F#6", freq: 1479.98 } //t
   };
 
+  var playing = {};
+
   public.activate = function() {
     $('body').keydown(function(e) {
       var keyCode = e.which;
       if (keys[keyCode] !== undefined) {
         if (!keyboard.isPushed(keyCode)) {
+          console.log("keyboard isn't pushed");
+
           var name = keys[keyCode].name
             , freq = keys[keyCode].freq
+            , note = new Note(freq)
             ;
 
-          sound.playNote(name, freq);
+
+          note.play();
+          playing[name] = note;
           keyboard.push(keyCode);
         }
       }
@@ -41,7 +48,8 @@ define(['./keyboard.js', './sound.js'], function(keyboard, sound) {
         if (keyboard.isPushed(keyCode)) {
           var name = keys[keyCode].name;
 
-          sound.stopPlaying(name);
+          playing[name].stop();
+          playing[name] = null;
           keyboard.release(keyCode);
         }
       }
