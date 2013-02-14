@@ -60,7 +60,6 @@ define(['./sound.js'], function(sound) {
     var target = this;
     var killNoteFn = function() {
       target.source.noteOff(0);
-      console.log('note killed');
     };
     setTimeout(killNoteFn, this.attr.release * 1000 + 10);
   }

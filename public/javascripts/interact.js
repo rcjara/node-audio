@@ -26,7 +26,6 @@ define(function() {
 
 
     $('body').keydown(function(e) {
-      console.log('keydown');
       if (e.which === 70) {
         echo('I pressed f');
         socket.emit('keypress', {keypress: 70});

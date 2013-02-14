@@ -27,8 +27,6 @@ define(['./keyboard.js', './note.js'], function(keyboard, Note) {
       var keyCode = e.which;
       if (keys[keyCode] !== undefined) {
         if (!keyboard.isPushed(keyCode)) {
-          console.log("keyboard isn't pushed");
-
           var name = keys[keyCode].name
             , freq = keys[keyCode].freq
             , note = new Note(freq)
