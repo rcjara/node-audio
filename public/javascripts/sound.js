@@ -42,13 +42,6 @@ define(function() {
     sources[soundName].noteOn(0);
   };
 
-  public.playNote = function(soundName, freq) {
-    makeOscillator(soundName, freq);
-    volumes[soundName].gain.value = 0;
-    sources[soundName].noteOn(0);
-    volumes[soundName].gain.linearRampToValueAtTime(0.3, ctx.currentTime);
-  };
-
   public.stopPlaying = function(soundName) {
     volumes[soundName].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.2);
   };
@@ -81,19 +74,6 @@ define(function() {
     };
 
     request.send();
-  };
-
-  var makeOscillator = function(soundName, freq) {
-    if (sources[soundName]) { stop(soundName); }
-
-    var source = ctx.createOscillator();
-    var volumeNode = createVolumeNode(soundName);
-
-    source.connect(volumeNode);
-    source.frequency.value = freq;
-
-    sources[soundName] = source;
-    return source;
   };
 
   var createVolumeNode = function(soundName, volume) {
