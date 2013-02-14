@@ -1,4 +1,4 @@
-define(function() {
+define(['./keyboardSynth.js'], function(keyboard) {
   var public = {}
     , socket
     ;

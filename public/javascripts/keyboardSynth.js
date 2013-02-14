@@ -22,35 +22,41 @@ define(['./keyboard.js', './note.js'], function(keyboard, Note) {
 
   var playing = {};
 
+  public.keydown = function(keyCode) {
+    if (keys[keyCode] !== undefined) {
+      if (!keyboard.isPushed(keyCode)) {
+        var name = keys[keyCode].name
+          , freq = keys[keyCode].freq
+          , note = new Note(freq)
+          ;
+
+
+        note.play();
+        playing[name] = note;
+        keyboard.push(keyCode);
+      }
+    }
+  };
+
+  public.keyup = function(keyCode) {
+    if (keys[keyCode] !== undefined) {
+      if (keyboard.isPushed(keyCode)) {
+        var name = keys[keyCode].name;
+
+        playing[name].stop();
+        playing[name] = null;
+        keyboard.release(keyCode);
+      }
+    }
+  };
+
   public.activate = function() {
     $('body').keydown(function(e) {
-      var keyCode = e.which;
-      if (keys[keyCode] !== undefined) {
-        if (!keyboard.isPushed(keyCode)) {
-          var name = keys[keyCode].name
-            , freq = keys[keyCode].freq
-            , note = new Note(freq)
-            ;
-
-
-          note.play();
-          playing[name] = note;
-          keyboard.push(keyCode);
-        }
-      }
+      public.keydown(e.which);
     });
 
     $('body').keyup(function(e) {
-      var keyCode = e.which;
-      if (keys[keyCode] !== undefined) {
-        if (keyboard.isPushed(keyCode)) {
-          var name = keys[keyCode].name;
-
-          playing[name].stop();
-          playing[name] = null;
-          keyboard.release(keyCode);
-        }
-      }
+      public.keyup(e.which);
     });
   };
 
