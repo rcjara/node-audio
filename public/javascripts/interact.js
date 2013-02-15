@@ -4,16 +4,14 @@ define(['./keyboardSynth.js'], function(synth) {
     ;
 
   public.connectToServer = function() {
-    //here is a comment
     socket = io.connect('/');
-    //var socket = require('socket.io')('/');
 
     socket.on('connect', function () {
       echo('connecting to server...');
     });
 
     socket.on('keydown', function (msg) {
-      synth.keydown(msg.key);
+      synth.startNote(msg.key);
     });
 
     socket.on('keyup', function (msg) {
