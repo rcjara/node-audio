@@ -30,7 +30,9 @@ define(['./synthesizer.js'], function(synth) {
     });
 
     socket.on('disconnect', function() {
-      echo('disconnected');
+      echo('disconnected ...');
+      echo('attempting to reconnect ...');
+      socket.socket.reconnect();
     });
   };
 
