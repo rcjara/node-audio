@@ -22,7 +22,7 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
   , e: ["C#6"]
   , r: ["E6"]
   , t: ["F#6"]
-  , h: ["A4", "C#4", "E4"]
+  , h: ["A4", "C#5", "E5"]
   };
 
   var playing = {};

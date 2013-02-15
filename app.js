@@ -40,15 +40,22 @@ httpServer.listen(app.get('port'), function(){
 
 var io = socket.listen(httpServer);
 
-
 io.on('connection', function(client) {
-  console.log('I be connected');
-  client.emit('authorized', {text: 'Connected.  Welcome to Jam-r.'});
-  client.broadcast.emit('message', {text: 'Someone just connected.'});
+  client.emit('authorized', { text: 'Connected.  Welcome to Jam-r.'
+                            , clientID: client.id
+                            });
+
+  var clientMethods = [];
+  for (var attr in client) {
+    clientMethods.push(attr);
+  }
+  console.log(clientMethods);
+  client.broadcast.emit('message', { text: 'Someone just connected.' });
 
   client.on('synth-event', function(e) {
     client.broadcast.emit('synth-event', e);
     client.emit('synth-event', e);
   });
+
 });
 

@@ -1,6 +1,7 @@
 define(['./synthesizer.js'], function(synth) {
   var public = {}
     , socket
+    , clientID
     ;
 
   var call = function(callback) {
@@ -14,10 +15,15 @@ define(['./synthesizer.js'], function(synth) {
 
     socket.on('connect', function() {
       echo('connecting to server...');
+
+      //Don't delete commented out line below
+      //it's here for debugging purposes
+      //setTimeout(function() { socket.disconnect(); }, 1000);
     });
 
     socket.on('authorized', function(e) {
       echo(e.text);
+      clientID = e.clientID;
       call(authorizedCallback);
     });
 
@@ -27,6 +33,7 @@ define(['./synthesizer.js'], function(synth) {
 
     socket.on('message', function(msg) {
       echo(msg.text);
+      console.log(msg.toLog);
     });
 
     socket.on('disconnect', function() {
@@ -39,9 +46,10 @@ define(['./synthesizer.js'], function(synth) {
   public.emitSynthEvent = function(type, instrument, note) {
     var e = {};
 
-    e.type = type
-    e.instrumentName = instrument
-    e.noteName = note
+    e.type = type;
+    e.instrumentName = instrument + '-' + clientID;
+    e.noteName = note;
+    console.log(e)
 
     socket.emit('synth-event', e);
   }
