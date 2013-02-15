@@ -1,41 +1,48 @@
-define(['./keyboardSynth.js'], function(synth) {
+define(['./synthesizer.js'], function(synth) {
   var public = {}
     , socket
     ;
 
-  public.connectToServer = function() {
+  var call = function(callback) {
+    if (callback !== undefined) {
+      callback();
+    }
+  }
+
+  public.connectToServer = function(authorizedCallback) {
     socket = io.connect('/');
 
-    socket.on('connect', function () {
+    socket.on('connect', function() {
       echo('connecting to server...');
     });
 
-    socket.on('keydown', function (msg) {
-      synth.startNote(msg.key);
+    socket.on('authorized', function(e) {
+      echo(e.text);
+      call(authorizedCallback);
     });
 
-    socket.on('keyup', function (msg) {
-      synth.keyup(msg.key);
+    socket.on('synth-event', function(e) {
+      synth[e.type](e.instrumentName, e.noteName);
     });
 
-    socket.on('message', function (msg) {
+    socket.on('message', function(msg) {
       echo(msg.text);
     });
 
-    socket.on('disconnect', function () {
+    socket.on('disconnect', function() {
       echo('disconnected');
     });
-
-
-    $('body').keydown(function(e) {
-      socket.emit('keydown', { key: e.which});
-    });
-
-    $('body').keyup(function(e) {
-      socket.emit('keyup', { key: e.which});
-    });
-
   };
+
+  public.emitSynthEvent = function(type, instrument, note) {
+    var e = {};
+
+    e.type = type
+    e.instrumentName = instrument
+    e.noteName = note
+
+    socket.emit('synth-event', e);
+  }
 
   return public;
 });

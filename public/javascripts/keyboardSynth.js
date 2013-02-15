@@ -1,4 +1,4 @@
-define(['./keyboard.js', './synthesizer.js'], function(keyboard, synth) {
+define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
   //keyboard key code, note identifier, frequency
   var public = {};
 
@@ -32,7 +32,7 @@ define(['./keyboard.js', './synthesizer.js'], function(keyboard, synth) {
     console.log('keydown: ' + key);
     if (keys[key] !== undefined) {
       if (!keyboard.isPushed(key)) {
-        synth.start("piano", keys[key]);
+        interact.emitSynthEvent("start", "piano", keys[key]);
         keyboard.push(key);
       }
     }
@@ -43,7 +43,7 @@ define(['./keyboard.js', './synthesizer.js'], function(keyboard, synth) {
     console.log('keyup: ' + key);
     if (keys[key] !== undefined) {
       if (keyboard.isPushed(key)) {
-        synth.stop("piano", keys[key]);
+        interact.emitSynthEvent("stop", "piano", keys[key]);
         keyboard.release(key);
       }
     }
@@ -57,9 +57,10 @@ define(['./keyboard.js', './synthesizer.js'], function(keyboard, synth) {
     $('body').keyup(function(e) {
       public.keyup(e.which);
     });
-  };
 
-  synth.addInstrument("piano");
+    interact.emitSynthEvent("addInstrument", "piano");
+    echo("You can start making music");
+  };
 
   return public;
 });

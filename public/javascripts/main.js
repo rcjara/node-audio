@@ -11,8 +11,9 @@ require([  'socket.io/socket.io.js'
 
   $(document).ready(function() {
     console.log("Document Ready");
-    interact.connectToServer();
-    keyboard.activate();
+    interact.connectToServer(function() {
+      keyboard.activate();
+    });
   });
 });
 

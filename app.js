@@ -43,15 +43,12 @@ var io = socket.listen(httpServer);
 
 io.on('connection', function(client) {
   console.log('I be connected');
-  client.emit('message', {text: 'Connected.  Welcome to Jam-r.'});
+  client.emit('authorized', {text: 'Connected.  Welcome to Jam-r.'});
   client.broadcast.emit('message', {text: 'Someone just connected.'});
 
-  client.on('keydown', function(msg) {
-    client.broadcast.emit('keydown', msg);
-  });
-
-  client.on('keyup', function(msg) {
-    client.broadcast.emit('keyup', msg);
+  client.on('synth-event', function(e) {
+    client.broadcast.emit('synth-event', e);
+    client.emit('synth-event', e);
   });
 });
 
