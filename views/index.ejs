@@ -11,20 +11,5 @@
     <script src="javascripts/vendor/modernizr-2.6.2.min.js"></script>
     <script src="javascripts/vendor/require-jquery.js"></script>
     <script src="javascripts/main.js"></script>
-    <script>
-      require(['socket.io/socket.io.js'
-             , './javascripts/interact.js'
-             , './javascripts/keyboardSynth.js'
-             ],
-      function(io, interact, synth) { //, interact) {
-        console.log('require ready');
-
-        $(document).ready(function() {
-          console.log("Document Ready");
-          interact.connectToServer();
-          synth.activate();
-        });
-      });
-    </script>
   </body>
 </html>
