@@ -9,7 +9,7 @@ define(['./keyboardSynth.js'], function(synth) {
     //var socket = require('socket.io')('/');
 
     socket.on('connect', function () {
-      echo('connected');
+      echo('connecting to server...');
     });
 
     socket.on('keydown', function (msg) {

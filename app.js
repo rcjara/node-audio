@@ -5,7 +5,6 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , socket = require('socket.io')
   , path = require('path')
@@ -32,7 +31,6 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/users', user.list);
 
 var httpServer = http.createServer(app)
 
@@ -45,7 +43,7 @@ var io = socket.listen(httpServer);
 
 io.on('connection', function(client) {
   console.log('I be connected');
-  client.emit('message', {text: 'Welcome to the server'});
+  client.emit('message', {text: 'Connected.  Welcome to Jam-r.'});
   client.broadcast.emit('message', {text: 'Someone just connected.'});
 
   client.on('keydown', function(msg) {
