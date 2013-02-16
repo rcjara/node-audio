@@ -1,7 +1,7 @@
 define(['./sound.js'], function(sound) {
   var DEFAULT_ATTR = {
         targetVolume: 0.3
-      , attack: 0.1
+      , attack: 0.2
       , release: 0.2
       };
 
