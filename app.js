@@ -45,16 +45,27 @@ io.on('connection', function(client) {
                             , clientID: client.id
                             });
 
-  var clientMethods = [];
-  for (var attr in client) {
-    clientMethods.push(attr);
+  //send old clients to the newly connected client
+  var clients = io.sockets.clients();
+  for (var i = 0; i < clients.length; i++) {
+    var c = clients[i];
+    console.log("c.id: " + c.id);
+    client.emit('synth-event', { type: "addInstrument"
+                               , instrumentName: "piano-" + c.id
+                               });
   }
-  console.log(clientMethods);
+
   client.broadcast.emit('message', { text: 'Someone just connected.' });
 
   client.on('synth-event', function(e) {
     client.broadcast.emit('synth-event', e);
     client.emit('synth-event', e);
+  });
+
+  client.on('disconnect', function(e) {
+    client.broadcast.emit('synth-event', { type: "removeInstrument"
+                                         , instrumentName: "piano-" + client.id
+                                         });
   });
 
 });

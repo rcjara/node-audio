@@ -25,21 +25,15 @@ define(['./note.js'], function(Note) {
   , { name: "F#6", freq: 1479.98 }
   ];
 
-  console.log(notesArray);
-
   var createNotesHash = function() {
     $.each(notesArray, function(i, item) {
       notesHash[item.name] = item.freq;
-      console.log(item.name + ": " + item.freq);
     });
   };
 
 
   public.start = function(instrument, notes) {
-    console.log("receive start");
     $.each(notes, function(i, noteName) {
-      console.log(noteName);
-
       var freq = notesHash[noteName]
         , note = new Note(freq)
         ;
@@ -53,9 +47,7 @@ define(['./note.js'], function(Note) {
   };
 
   public.stop = function(instrument, notes) {
-    console.log('receive stop');
     $.each(notes, function(i, noteName) {
-      console.log(noteName + ' stopping');
       var note = instruments[instrument][noteName];
       note.stop();
       instruments[instrument][noteName] = null;
@@ -74,7 +66,7 @@ define(['./note.js'], function(Note) {
       note.stop();
     });
 
-    intruments[name] = null;
+    instruments[name] = null;
   }
 
   createNotesHash();

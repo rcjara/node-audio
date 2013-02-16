@@ -59,7 +59,7 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
     });
 
     interact.emitSynthEvent("addInstrument", "piano");
-    echo("You can start making music");
+    echo("You can start making music now.");
   };
 
   return public;

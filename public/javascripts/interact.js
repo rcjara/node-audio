@@ -28,12 +28,18 @@ define(['./synthesizer.js'], function(synth) {
     });
 
     socket.on('synth-event', function(e) {
-      synth[e.type](e.instrumentName, e.noteName);
+      if (e.noteName === undefined) {
+        synth[e.type](e.instrumentName);
+      } else {
+        synth[e.type](e.instrumentName, e.noteName);
+      }
     });
 
     socket.on('message', function(msg) {
       echo(msg.text);
-      console.log(msg.toLog);
+      if (msg.toLog !== undefined) {
+        console.log(msg.toLog);
+      }
     });
 
     socket.on('disconnect', function() {
