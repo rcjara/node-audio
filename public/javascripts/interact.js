@@ -35,6 +35,10 @@ define(['./synthesizer.js'], function(synth) {
       }
     });
 
+    socket.on('add-instruments', function(e) {
+      synth.addInstruments(e.names);
+    });
+
     socket.on('message', function(msg) {
       echo(msg.text);
       if (msg.toLog !== undefined) {

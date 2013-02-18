@@ -61,6 +61,10 @@ define(['./note.js'], function(Note) {
     instruments[name] = {};
   };
 
+  public.addInstruments = function(names) {
+    $.each(names, function(i, name) { public.addInstrument(name); });
+  };
+
   public.removeInstrument = function(name) {
     $.each(instruments[name], function(noteName, note) {
       note.stop();

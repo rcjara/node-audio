@@ -47,13 +47,12 @@ io.on('connection', function(client) {
 
   //send old clients to the newly connected client
   var clients = io.sockets.clients();
+  var instruments = [];
   for (var i = 0; i < clients.length; i++) {
     var c = clients[i];
-    console.log("c.id: " + c.id);
-    client.emit('synth-event', { type: "addInstrument"
-                               , instrumentName: "piano-" + c.id
-                               });
+    instruments.push("piano-" + c.id);
   }
+  client.emit('add-instruments', { names: instruments });
 
   client.broadcast.emit('message', { text: 'Someone just connected.' });
 
