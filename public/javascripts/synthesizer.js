@@ -119,7 +119,7 @@ define(['./note.js'], function(Note) {
   public.stop = function(instrument, notes) {
     $.each(notes, function(i, noteName) {
       var note = instruments[instrument][noteName];
-      note.stop();
+      if (note) { note.stop(); }
       instruments[instrument][noteName] = null;
     });
   };

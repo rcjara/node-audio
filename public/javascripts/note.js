@@ -56,7 +56,6 @@ define(['./sound.js'], function(sound) {
     gain.setValueAtTime(curGain, now() );
     gain.exponentialRampToValueAtTime(ZERO, endTime);
 
-
     var target = this;
     var killNoteFn = function() {
       target.source.noteOff(0);
@@ -82,7 +81,6 @@ define(['./sound.js'], function(sound) {
       ;
 
     var gain = this.gainNode.gain;
-    gain.value = ZERO;
     gain.setValueAtTime(ZERO, now() );
     gain.linearRampToValueAtTime(targetVolume, endTime);
   };
