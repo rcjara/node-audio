@@ -32,7 +32,7 @@ define(function() {
      * the final destination */
     destination = ctx.createDynamicsCompressor();
     destination.connect(ctx.destination);
-    destination.threshold.value = -60;
+    destination.threshold.value = -50;
   };
 
   public.play = function(soundName, volume) {

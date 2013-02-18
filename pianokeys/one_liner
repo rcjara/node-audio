@@ -1,3 +1,3 @@
 # one liner to grab notes
 
-ruby -e '(2..6).each{|i| %w[C# E F# A B].each {|l| puts "#{l}#{i}"}}' | xargs -t ruby pianokeys/get_keys.rb | tail -r
+ruby -e '(2..6).each{|i| %w[C D E G A].each {|l| puts "#{l}#{i}"}}' | xargs -t ruby pianokeys/get_keys.rb | tail -r
