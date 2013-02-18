@@ -5,7 +5,7 @@ define(function() {
     , destination
     , soundsLoaded   = 0
     , soundsToLoad   = 0
-    , DEFAULT_VOLUME  = 0.3
+    , DEFAULT_VOLUME = 0.3
     , doneLoading    = function() {}
     , ctx
     ;

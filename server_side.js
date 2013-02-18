@@ -11,7 +11,9 @@ module.exports = (function() {
     var instruments = [];
     for (var i = 0; i < clients.length; i++) {
       var c = clients[i];
-      instruments.push("piano-" + c.id);
+      if (c.id != client.id) {
+        instruments.push("piano-" + c.id);
+      }
     }
     client.emit('add-instruments', { names: instruments });
 
