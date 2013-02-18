@@ -55,8 +55,9 @@ define(['./note.js'], function(Note) {
   };
 
   public.addInstrument = function(name) {
-    if (instruments[name]) {
-      throw("Attempted to add instrument that already exists");
+    if (instruments[name] !== undefined) {
+      console.log("Instrument named: " + name + " already existed.");
+      public.removeInstrument(name);
     }
     instruments[name] = {};
   };
@@ -66,6 +67,7 @@ define(['./note.js'], function(Note) {
   };
 
   public.removeInstrument = function(name) {
+    console.log("Removing instrument named: " + name + " .");
     $.each(instruments[name], function(noteName, note) {
       note.stop();
     });
