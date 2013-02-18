@@ -8,6 +8,7 @@ var express = require('express')
   , http = require('http')
   , socket = require('socket.io')
   , path = require('path')
+  , socketServerSide = require('./server_side');
   ;
 
 var app = express();
@@ -38,34 +39,6 @@ httpServer.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-var io = socket.listen(httpServer);
+socketServerSide.start(socket, httpServer);
 
-io.on('connection', function(client) {
-  client.emit('authorized', { text: 'Connected.  Welcome to Jam-r.'
-                            , clientID: client.id
-                            });
-
-  //send old clients to the newly connected client
-  var clients = io.sockets.clients();
-  var instruments = [];
-  for (var i = 0; i < clients.length; i++) {
-    var c = clients[i];
-    instruments.push("piano-" + c.id);
-  }
-  client.emit('add-instruments', { names: instruments });
-
-  client.broadcast.emit('message', { text: 'Someone just connected.' });
-
-  client.on('synth-event', function(e) {
-    client.broadcast.emit('synth-event', e);
-    client.emit('synth-event', e);
-  });
-
-  client.on('disconnect', function(e) {
-    client.broadcast.emit('synth-event', { type: "removeInstrument"
-                                         , instrumentName: "piano-" + client.id
-                                         });
-  });
-
-});
 
