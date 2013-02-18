@@ -32,18 +32,7 @@ define(function() {
      * the final destination */
     destination = ctx.createDynamicsCompressor();
     destination.connect(ctx.destination);
-    destination.threshold.value = -50;
-  };
-
-  public.play = function(soundName, volume) {
-    if (volume !== undefined) {
-      volumes[soundName].gain = volume;
-    }
-    sources[soundName].noteOn(0);
-  };
-
-  public.stopPlaying = function(soundName) {
-    volumes[soundName].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.2);
+    destination.threshold.value = -60;
   };
 
   public.loadSound = function(soundName, url) {
