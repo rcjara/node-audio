@@ -5,6 +5,32 @@ module.exports = (function() {
     , io
     ;
 
+  var notifyClientOfHistory = function(client) {
+    //send old clients to the newly connected client
+    var clients = io.sockets.clients();
+    var instruments = [];
+    for (var i = 0; i < clients.length; i++) {
+      var c = clients[i];
+      instruments.push("piano-" + c.id);
+    }
+    client.emit('add-instruments', { names: instruments });
+
+    client.broadcast.emit('message', { text: 'Someone just connected.' });
+  };
+
+  var setupClientEvents = function(client) {
+    client.on('synth-event', function(e) {
+      client.broadcast.emit('synth-event', e);
+      client.emit('synth-event', e);
+    });
+
+    client.on('disconnect', function(e) {
+      client.broadcast.emit('synth-event', { type: "removeInstrument"
+                                           , instrumentName: "piano-" + client.id
+                                           });
+    });
+  }
+
   public.start = function(socket, httpServer) {
     io = socket.listen(httpServer);
 
@@ -13,27 +39,8 @@ module.exports = (function() {
                                 , clientID: client.id
                                 });
 
-      //send old clients to the newly connected client
-      var clients = io.sockets.clients();
-      var instruments = [];
-      for (var i = 0; i < clients.length; i++) {
-        var c = clients[i];
-        instruments.push("piano-" + c.id);
-      }
-      client.emit('add-instruments', { names: instruments });
-
-      client.broadcast.emit('message', { text: 'Someone just connected.' });
-
-      client.on('synth-event', function(e) {
-        client.broadcast.emit('synth-event', e);
-        client.emit('synth-event', e);
-      });
-
-      client.on('disconnect', function(e) {
-        client.broadcast.emit('synth-event', { type: "removeInstrument"
-                                             , instrumentName: "piano-" + client.id
-                                             });
-      });
+      notifyClientOfHistory(client);
+      setupClientEvents(client);
     });
 
     return public;
