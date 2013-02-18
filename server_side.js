@@ -6,7 +6,6 @@ module.exports = (function() {
     ;
 
   var notifyClientOfHistory = function(client) {
-    //send old clients to the newly connected client
     var clients = io.sockets.clients();
     var instruments = [];
     for (var i = 0; i < clients.length; i++) {
