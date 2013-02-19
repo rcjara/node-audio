@@ -91,7 +91,7 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
     createInstrumentsSelector();
 
     interact.emitSynthEvent("addInstrument", curInstrument);
-    echo("You can start making music now.");
+    interact.echo("You can start making music now.");
   };
 
   public.deactivate = function() {

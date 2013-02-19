@@ -19,7 +19,7 @@ define(['mixer'], function(synth) {
     socket = io.connect('/');
 
     socket.on('connect', function() {
-      echo('connecting to server...');
+      public.echo('connecting to server...');
 
       //Don't delete commented out line below
       //it's here for debugging purposes
@@ -27,7 +27,7 @@ define(['mixer'], function(synth) {
     });
 
     socket.on('authorized', function(e) {
-      echo(e.text);
+      public.echo(e.text);
       clientID = e.clientID;
       console.log('clientID: ' + clientID);
       call(authorizedCallback);
@@ -50,15 +50,15 @@ define(['mixer'], function(synth) {
     });
 
     socket.on('message', function(msg) {
-      echo(msg.text);
+      public.echo(msg.text);
       if (msg.toLog !== undefined) {
         console.log(msg.toLog);
       }
     });
 
     socket.on('disconnect', function() {
-      echo('disconnected ...');
-      echo('attempting to reconnect ...');
+      public.echo('disconnected ...');
+      public.echo('attempting to reconnect ...');
       socket.socket.reconnect();
 
       $.each(alertees, function(i, alertee) {
@@ -78,6 +78,11 @@ define(['mixer'], function(synth) {
 
     socket.emit('synth-event', e);
   }
+
+  public.echo = function(text) {
+    $('#messages').append($('<p>' + text + '</p>'));
+  };
+
 
   return public;
 });

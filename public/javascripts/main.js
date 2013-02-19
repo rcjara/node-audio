@@ -1,8 +1,3 @@
-//Top level methods
-var echo = function(text) {
-  $('#messages').append($('<p>' + text + '</p>'));
-};
-
 require.config({
   paths: {
     interact:      'interact'
