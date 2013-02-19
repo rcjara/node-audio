@@ -1,4 +1,4 @@
-define(['./synthesizer.js'], function(synth) {
+define(['synthesizer'], function(synth) {
   var public = {}
     , socket
     , clientID

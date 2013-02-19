@@ -1,4 +1,4 @@
-define(['./sound.js', './note.js'], function(sound, Note) {
+define(['sound', 'note'], function(sound, Note) {
   var public = {}
     , instruments = {}
     , ctx = sound.getCtx()

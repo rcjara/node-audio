@@ -1,4 +1,4 @@
-define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
+define(['keyboard', 'interact'], function(keyboard, interact) {
   //keyboard key code, note identifier, frequency
   var public = {}
     , AVAILABLE_INSTRUMENTS = ['slowOrgan', 'organ']

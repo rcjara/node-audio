@@ -1,4 +1,4 @@
-define(['./instrument.js'], function(Instruments) {
+define(['instrument'], function(Instruments) {
   var public = {}
     , notesHash = {}
     , instruments = {}

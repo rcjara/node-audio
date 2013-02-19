@@ -1,4 +1,4 @@
-define(['./sound.js'], function(sound) {
+define(['sound'], function(sound) {
   var ZERO = 0.00001;
 
   /* Convenience vars
