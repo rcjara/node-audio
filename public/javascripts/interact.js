@@ -2,6 +2,7 @@ define(['./synthesizer.js'], function(synth) {
   var public = {}
     , socket
     , clientID
+    , alertees = []
     ;
 
   var call = function(callback) {
@@ -9,6 +10,10 @@ define(['./synthesizer.js'], function(synth) {
       callback();
     }
   }
+
+  public.addAlertee = function(alertee) {
+    alertees.push(alertee);
+  };
 
   public.connectToServer = function(authorizedCallback) {
     socket = io.connect('/');
@@ -24,7 +29,12 @@ define(['./synthesizer.js'], function(synth) {
     socket.on('authorized', function(e) {
       echo(e.text);
       clientID = e.clientID;
+      console.log('clientID: ' + clientID);
       call(authorizedCallback);
+
+      $.each(alertees, function(i, alertee) {
+        alertee.activate();
+      });
     });
 
     socket.on('synth-event', function(e) {
@@ -50,6 +60,10 @@ define(['./synthesizer.js'], function(synth) {
       echo('disconnected ...');
       echo('attempting to reconnect ...');
       socket.socket.reconnect();
+
+      $.each(alertees, function(i, alertee) {
+        alertee.deactivate();
+      });
     });
   };
 

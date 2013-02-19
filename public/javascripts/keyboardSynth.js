@@ -1,6 +1,9 @@
 define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
   //keyboard key code, note identifier, frequency
-  var public = {};
+  var public = {}
+    , AVAILABLE_INSTRUMENTS = ["slowOrgan", "organ"]
+    , curInstrument = "slowOrgan"
+    ;
 
   var code = function(str) {
     return str.charCodeAt(0);
@@ -26,6 +29,21 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
   };
 
   var playing = {};
+
+  var createInstrumentsSelector = function() {
+    $selector = $('<select id="instrument-selector">');
+    $.each(AVAILABLE_INSTRUMENTS, function(i, instrument) {
+      $option = $('<option value="' + instrument + '">' + instrument + '</option>');
+
+      if (instrument === curInstrument) {
+        $option.attr('selected', 'selected');
+      }
+
+      $selector.append($option);
+    });
+
+    $('body').append($selector);
+  };
 
   public.keydown = function(keyCode) {
     var key = String.fromCharCode(keyCode).toLowerCase();
@@ -58,8 +76,15 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
       public.keyup(e.which);
     });
 
-    interact.emitSynthEvent("addInstrument", "organ");
+    createInstrumentsSelector();
+
+    interact.emitSynthEvent("addInstrument", curInstrument);
     echo("You can start making music now.");
+  };
+
+  public.deactivate = function() {
+    $('body').off('keydown', 'keyup');
+    $('#instrument-selector').remove();
   };
 
   return public;

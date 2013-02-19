@@ -24,6 +24,8 @@ module.exports = (function() {
     client.broadcast.emit('synth-event', e);
     client.emit('synth-event', e);
 
+    console.log("debug: broadcastSynthEvent: " + JSON.stringify(e));
+
     if (e.type === "addInstrument") {
       console.log("debug: addInstrument: instruments:" + client.id);
       clientInstruments[e.clientID] = e.instrumentName;
