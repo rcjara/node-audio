@@ -1,4 +1,4 @@
-define(['instrument'], function(Instruments) {
+define(['instruments'], function(Instruments) {
   var public = {}
     , notesHash = {}
     , instruments = {}

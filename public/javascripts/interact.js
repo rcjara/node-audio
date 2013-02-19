@@ -1,4 +1,4 @@
-define(['synthesizer'], function(synth) {
+define(['mixer'], function(synth) {
   var public = {}
     , socket
     , clientID

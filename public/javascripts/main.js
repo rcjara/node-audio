@@ -5,27 +5,26 @@ var echo = function(text) {
 
 require.config({
   paths: {
-    instrument:    'instrument'
-  , interact:      'interact'
-  , keyboard:      'keyboard'
-  , keyboardSynth: 'keyboardSynth'
-  , note:          'note'
-  , sound:         'sound'
-  , synthesizer:   'synthesizer'
-  , modernizr:     'vendor/modernizr-2.6.2.min'
+    interact:      'interact'
+  , instruments:   'audio/instruments'
+  , mixer:         'audio/mixer'
+  , note:          'audio/note'
+  , sound:         'audio/web-audio-wrapper'
+  , controller:    'user-interface/app-controller'
+  , keyboard:      'user-interface/keyboard'
   , socket:        '/socket.io/socket.io'
   }
 });
 
 requirejs([  'socket'
            , 'interact'
-           , 'keyboardSynth'
-          ], function(io, interact, keyboard) { //, interact) {
+           , 'controller'
+          ], function(io, interact, controller) { //, interact) {
   console.log('require ready');
 
   $(document).ready(function() {
     console.log("Document Ready");
-    interact.addAlertee(keyboard);
+    interact.addAlertee(controller);
     interact.connectToServer();
   });
 });
