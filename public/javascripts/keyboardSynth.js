@@ -42,6 +42,17 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
       $selector.append($option);
     });
 
+    $selector.change( function(e) {
+      console.log('selector.change');
+      $('#instrument-selector').children(':selected').each(function () {
+        var newInstrument = $(this).text();
+        console.log('newInstrument: ' + newInstrument);
+        interact.emitSynthEvent('removeInstrument', curInstrument);
+        curInstrument = newInstrument;
+        interact.emitSynthEvent('addInstrument', curInstrument);
+      });
+    });
+
     $('body').append($selector);
   };
 
