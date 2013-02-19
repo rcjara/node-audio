@@ -5,7 +5,7 @@ require.config({
   , mixer:         'audio/mixer'
   , note:          'audio/note'
   , sound:         'audio/web-audio-wrapper'
-  , controller:    'user-interface/app-controller'
+  , controller:    'user-interface/instruments-controller'
   , keyboard:      'user-interface/keyboard'
   , socket:        '/socket.io/socket.io'
   }
