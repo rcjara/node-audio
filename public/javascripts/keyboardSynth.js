@@ -1,8 +1,9 @@
 define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
   //keyboard key code, note identifier, frequency
   var public = {}
-    , AVAILABLE_INSTRUMENTS = ["slowOrgan", "organ"]
-    , curInstrument = "slowOrgan"
+    , AVAILABLE_INSTRUMENTS = ['slowOrgan', 'organ']
+    , CONTROLS_ID = '#controls'
+    , curInstrument = 'slowOrgan'
     ;
 
   var code = function(str) {
@@ -10,22 +11,22 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
   };
 
   var keys = {
-    z: ["C3"]
-  , x: ["D3"]
-  , c: ["E3"]
-  , v: ["G3"]
-  , b: ["A3"]
-  , a: ["C4"]
-  , s: ["D4"]
-  , d: ["E4"]
-  , f: ["G4"]
-  , g: ["A4"]
-  , q: ["C5"]
-  , w: ["D5"]
-  , e: ["E5"]
-  , r: ["G5"]
-  , t: ["A5"]
-  , h: ["C4", "E4", "G4"]
+    z: ['C3']
+  , x: ['D3']
+  , c: ['E3']
+  , v: ['G3']
+  , b: ['A3']
+  , a: ['C4']
+  , s: ['D4']
+  , d: ['E4']
+  , f: ['G4']
+  , g: ['A4']
+  , q: ['C5']
+  , w: ['D5']
+  , e: ['E5']
+  , r: ['G5']
+  , t: ['A5']
+  , h: ['C4', 'E4', 'G4']
   };
 
   var playing = {};
@@ -43,17 +44,17 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
     });
 
     $selector.change( function(e) {
-      console.log('selector.change');
-      $('#instrument-selector').children(':selected').each(function () {
+      $selector.children(':selected').each(function () {
         var newInstrument = $(this).text();
-        console.log('newInstrument: ' + newInstrument);
         interact.emitSynthEvent('removeInstrument', curInstrument);
         curInstrument = newInstrument;
         interact.emitSynthEvent('addInstrument', curInstrument);
+
+        $selector.blur();
       });
     });
 
-    $('body').append($selector);
+    $(CONTROLS_ID).append($selector);
   };
 
   public.keydown = function(keyCode) {

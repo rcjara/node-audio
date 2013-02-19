@@ -1,6 +1,6 @@
 //Top level methods
 var echo = function(text) {
-  $('body').append($('<p>' + text + '</p>'));
+  $('#messages').append($('<p>' + text + '</p>'));
 };
 
 require([  'socket.io/socket.io.js'
