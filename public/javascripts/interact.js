@@ -28,15 +28,15 @@ define(['./synthesizer.js'], function(synth) {
     });
 
     socket.on('synth-event', function(e) {
-      if (e.noteName === undefined) {
-        synth[e.type](e.instrumentName);
+      if (e.type == 'addInstrument') {
+        synth[e.type](e.clientID, e.instrumentName);
       } else {
-        synth[e.type](e.instrumentName, e.noteName);
+        synth[e.type](e.clientID, e.noteName);
       }
     });
 
     socket.on('add-instruments', function(e) {
-      synth.addInstruments(e.names);
+      synth.addInstruments(e.instruments);
     });
 
     socket.on('message', function(msg) {
@@ -57,7 +57,8 @@ define(['./synthesizer.js'], function(synth) {
     var e = {};
 
     e.type = type;
-    e.instrumentName = instrument + '-' + clientID;
+    e.clientID = clientID;
+    e.instrumentName = instrument;
     e.noteName = note;
     console.log(e)
 

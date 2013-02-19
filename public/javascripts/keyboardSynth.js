@@ -32,7 +32,7 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
     console.log('keydown: ' + key);
     if (keys[key] !== undefined) {
       if (!keyboard.isPushed(key)) {
-        interact.emitSynthEvent("start", "piano", keys[key]);
+        interact.emitSynthEvent("start", "organ", keys[key]);
         keyboard.push(key);
       }
     }
@@ -43,7 +43,7 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
     console.log('keyup: ' + key);
     if (keys[key] !== undefined) {
       if (keyboard.isPushed(key)) {
-        interact.emitSynthEvent("stop", "piano", keys[key]);
+        interact.emitSynthEvent("stop", "organ", keys[key]);
         keyboard.release(key);
       }
     }
@@ -58,7 +58,7 @@ define(['./keyboard.js', './interact.js'], function(keyboard, interact) {
       public.keyup(e.which);
     });
 
-    interact.emitSynthEvent("addInstrument", "piano");
+    interact.emitSynthEvent("addInstrument", "organ");
     echo("You can start making music now.");
   };
 

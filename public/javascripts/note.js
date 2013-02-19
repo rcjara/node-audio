@@ -1,48 +1,28 @@
 define(['./sound.js'], function(sound) {
-  var DEFAULT_ATTR = {
-        targetVolume: 0.3
-      , attack: 0.2
-      , release: 0.2
-      };
-
   var ZERO = 0.00001;
 
   /* Convenience vars
    * (these should never change)
    */
-  var ctx  = sound.getCtx()
-    , dest = sound.getDest()
-    , now  = function() { return ctx.currentTime; }
+  var ctx = sound.getCtx()
+    , now = function() { return ctx.currentTime; }
     ;
 
-  function Note(freq, attr) {
-    this.attr = {};
-
-    //overwrite defaults with optional attributes
-    for (var prop in DEFAULT_ATTR) {
-      this.attr[prop] = DEFAULT_ATTR[prop];
-    }
-
-    if (attr) {
-      for (var prop in attr) {
-        this.attr[prop] = attr[prop];
-      }
-    }
-
+  function Note(freq, attr, dest) {
+    this.attr      = attr;
     this.frequency = freq;
-    this.playing = false;
-
+    this.dest      = dest;
+    this.playing   = false;
   };
 
 
   Note.prototype.play = function() {
     if (this.playing) { return; }
+    this.playing = true;
 
     this.setupGainNode();
     this.setupSource();
     this.rampUpGain();
-
-    this.playing = true;
   };
 
   Note.prototype.stop = function() {
@@ -88,7 +68,7 @@ define(['./sound.js'], function(sound) {
   Note.prototype.setupGainNode = function() {
     var gainNode = ctx.createGainNode();
     this.gainNode = gainNode;
-    gainNode.connect(dest);
+    gainNode.connect(this.dest);
   };
 
   return Note;

@@ -1,34 +1,51 @@
 module.exports = (function() {
-  console.log("loading server_size.js");
+  console.log("debug: loading server_size.js");
   var public = {}
     , socket
+    , clientInstruments = {}
     , io
     ;
 
   var notifyClientOfHistory = function(client) {
-    var clients = io.sockets.clients();
     var instruments = [];
-    for (var i = 0; i < clients.length; i++) {
-      var c = clients[i];
-      if (c.id != client.id) {
-        instruments.push("piano-" + c.id);
+    for (var clientID in clientInstruments) {
+      console.log("debug: notifyClientOfHistory: clientID's:" + clientID);
+      if (clientID !== client.id) {
+        instruments.push( { ident: clientID
+                          , name: clientInstruments[clientID] });
       }
     }
-    client.emit('add-instruments', { names: instruments });
-
+    console.log("debug: notifyClientOfHistory: instruments:" + instruments.length);
+    client.emit('add-instruments', { instruments: instruments });
     client.broadcast.emit('message', { text: 'Someone just connected.' });
+  };
+
+  var broadcastSynthEvent = function(client, e) {
+    client.broadcast.emit('synth-event', e);
+    client.emit('synth-event', e);
+
+    if (e.type === "addInstrument") {
+      console.log("debug: addInstrument: instruments:" + client.id);
+      clientInstruments[e.clientID] = e.instrumentName;
+    } else if (e.type === "removeInstrument") {
+      delete clientInstruments[e.clientID];
+    }
+  };
+
+  var removeClient = function(client) {
+    delete clientInstruments[client.id];
+    client.broadcast.emit('synth-event', { type: "removeInstrument"
+                                         , instrumentName: client.id
+                                         });
   };
 
   var setupClientEvents = function(client) {
     client.on('synth-event', function(e) {
-      client.broadcast.emit('synth-event', e);
-      client.emit('synth-event', e);
+      broadcastSynthEvent(client, e);
     });
 
     client.on('disconnect', function(e) {
-      client.broadcast.emit('synth-event', { type: "removeInstrument"
-                                           , instrumentName: "piano-" + client.id
-                                           });
+      removeClient(client);
     });
   }
 
