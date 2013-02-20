@@ -1,12 +1,12 @@
 var expect = require('expect.js')
   , _ = require('underscore')
-  , room = require('../lib/rooms.js')
+  , rooms = require('../lib/rooms.js')
   ;
 
 describe('Implementation Details', function() {
   describe('.nameForID',function() {
     it('room names from integers',function(){
-      expect(room.nameForID(0))
+      expect(rooms.nameForID(0))
             .to.equal('yellow-elephant-hoarders');
     });
 
@@ -14,7 +14,7 @@ describe('Implementation Details', function() {
       var results = [];
       for (var i = 0; i < 6; i++) {
         var j = i + 20; //look at an interesting range that causes all 3 names to rotate over
-        var result = room.nameForID(j);
+        var result = rooms.nameForID(j);
 
         expect(results.length) // make sure we are storing the results
               .to.equal(i);
@@ -29,14 +29,14 @@ describe('Implementation Details', function() {
 
   describe('.convertFromName', function() {
     it('converts valid names to integers', function() {
-      expect(room.convertFromName('yellow-elephant-hoarders'))
+      expect(rooms.convertFromName('yellow-elephant-hoarders'))
             .to.equal(0);
     });
 
     it('can get back the integer used to generate any valid name', function() {
       for(var i = 0; i < 26; i++) {
-        var name = room.nameForID(i);
-        var num  = room.convertFromName(name);
+        var name = rooms.nameForID(i);
+        var num  = rooms.convertFromName(name);
 
         expect(num)
               .to.equal(i);
@@ -51,7 +51,7 @@ describe('Actual interface', function() {
       var results = [];
       // 26 chosen so that it ends up incrementing the last name
       for (var i = 0; i < 26; i++) {
-        var result = room.generateRoom();
+        var result = rooms.generateRoom();
 
         expect(results.length) // make sure we are storing the results
               .to.equal(i);
@@ -61,6 +61,19 @@ describe('Actual interface', function() {
 
         results.push(result);
       }
+    });
+  });
+
+  describe('a generated room', function() {
+    var roomName;
+
+    beforeEach( function() {
+      roomName = rooms.generateRoom();
+    });
+
+    it('has the default capacity', function() {
+      expect(rooms.room(roomName))
+            .to.have.property('capacity', 4);
     });
   });
 });
