@@ -7,9 +7,21 @@ a {
   color: #00B7FF;
 }
 
+.redBG {
+  background-color: #f22;
+}
+
+.greenBG {
+  background-color: #2f2;
+}
+
 .left {
   width: 48%;
   float: left;
+}
+
+#controls {
+  text-align: center;
 }
 
 .right {

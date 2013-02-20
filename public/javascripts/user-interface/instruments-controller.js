@@ -31,30 +31,17 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
 
   var playing = {};
 
-  var createInstrumentsSelector = function() {
-    $selector = $('<select id="instrument-selector">');
-    $.each(AVAILABLE_INSTRUMENTS, function(i, instrument) {
-      $option = $('<option value="' + instrument + '">' + instrument + '</option>');
+  public.activate = function() {
+    createPlayArea();
+    createInstrumentsSelector();
+    $('#play-area').focus();
 
-      if (instrument === curInstrument) {
-        $option.attr('selected', 'selected');
-      }
+    interact.emitSynthEvent("addInstrument", curInstrument);
+    interact.echo("You can start making music now.");
+  };
 
-      $selector.append($option);
-    });
-
-    $selector.change( function(e) {
-      $selector.children(':selected').each(function () {
-        var newInstrument = $(this).text();
-        interact.emitSynthEvent('removeInstrument', curInstrument);
-        curInstrument = newInstrument;
-        interact.emitSynthEvent('addInstrument', curInstrument);
-
-        $selector.blur();
-      });
-    });
-
-    $(CONTROLS_ID).append($selector);
+  public.deactivate = function() {
+    $('#instrument-selector').remove();
   };
 
   public.keydown = function(e) {
@@ -83,24 +70,66 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
     }
   };
 
-  public.activate = function() {
-    $('body').keydown(function(e) {
+  var activateKeyBoardEvents = function() {
+    $('#play-area').keydown(function(e) {
       public.keydown(e);
     });
 
-    $('body').keyup(function(e) {
+    $('#play-area').keyup(function(e) {
       public.keyup(e);
     });
-
-    createInstrumentsSelector();
-
-    interact.emitSynthEvent("addInstrument", curInstrument);
-    interact.echo("You can start making music now.");
   };
 
-  public.deactivate = function() {
-    $('body').off('keydown', 'keyup');
-    $('#instrument-selector').remove();
+  var deactivateKeyBoardEvents = function() {
+    $('#play-area').off('keydown', 'keyup');
+  };
+
+  var createPlayArea = function() {
+    var $playArea = $('<div id="play-area">');
+    $playArea.attr('tabindex', -1);
+
+    $playArea.focusin(function(e) {
+      console.log('focus in playarea');
+      $playArea.html('<h1>Now Playing</h1><p>(the keyboard is hooked up to the synthesizer)</p>');
+      $playArea.removeClass('redBG');
+      $playArea.addClass('greenBG');
+      activateKeyBoardEvents();
+    });
+
+    $playArea.focusout(function(e) {
+      $playArea.html('<h1>Not Playing</h1><p>(click here to resume playing)</p>');
+      $playArea.removeClass('greenBG');
+      $playArea.addClass('redBG');
+      deactivateKeyBoardEvents();
+    });
+
+    $(CONTROLS_ID).append($playArea);
+  };
+
+  var createInstrumentsSelector = function() {
+    var $selector = $('<select id="instrument-selector">');
+    $.each(AVAILABLE_INSTRUMENTS, function(i, instrument) {
+      var $option = $('<option value="' + instrument + '">' + instrument + '</option>');
+
+      if (instrument === curInstrument) {
+        $option.attr('selected', 'selected');
+      }
+
+      $selector.append($option);
+    });
+
+    $selector.change( function(e) {
+      $selector.children(':selected').each(function () {
+        var newInstrument = $(this).text();
+        interact.emitSynthEvent('removeInstrument', curInstrument);
+        curInstrument = newInstrument;
+        interact.emitSynthEvent('addInstrument', curInstrument);
+
+        $selector.blur();
+      });
+    });
+
+    $(CONTROLS_ID).append($selector);
   };
 
   return public;
