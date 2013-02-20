@@ -4,14 +4,20 @@
  */
 
 var express = require('express')
+  , _ = require('underscore')
   , routes = require('./routes')
   , http = require('http')
   , socket = require('socket.io')
   , path = require('path')
-  , socketServerSide = require('./server_side');
+  , socketServerSide = require('./lib/server-side')
+  , rooms = require('./lib/rooms')
   ;
 
 var app = express();
+
+for (var i = 0; i < 20; i++) {
+  console.log(rooms.generateName(i));
+}
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
