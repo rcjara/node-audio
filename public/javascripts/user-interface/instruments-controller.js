@@ -57,8 +57,12 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
     $(CONTROLS_ID).append($selector);
   };
 
-  public.keydown = function(keyCode) {
-    var key = String.fromCharCode(keyCode).toLowerCase();
+  public.keydown = function(e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) {
+      console.log('special key pressed');
+      return;
+    }
+    var key = String.fromCharCode(e.which).toLowerCase();
     console.log('keydown: ' + key);
     if (keys[key] !== undefined) {
       if (!keyboard.isPushed(key)) {
@@ -68,8 +72,8 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
     }
   };
 
-  public.keyup = function(keyCode) {
-    var key = String.fromCharCode(keyCode).toLowerCase();
+  public.keyup = function(e) {
+    var key = String.fromCharCode(e.which).toLowerCase();
     console.log('keyup: ' + key);
     if (keys[key] !== undefined) {
       if (keyboard.isPushed(key)) {
@@ -81,11 +85,11 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
 
   public.activate = function() {
     $('body').keydown(function(e) {
-      public.keydown(e.which);
+      public.keydown(e);
     });
 
     $('body').keyup(function(e) {
-      public.keyup(e.which);
+      public.keyup(e);
     });
 
     createInstrumentsSelector();

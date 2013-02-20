@@ -31,10 +31,6 @@ define(['mixer'], function(synth) {
       clientID = e.clientID;
       console.log('clientID: ' + clientID);
       call(authorizedCallback);
-
-      $.each(alertees, function(i, alertee) {
-        alertee.activate();
-      });
     });
 
     socket.on('synth-event', function(e) {
@@ -49,8 +45,18 @@ define(['mixer'], function(synth) {
       synth.addInstruments(e.instruments);
     });
 
-    socket.on('message', function(msg) {
+    socket.on('join-room', function(msg) {
       public.echo(msg.text);
+
+      $.each(alertees, function(i, alertee) {
+        alertee.activate();
+      });
+    });
+
+    socket.on('message', function(msg) {
+      if (msg.originator !== clientID) {
+        public.echo(msg.text);
+      }
       if (msg.toLog !== undefined) {
         console.log(msg.toLog);
       }
