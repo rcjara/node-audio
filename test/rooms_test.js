@@ -9,6 +9,9 @@ rooms.setNamingScheme(namingScheme);
 describe('Rooms', function() {
   beforeEach(function() {
     rooms.reset();
+    rooms.setSockets({
+      clients: function(name) { return ['a','b','c']; }
+    });
   });
 
   describe('Actual interface', function() {
@@ -47,9 +50,9 @@ describe('Rooms', function() {
     });
 
     describe('.firstAvailable', function() {
-      it('returns null if no rooms exist', function() {
-        expect(rooms.firstAvailable())
-              .to.equal(null);
+      it('creates a new room if no rooms exist', function() {
+        expect(rooms.firstAvailable().name.length)
+              .to.be.greaterThan(0);
       });
 
       describe('with three rooms', function() {
@@ -61,10 +64,17 @@ describe('Rooms', function() {
           room3 = rooms.generateRoom();
         });
 
+        var fullSocketMock = {
+          clients: function() { return Infinity; }
+        };
+
+        var emptySocketMock = {
+          clients: function() { return 0; }
+        };
+
         it('finds the available room', function() {
-          room1.occupancy = function() { return 1000; }
-          room2.occupancy = function() { return 1000; }
-          room3.occupancy = function() { return 2; }
+          room1.capacity = 3;
+          room2.capacity = 3;
 
           var foundRoom = rooms.firstAvailable();
 
@@ -72,15 +82,17 @@ describe('Rooms', function() {
                 .to.equal(room3.name);
         });
 
-        it('returns null if no rooms are below capacity', function() {
-          room1.occupancy = function() { return 1000; }
-          room2.occupancy = function() { return 1000; }
-          room3.occupancy = function() { return 2; }
+        it('generates a new room if all rooms are already at capacity', function() {
+          room1.capacity = 3;
+          room2.capacity = 3;
+          room3.capacity = 3;
 
           var foundRoom = rooms.firstAvailable();
 
           expect(foundRoom.name)
-                .to.equal(room3.name);
+                .to.not.equal(room1.name);
+          expect(foundRoom.name)
+                .to.not.equal(room2.name);
         });
       });
     });
