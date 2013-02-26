@@ -51,7 +51,14 @@ define(['mixer'], function(synth) {
     });
 
     socket.on('synth-event', function(e) {
-      if (e.type == 'addInstrument') {
+      if (e.type === 'start') {
+        $('#play-area').removeClass('beat-pulse-run');
+        setTimeout(function() {
+          $('#play-area').addClass('beat-pulse-run');
+        }, 10);
+      }
+
+      if (e.type === 'addInstrument') {
         synth[e.type](e.clientID, e.instrumentName);
       } else {
         synth[e.type](e.clientID, e.noteName);
