@@ -13,7 +13,7 @@ define(['mixer'], function(synth) {
   };
 
   var updateURLToRoom = function(roomName) {
-    history.pushState({ state: historyState++ }, '', 'room/' + roomName);
+    history.pushState({ state: historyState++ }, '', '/room/' + roomName);
   };
 
   var requestRoom = function() {
