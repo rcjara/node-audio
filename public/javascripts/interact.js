@@ -9,7 +9,18 @@ define(['mixer'], function(synth) {
     if (callback !== undefined) {
       callback();
     }
-  }
+  };
+
+  var requestRoom = function() {
+    var $roomName = $('#room-name');
+    if ($roomName.length == 0) {
+      socket.emit('request-room', {});
+    } else if ($roomName.val() === '') {
+      socket.emit('request-room', {});
+    } else {
+      socket.emit('request-room', { room: $roomName.val() });
+    }
+  };
 
   public.addAlertee = function(alertee) {
     alertees.push(alertee);
@@ -30,6 +41,7 @@ define(['mixer'], function(synth) {
       public.echo(e.text);
       clientID = e.clientID;
       console.log('clientID: ' + clientID);
+      requestRoom();
       call(authorizedCallback);
     });
 

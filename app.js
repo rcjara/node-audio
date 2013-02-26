@@ -5,12 +5,14 @@
 
 var express = require('express')
   , _ = require('underscore')
-  , routes = require('./routes')
   , http = require('http')
   , socket = require('socket.io')
   , path = require('path')
   , socketServerSide = require('./lib/server-side')
+  , namingScheme = require('./lib/naming-scheme')
+  , rooms = require('./lib/rooms')
   ;
+
 
 var app = express();
 
@@ -32,14 +34,31 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
-
+//Set up httpServer
 var httpServer = http.createServer(app)
 
 httpServer.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-socketServerSide.start(socket, httpServer);
+//Set up rooms
+rooms.setNamingScheme(namingScheme);
+rooms.reset();
 
+//Set up sockets
+socketServerSide.start(socket, httpServer, rooms);
 
+//Set up routes
+app.get('/', function(req, res){
+  res.render('index', { title: 'Jam-r' });
+});
+
+app.get(/room\/([^\-]+\-[^\-]+\-[^\-]+)$/, function(req, res) {
+  var roomName = req.params[0];
+  if (rooms.isAvailable(roomName)) {
+    res.render('index', { title: 'Jam-r', roomName: roomName });
+  } else {
+    res.write('Room is unavailable. Sorry.');
+    res.end();
+  }
+});
