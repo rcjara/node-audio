@@ -3,12 +3,17 @@ define(['mixer'], function(synth) {
     , socket
     , clientID
     , alertees = []
+    , historyState = 0
     ;
 
   var call = function(callback) {
     if (callback !== undefined) {
       callback();
     }
+  };
+
+  var updateURLToRoom = function(roomName) {
+    history.pushState({ state: historyState++ }, '', 'room/' + roomName);
   };
 
   var requestRoom = function() {
@@ -63,6 +68,8 @@ define(['mixer'], function(synth) {
       $.each(alertees, function(i, alertee) {
         alertee.activate();
       });
+
+      updateURLToRoom(msg.room);
     });
 
     socket.on('message', function(msg) {
