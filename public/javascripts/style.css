@@ -1,0 +1,27 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+
+a {
+  color: #00B7FF; }
+
+.redBG {
+  background-color: #f22; }
+
+.greenBG {
+  background-color: #2f2; }
+
+#play-area {
+  border-radius: 5px;
+  padding: 15px; }
+
+.left {
+  width: 48%;
+  float: left; }
+
+#controls {
+  text-align: center; }
+
+.right {
+  width: 48%;
+  float: right; }
