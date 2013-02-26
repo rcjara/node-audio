@@ -49,6 +49,26 @@ describe('Rooms', function() {
       });
     });
 
+    describe('.isAvailable', function() {
+      it('shows that a rooms is available after being generated', function() {
+        var room = rooms.generateRoom();
+        expect( rooms.isAvailable(room.name) )
+              .to.equal(true);
+      });
+
+      it('show that a room is unavailable if it has not been generated yet', function() {
+        expect( rooms.isAvailable("purple-monkey-munchers") )
+              .to.equal(false);
+      });
+
+      it('shows that a room is unavailable if its occupants are greater than its capacity', function() {
+        var room = rooms.generateRoom();
+        room.capacity = 1;
+        expect( rooms.isAvailable(room.name) )
+              .to.be(false);
+      });
+    });
+
     describe('.firstAvailable', function() {
       it('creates a new room if no rooms exist', function() {
         expect(rooms.firstAvailable().name.length)
