@@ -1,30 +1,39 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF;
-}
+  color: #00B7FF; }
 
 .redBG {
-  background-color: #f22;
-}
+  background-color: #f22; }
 
 .greenBG {
-  background-color: #2f2;
-}
+  background-color: #2f2; }
+
+#play-area {
+  border-radius: 5px;
+  padding: 10px; }
 
 .left {
   width: 48%;
-  float: left;
-}
+  float: left; }
 
 #controls {
-  text-align: center;
-}
+  text-align: center; }
 
 .right {
   width: 48%;
-  float: right;
-}
+  float: right; }
+
+.beat-pulse-run {
+  -webkit-animation: beat-pulse 1s linear 1; }
+
+@-webkit-keyframes beat-pulse {
+  15% {
+    -webkit-box-shadow: 0px 0px 5px 10px rgba(30, 0, 255, 0.5);
+    box-shadow: 0px 0px 5px 10px rgba(30, 0, 255, 0.5); }
+
+  100% {
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(30, 0, 255, 0.5);
+    box-shadow: 0px 0px 0px 0px rgba(30, 0, 255, 0.5); } }
