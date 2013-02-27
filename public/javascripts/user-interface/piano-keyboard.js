@@ -1,9 +1,9 @@
-var piano;
 define(['/javascripts/image-pre-loader.js'], function(Loader) {
   var public = {}
     , keys = {}
     , WHITE_KEY_WIDTH = 39
     , BLACK_KEY_WIDTH = 28
+    , doneLoading = false
     ;
 
   var keysOrder = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -74,6 +74,7 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
     for (var i = 3; i <= 5; i++) {
       addOctave(i);
     }
+    doneLoading = true;
   };
 
   public.initialize = function() {
@@ -93,8 +94,12 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
   public.destroy = function() {
     $.each(keys, function(keyID, key) {
       key.elem.remove();
+      if (typeof key.label !== 'undefined') {
+        key.label.remove();
+      }
     });
     keys = {};
+    doneLoading = false;
   };
 
   public.getKey = function(keyID) {
@@ -102,6 +107,11 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
   };
 
   public.addLabel = function(label, keyID) {
+    if (!doneLoading) {
+      setTimeout(function() { public.addLabel(label, keyID); }, 100);
+      return;
+    }
+
     var key = keys[keyID];
 
     if (typeof key.label !== 'undefined') {
@@ -148,8 +158,5 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
   };
 
 
-  public.initialize();
-
-  piano = public;
   return public;
 });

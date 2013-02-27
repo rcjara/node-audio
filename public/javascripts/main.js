@@ -1,12 +1,14 @@
 require.config({
   paths: {
     interact:      'interact'
+  , imgPreloader:  'image-pre-loader'
   , instruments:   'audio/instruments'
   , mixer:         'audio/mixer'
   , note:          'audio/note'
   , sound:         'audio/web-audio-wrapper'
   , controller:    'user-interface/instruments-controller'
   , keyboard:      'user-interface/keyboard'
+  , pianoKeys:     'user-interface/piano-keyboard'
   , socket:        '/socket.io/socket.io'
   }
 });

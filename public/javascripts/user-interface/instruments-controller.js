@@ -1,4 +1,4 @@
-define(['keyboard', 'interact'], function(keyboard, interact) {
+define(['keyboard', 'interact', 'pianoKeys'], function(keyboard, interact, pianoKeys) {
   //keyboard key code, note identifier, frequency
   var public = {}
     , AVAILABLE_INSTRUMENTS = ['slowOrgan', 'organ']
@@ -31,6 +31,17 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
 
   var playing = {};
 
+  var createPianoKeys = function() {
+    pianoKeys.initialize();
+    $.each(keys, function(key, noteArray) {
+      if (noteArray.length == 1) {
+        var noteName = noteArray[0];
+        pianoKeys.addLabel(key, noteName);
+      }
+    });
+  };
+
+
   public.activate = function() {
     createPlayArea();
     createInstrumentsSelector();
@@ -42,6 +53,7 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
 
   public.deactivate = function() {
     $('#instrument-selector').remove();
+    pianoKeys.destroy();
   };
 
   public.keydown = function(e) {
@@ -55,6 +67,9 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
       if (!keyboard.isPushed(key)) {
         interact.emitSynthEvent("start", "organ", keys[key]);
         keyboard.push(key);
+        $.each(keys[key], function(i, noteName) {
+          pianoKeys.pressKey(noteName);
+        });
       }
     }
   };
@@ -66,6 +81,9 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
       if (keyboard.isPushed(key)) {
         interact.emitSynthEvent("stop", "organ", keys[key]);
         keyboard.release(key);
+        $.each(keys[key], function(i, noteName) {
+          pianoKeys.releaseKey(noteName);
+        });
       }
     }
   };
@@ -78,10 +96,13 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
     $('#play-area').keyup(function(e) {
       public.keyup(e);
     });
+
+    createPianoKeys();
   };
 
   var deactivateKeyBoardEvents = function() {
     $('#play-area').off('keydown', 'keyup');
+    pianoKeys.destroy();
   };
 
   var createPlayArea = function() {
@@ -89,7 +110,6 @@ define(['keyboard', 'interact'], function(keyboard, interact) {
     $playArea.attr('tabindex', -1);
 
     $playArea.focusin(function(e) {
-      console.log('focus in playarea');
       $playArea.html('<h1>Now Playing</h1><p>(the keyboard is hooked up to the synthesizer)</p>');
       $playArea.removeClass('redBG');
       $playArea.addClass('greenBG');
