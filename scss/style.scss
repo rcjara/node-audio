@@ -34,6 +34,15 @@ a {
   float: right;
 }
 
+#keyboard {
+  position: absolute;
+  top: 250px;
+  left: 50px;
+
+  img {
+    position: absolute;
+  }
+}
 
 .beat-pulse-run {
   -webkit-animation: beat-pulse 1.0s linear 1;

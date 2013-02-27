@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/main.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% if (typeof flash !== 'undefined') { %>
+      <section class="flash"><%= flash %></section>
+    <% } %>
+    <section class="left">
+      <h1><%= title %></h1>
+    </section>
+    <section class="right">
+      <section id="controls" class="clearfix"></section>
+    </section>
+    <br />
+    <section class="clearfix" id="keyboard"></section>
+    <script src="/javascripts/vendor/modernizr-2.6.2.min.js"></script>
+    <script data-main="/javascripts/keyboard.js" src="/javascripts/vendor/require-jquery.js"></script>
+  </body>
+</html>
+

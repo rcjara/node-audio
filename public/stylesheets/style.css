@@ -26,6 +26,13 @@ a {
   width: 48%;
   float: right; }
 
+#keyboard {
+  position: absolute;
+  top: 250px;
+  left: 50px; }
+  #keyboard img {
+    position: absolute; }
+
 .beat-pulse-run {
   -webkit-animation: beat-pulse 1s linear 1; }
 
