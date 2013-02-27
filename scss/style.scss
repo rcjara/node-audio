@@ -41,6 +41,17 @@ a {
 
   img {
     position: absolute;
+    z-index: 4;
+  }
+
+  p {
+    color: rgb(244, 244, 244);
+    font-size: 15px;
+    position: absolute;
+    text-align: center;
+    background-color: rgb(255, 100, 100);
+    border-radius: 999px;
+    z-index: 5;
   }
 }
 

@@ -31,7 +31,16 @@ a {
   top: 250px;
   left: 50px; }
   #keyboard img {
-    position: absolute; }
+    position: absolute;
+    z-index: 4; }
+  #keyboard p {
+    color: #f4f4f4;
+    font-size: 15px;
+    position: absolute;
+    text-align: center;
+    background-color: #ff6464;
+    border-radius: 999px;
+    z-index: 5; }
 
 .beat-pulse-run {
   -webkit-animation: beat-pulse 1s linear 1; }

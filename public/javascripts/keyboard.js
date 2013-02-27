@@ -1,4 +1,5 @@
-define(function() {
+var piano;
+define(['/javascripts/image-pre-loader.js'], function(Loader) {
   var public = {}
     , keys = {}
     , WHITE_KEY_WIDTH = 39
@@ -36,6 +37,8 @@ define(function() {
   , 'black':       -0.5 * BLACK_KEY_WIDTH
   };
 
+
+
   var pressedURL = function(type) {
     return '/images/pressed-keys/' + type + '.png';
   };
@@ -44,7 +47,7 @@ define(function() {
     return '/images/keys/' + type + '.png';
   };
 
-  public.initialize = function() {
+  var initialize = function() {
     var x = 0;
     var addOctave = function(octave) {
       for (var i = 0; i < keysOrder.length; i++) {
@@ -52,13 +55,12 @@ define(function() {
           , keyID = keysOrder[i] + octave
           , key = {}
           , newX = x
-          , $elem
           ;
 
         key.type = keyTemplate.type;
         keys[keyID] = key;
 
-        $elem = $('<img/>', { src: unpressedURL(key.type) });
+        var $elem = $('<img/>', { src: unpressedURL(key.type) });
         newX += advanceBy[key.type];
 
         key.elem = $elem;
@@ -74,11 +76,64 @@ define(function() {
     }
   };
 
+  public.initialize = function() {
+    var urls = [ '/images/keys/white-left.png'
+               , '/images/keys/white-right.png'
+               , '/images/keys/white-both.png'
+               , '/images/keys/black.png'
+               , '/images/pressed-keys/white-left.png'
+               , '/images/pressed-keys/white-right.png'
+               , '/images/pressed-keys/white-both.png'
+               , '/images/pressed-keys/black.png'
+               ];
+    new Loader(urls, initialize);
+  };
+
+
   public.destroy = function() {
+    $.each(keys, function(keyID, key) {
+      key.elem.remove();
+    });
+    keys = {};
   };
 
   public.getKey = function(keyID) {
     return keys[keyID];
+  };
+
+  public.addLabel = function(label, keyID) {
+    var key = keys[keyID];
+
+    if (typeof key.label !== 'undefined') {
+      key.label.remove();
+    }
+
+    var baseX = key.elem.position().left
+      , baseY = key.elem.position().top
+      , width = key.elem.width()
+      , height = key.elem.height()
+      ;
+
+    var $label = $('<p>' + label + '</p>');
+
+    var heightRatio;
+    if (key.type === 'black') {
+      heightRatio = 5.0 / 8;
+    } else {
+      heightRatio = 3.0 / 4;
+    }
+
+    var radius = (width * 3 / 4);
+    $label.css('width',         radius + 'px');
+    $label.css('height',        radius + 'px');
+    $label.css('line-height',   radius + 'px');
+    $label.css('border-radius', (radius / 2) + 'px');
+    $label.css('top',           (baseY + (height * heightRatio)) + 'px');
+    $label.css('left',          (baseX + ((width - radius) / 2)) + 'px');
+
+    $('#keyboard').append($label);
+
+    key.label = $label;
   };
 
 
@@ -95,6 +150,6 @@ define(function() {
 
   public.initialize();
 
+  piano = public;
   return public;
 });
-
