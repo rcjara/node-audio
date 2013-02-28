@@ -49,6 +49,7 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
 
   var initialize = function() {
     var x = 0;
+
     var addOctave = function(octave) {
       for (var i = 0; i < keysOrder.length; i++) {
         var keyTemplate = keysTemplate[keysOrder[i]]
@@ -70,6 +71,11 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
         x = newX;
       }
     }
+
+    var keyboardWidth = parseInt( $('#keyboard').css('width') )
+      , keyboardCentering = ($(document).width() - keyboardWidth) / 2
+      ;
+    $('#keyboard').css('left', keyboardCentering + 'px');
 
     for (var i = 3; i <= 5; i++) {
       addOctave(i);

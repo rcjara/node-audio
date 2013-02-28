@@ -8,11 +8,13 @@ a {
 }
 
 .redBG {
-  background-color: #f22;
+  background-color: #f66;
+  margin-bottom: 30px;
 }
 
 .greenBG {
-  background-color: #2f2;
+  background-color: #6f6;
+  margin-bottom: 30px;
 }
 
 #play-area {
@@ -23,21 +25,25 @@ a {
 .left {
   width: 48%;
   float: left;
+  height: 300px;
+  overflow: auto;
+}
+
+.right {
+  width: 48%;
+  float: right;
+  height: 300px;
 }
 
 #controls {
   text-align: center;
 }
 
-.right {
-  width: 48%;
-  float: right;
-}
-
 #keyboard {
   position: absolute;
-  top: 250px;
+  top: 300px;
   left: 50px;
+  width: 819px;
 
   img {
     position: absolute;

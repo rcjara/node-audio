@@ -9,14 +9,16 @@
     <% if (typeof flash !== 'undefined') { %>
       <section class="flash"><%= flash %></section>
     <% } %>
-    <section class="left">
-      <h1><%= title %></h1>
-      <section id="messages" class="clearfix"></section>
+    <section class="clearfix">
+      <section class="left clearfix">
+        <h1><%= title %></h1>
+        <section id="messages" class="clearfix"></section>
+      </section>
+      <section class="right clearfix">
+        <section id="controls" class="clearfix"></section>
+      </section>
     </section>
-    <section class="right">
-      <section id="controls" class="clearfix"></section>
-    </section>
-    <section class="clearfix" id="keyboard"></section>
+    <section id="keyboard"></section>
     <% if (typeof roomName !== 'undefined') { %>
       <input id="room-name" type="hidden" value="<%= roomName %>" />
     <% } %>
