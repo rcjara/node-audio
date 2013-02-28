@@ -126,7 +126,6 @@ define(['instruments'], function(Instruments) {
 
   public.addInstruments = function(instruments) {
     console.log("Adding instruments");
-    console.log(instruments);
     $.each(instruments, function(i, obj) {
       console.log(obj);
       public.addInstrument(obj.ident, obj.name);

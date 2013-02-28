@@ -106,7 +106,6 @@ define(['mixer'], function(synth) {
     e.clientID = clientID;
     e.instrumentName = instrument;
     e.noteName = note;
-    console.log(e)
 
     socket.emit('synth-event', e);
   }

@@ -11,7 +11,6 @@ define(['sound', 'note'], function(sound, Note) {
   }
 
   Generic.prototype.start = function(name, freq) {
-    console.log(this);
     this.killNote(name);
 
     var note = new Note(freq, this.attr, this.dest);
@@ -20,13 +19,11 @@ define(['sound', 'note'], function(sound, Note) {
   };
 
   Generic.prototype.stop = function(name) {
-    console.log(this);
     this.killNote(name);
     delete this.notes[name];
   };
 
   Generic.prototype.destroy = function() {
-    console.log(this);
     $.each(this.notes, function(noteName, note) {
       note.stop();
     });
@@ -61,9 +58,6 @@ define(['sound', 'note'], function(sound, Note) {
 
   public.organ = Organ;
   public.slowOrgan = SlowOrgan;
-
-  console.log("Public object off of instrument.js");
-  console.log(public);
 
   return public;
 });
