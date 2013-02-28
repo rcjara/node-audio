@@ -1,50 +1,16 @@
-define(['keyboard', 'interact', 'pianoKeys'], function(keyboard, interact, pianoKeys) {
+define(  ['keyboard', 'interact', 'keyboardInputs', 'pianoKeys'],
+  function(keyboard,   interact,   KeyboardInputs,   pianoKeys) {
   //keyboard key code, note identifier, frequency
   var public = {}
-    , AVAILABLE_INSTRUMENTS = ['slowOrgan', 'organ']
     , CONTROLS_ID = '#controls'
     , curInstrument = 'slowOrgan'
+    , keys
     ;
-
-  var code = function(str) {
-    return str.charCodeAt(0);
-  };
-
-  var keys = {
-    z: ['C3']
-  , x: ['D3']
-  , c: ['E3']
-  , v: ['G3']
-  , b: ['A3']
-  , a: ['C4']
-  , s: ['D4']
-  , d: ['E4']
-  , f: ['G4']
-  , g: ['A4']
-  , q: ['C5']
-  , w: ['D5']
-  , e: ['E5']
-  , r: ['G5']
-  , t: ['A5']
-  , h: ['C4', 'E4', 'G4']
-  };
-
-  var playing = {};
-
-  var createPianoKeys = function() {
-    pianoKeys.initialize();
-    $.each(keys, function(key, noteArray) {
-      if (noteArray.length == 1) {
-        var noteName = noteArray[0];
-        pianoKeys.addLabel(key, noteName);
-      }
-    });
-  };
-
 
   public.activate = function() {
     createPlayArea();
     createInstrumentsSelector();
+    updateInputKeys();
     $('#play-area').focus();
 
     interact.emitSynthEvent("addInstrument", curInstrument);
@@ -58,11 +24,9 @@ define(['keyboard', 'interact', 'pianoKeys'], function(keyboard, interact, piano
 
   public.keydown = function(e) {
     if (e.metaKey || e.ctrlKey || e.altKey) {
-      console.log('special key pressed');
       return;
     }
     var key = String.fromCharCode(e.which).toLowerCase();
-    console.log('keydown: ' + key);
     if (keys[key] !== undefined) {
       if (!keyboard.isPushed(key)) {
         interact.emitSynthEvent("start", "organ", keys[key]);
@@ -76,7 +40,6 @@ define(['keyboard', 'interact', 'pianoKeys'], function(keyboard, interact, piano
 
   public.keyup = function(e) {
     var key = String.fromCharCode(e.which).toLowerCase();
-    console.log('keyup: ' + key);
     if (keys[key] !== undefined) {
       if (keyboard.isPushed(key)) {
         interact.emitSynthEvent("stop", "organ", keys[key]);
@@ -88,21 +51,18 @@ define(['keyboard', 'interact', 'pianoKeys'], function(keyboard, interact, piano
     }
   };
 
-  var activateKeyBoardEvents = function() {
-    $('#play-area').keydown(function(e) {
-      public.keydown(e);
+  var createPianoKeys = function() {
+    pianoKeys.initialize();
+    $.each(keys, function(key, noteArray) {
+      if (noteArray.length == 1) {
+        var noteName = noteArray[0];
+        pianoKeys.addLabel(key, noteName);
+      }
     });
-
-    $('#play-area').keyup(function(e) {
-      public.keyup(e);
-    });
-
-    createPianoKeys();
   };
 
-  var deactivateKeyBoardEvents = function() {
-    $('#play-area').off('keydown', 'keyup');
-    pianoKeys.destroy();
+  var code = function(str) {
+    return str.charCodeAt(0);
   };
 
   var createPlayArea = function() {
@@ -128,10 +88,10 @@ define(['keyboard', 'interact', 'pianoKeys'], function(keyboard, interact, piano
 
   var createInstrumentsSelector = function() {
     var $selector = $('<select id="instrument-selector">');
-    $.each(AVAILABLE_INSTRUMENTS, function(i, instrument) {
-      var $option = $('<option value="' + instrument + '">' + instrument + '</option>');
+    $.each(KeyboardInputs, function(ident, record) {
+      var $option = $('<option value="' + ident + '">' + record.fullName + '</option>');
 
-      if (instrument === curInstrument) {
+      if (ident === curInstrument) {
         $option.attr('selected', 'selected');
       }
 
@@ -140,16 +100,47 @@ define(['keyboard', 'interact', 'pianoKeys'], function(keyboard, interact, piano
 
     $selector.change( function(e) {
       $selector.children(':selected').each(function () {
-        var newInstrument = $(this).text();
-        interact.emitSynthEvent('removeInstrument', curInstrument);
+        var newInstrument = $(this).attr('value');
+
+        emitInstrumentChangeEvent('remove');
         curInstrument = newInstrument;
-        interact.emitSynthEvent('addInstrument', curInstrument);
+        emitInstrumentChangeEvent('add');
+
+        updateInputKeys();
 
         $selector.blur();
       });
     });
 
     $(CONTROLS_ID).append($selector);
+  };
+
+  var emitInstrumentChangeEvent = function(eventType) {
+    //valid eventTypes are: 'add', 'remove'
+    var fullCommand = eventType + 'Instrument';
+
+    interact.emitSynthEvent(fullCommand, KeyboardInputs[curInstrument].mixerID);
+  };
+
+  var updateInputKeys = function() {
+    keys = KeyboardInputs[curInstrument].keys;
+  };
+
+  var activateKeyBoardEvents = function() {
+    $('#play-area').keydown(function(e) {
+      public.keydown(e);
+    });
+
+    $('#play-area').keyup(function(e) {
+      public.keyup(e);
+    });
+
+    createPianoKeys();
+  };
+
+  var deactivateKeyBoardEvents = function() {
+    $('#play-area').off('keydown', 'keyup');
+    pianoKeys.destroy();
   };
 
   return public;

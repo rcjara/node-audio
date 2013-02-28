@@ -107,12 +107,17 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
   };
 
   public.addLabel = function(label, keyID) {
+    //if not done loading, retry shortly
     if (!doneLoading) {
       setTimeout(function() { public.addLabel(label, keyID); }, 100);
       return;
     }
 
     var key = keys[keyID];
+    //return early if a key is called that's out of range of the keyboard
+    if (typeof key === 'undefined') {
+      return;
+    }
 
     if (typeof key.label !== 'undefined') {
       key.label.remove();
