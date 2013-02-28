@@ -62,7 +62,3 @@ app.get(/room\/([^\-]+\-[^\-]+\-[^\-]+)$/, function(req, res) {
     res.end();
   }
 });
-
-app.get('/keyboard', function(req, res) {
-  res.render('keyboard_test', { title: 'Keyboard-test' });
-});
