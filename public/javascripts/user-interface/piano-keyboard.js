@@ -131,26 +131,18 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
 
     var baseX = key.elem.position().left
       , baseY = key.elem.position().top
-      , width = key.elem.width()
-      , height = key.elem.height()
       ;
 
     var $label = $('<p>' + label + '</p>');
 
-    var heightRatio;
-    if (key.type === 'black') {
-      heightRatio = 5.0 / 8;
-    } else {
-      heightRatio = 3.0 / 4;
-    }
+    var cssClass = key.type === 'black' ? 'black-label' : 'white-label';
+
+    var width = key.type === 'black' ? 26 : 39;
+
 
     var radius = (width * 3 / 4);
-    $label.css('width',         radius + 'px');
-    $label.css('height',        radius + 'px');
-    $label.css('line-height',   radius + 'px');
-    $label.css('border-radius', (radius / 2) + 'px');
-    $label.css('top',           (baseY + (height * heightRatio)) + 'px');
-    $label.css('left',          (baseX + ((width - radius) / 2)) + 'px');
+    $label.addClass(cssClass);
+    $label.css('left', (baseX + ((width - radius) / 2)) + 'px');
 
     $('#keyboard').append($label);
 

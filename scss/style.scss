@@ -56,9 +56,26 @@ a {
     position: absolute;
     text-align: center;
     background-color: rgb(255, 100, 100);
-    border-radius: 999px;
     z-index: 5;
+
   }
+
+  .white-label {
+    width: 27.75px;
+    height: 27.75px;
+    line-height: 27.75px;
+    border-radius: 13.875px;
+    top: 156.75px;
+  }
+
+  .black-label {
+    width: 19.5px;
+    height: 19.5px;
+    line-height: 19.5px;
+    border-radius: 9.75px;
+    top:  91.25px;
+  }
+
 }
 
 .beat-pulse-run {
