@@ -50,6 +50,12 @@ define(['sound'], function(sound) {
 
     this.source = source;
 
+    if (typeof this.attr.waveForm !== 'undefined') {
+      console.log('setting waveform: ' + this.attr.waveForm);
+      console.log('source.type before: ' + source.type);
+      source.type = this.attr.waveForm;
+      console.log('source.type after: ' + source.type);
+    }
     source.connect(gainNode);
     source.frequency.value = this.frequency;
     source.noteOn( now() );

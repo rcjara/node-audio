@@ -95,6 +95,18 @@ define([], function() {
       { mixerID: 'organ'
       , fullName: 'Rhythm Organ'
       , keys: CHORD_KEY_MAP }
+    , sawTooth:
+      { mixerID: 'sawTooth'
+      , fullName: 'Saw Tooth Whatever'
+      , keys: DEFAULT_KEY_MAP }
+    , triangle:
+      { mixerID: 'triangle'
+      , fullName: 'Triangle Whatever'
+      , keys: DEFAULT_KEY_MAP }
+    , square:
+      { mixerID: 'square'
+      , fullName: 'Square Whatever'
+      , keys: DEFAULT_KEY_MAP }
     };
 
   return AVAILABLE_INSTRUMENTS;

@@ -29,7 +29,7 @@ define(  ['keyboard', 'interact', 'keyboardInputs', 'pianoKeys'],
     var key = String.fromCharCode(e.which).toLowerCase();
     if (keys[key] !== undefined) {
       if (!keyboard.isPushed(key)) {
-        interact.emitSynthEvent("start", "organ", keys[key]);
+        interact.emitSynthEvent("start", KeyboardInputs[curInstrument].mixerID, keys[key]);
         keyboard.push(key);
         $.each(keys[key], function(i, noteName) {
           pianoKeys.pressKey(noteName);
@@ -42,7 +42,7 @@ define(  ['keyboard', 'interact', 'keyboardInputs', 'pianoKeys'],
     var key = String.fromCharCode(e.which).toLowerCase();
     if (keys[key] !== undefined) {
       if (keyboard.isPushed(key)) {
-        interact.emitSynthEvent("stop", "organ", keys[key]);
+        interact.emitSynthEvent("stop", KeyboardInputs[curInstrument].mixerID, keys[key]);
         keyboard.release(key);
         $.each(keys[key], function(i, noteName) {
           pianoKeys.releaseKey(noteName);
