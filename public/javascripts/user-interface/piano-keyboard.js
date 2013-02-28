@@ -93,6 +93,7 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
                , '/images/pressed-keys/white-both.png'
                , '/images/pressed-keys/black.png'
                ];
+    public.destroy();
     new Loader(urls, initialize);
   };
 
