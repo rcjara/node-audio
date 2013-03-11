@@ -22,7 +22,7 @@ requirejs([  'socket'
 
   $(document).ready(function() {
     console.log("Document Ready");
-    interact.addAlertee(controller);
+    interact.subscribe(controller);
     interact.connectToServer();
   });
 });

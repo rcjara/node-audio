@@ -21,7 +21,7 @@ define(['mixer'], function(synth) {
     }
   };
 
-  public.addAlertee = function(alertee) {
+  public.subscribe = function(alertee) {
     alertees.push(alertee);
   };
 
