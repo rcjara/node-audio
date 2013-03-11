@@ -6,12 +6,6 @@ define(['mixer'], function(synth) {
     , historyState = 0
     ;
 
-  var call = function(callback) {
-    if (callback !== undefined) {
-      callback();
-    }
-  };
-
   var updateURLToRoom = function(roomName) {
     history.pushState({ state: historyState++ }, '', '/room/' + roomName);
   };
@@ -47,7 +41,6 @@ define(['mixer'], function(synth) {
       clientID = e.clientID;
       console.log('clientID: ' + clientID);
       requestRoom();
-      call(authorizedCallback);
     });
 
     socket.on('synth-event', function(e) {
