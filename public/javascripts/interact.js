@@ -2,6 +2,7 @@ define(['mixer'], function(synth) {
   var public = {}
     , socket
     , clientID
+    , _this = this
     , alertees = []
     , historyState = 0
     ;
@@ -66,7 +67,7 @@ define(['mixer'], function(synth) {
       public.echo(msg.text);
 
       $.each(alertees, function(i, alertee) {
-        alertee.activate();
+        alertee.activate(_this);
       });
 
       updateURLToRoom(msg.room);

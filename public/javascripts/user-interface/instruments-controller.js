@@ -1,13 +1,16 @@
-define(  ['keyboard', 'interact', 'keyboardInputs', 'pianoKeys'],
-  function(keyboard,   interact,   KeyboardInputs,   pianoKeys) {
+define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
+  function(keyboard,   KeyboardInputs,   pianoKeys) {
   //keyboard key code, note identifier, frequency
   var public = {}
     , CONTROLS_ID = '#controls'
     , curInstrument = 'slowOrgan'
+    , interact
     , keys
     ;
 
-  public.activate = function() {
+  public.activate = function(_interact) {
+    interact = _interact;
+
     createPlayArea();
     createInstrumentsSelector();
     updateInputKeys();

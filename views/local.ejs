@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/main.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% if (typeof flash !== 'undefined') { %>
+      <section class="flash"><%= flash %></section>
+    <% } %>
+    <section class="clearfix">
+      <section class="left clearfix">
+        <h1><%= title %></h1>
+        <h2>Playing in local mode</h2>
+        <section id="messages" class="clearfix"></section>
+      </section>
+      <section class="right clearfix">
+        <section id="controls" class="clearfix"></section>
+      </section>
+    </section>
+    <section id="keyboard"></section>
+    <% if (typeof roomName !== 'undefined') { %>
+      <input id="room-name" type="hidden" value="<%= roomName %>" />
+    <% } %>
+    <script src="/javascripts/vendor/modernizr-2.6.2.min.js"></script>
+    <script data-main="/javascripts/main-local.js" src="/javascripts/vendor/require-jquery.js"></script>
+  </body>
+</html>
+

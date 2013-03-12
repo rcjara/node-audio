@@ -53,6 +53,12 @@ app.get('/', function(req, res){
   res.render('index', { title: 'Jam-r' });
 });
 
+//Play without connecting to the server
+app.get('/local', function(req, res){
+  res.render('local', { title: 'Jam-r Local Synth Mode' });
+});
+
+//Enter a room directly
 app.get(/room\/([^\-]+\-[^\-]+\-[^\-]+)$/, function(req, res) {
   var roomName = req.params[0];
   if (rooms.isAvailable(roomName)) {
