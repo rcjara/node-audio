@@ -60,13 +60,6 @@ describe('Rooms', function() {
         expect( rooms.isAvailable("purple-monkey-munchers") )
               .to.equal(false);
       });
-
-      it('shows that a room is unavailable if its occupants are greater than its capacity', function() {
-        var room = rooms.generateRoom();
-        room.capacity = 1;
-        expect( rooms.isAvailable(room.name) )
-              .to.be(false);
-      });
     });
 
     describe('.firstAvailable', function() {
@@ -83,14 +76,6 @@ describe('Rooms', function() {
           room2 = rooms.generateRoom();
           room3 = rooms.generateRoom();
         });
-
-        var fullSocketMock = {
-          clients: function() { return Infinity; }
-        };
-
-        var emptySocketMock = {
-          clients: function() { return 0; }
-        };
 
         it('finds the available room', function() {
           room1.capacity = 3;
