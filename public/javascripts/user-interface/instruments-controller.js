@@ -17,7 +17,6 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
     $('#play-area').focus();
 
     interact.emitSynthEvent("addInstrument", curInstrument);
-    interact.echo("You can start making music now.");
   };
 
   public.deactivate = function() {

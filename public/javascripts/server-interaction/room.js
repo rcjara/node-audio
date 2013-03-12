@@ -1,4 +1,4 @@
-require(['socket'], function(io) {
+define(['socket'], function(io) {
   /* Handles direct interactions with the server.
      Rebroadcasts certain events to its subscribers
      In order to receive the message, the subscriber simply
@@ -6,16 +6,46 @@ require(['socket'], function(io) {
 
      Supported events:
        connection      // communication with the server begins
-       authorization   // communication with the server
-       acceptance
+       authorization   // the client now has an id
+       acceptance      // the client is now in a room
   */
   var public = {}
     , socket
     , clientID
-    , accepted = false;
+    , accepted = false
     , subscribers = []
     , historyState = 0
     ;
+
+  public.connectToServer = function() {
+    socket = io.connect('/');
+
+    socket.on('connect', function() {
+      broadcast('connection', {});
+    });
+
+    socket.on('authorized', function(e) {
+      clientID = e.clientID;
+      console.log('clientID: ' + clientID);
+      broadcast('authorization', {});
+
+      requestRoom();
+    });
+
+    socket.on('join-room', function(msg) {
+      updateURLToRoom(msg.room);
+      accepted = true;
+
+      broadcast('acceptance', msg);
+    });
+
+    socket.on('disconnect', function() {
+      socket.socket.reconnect();
+      accepted = false;
+
+      broadcast('disconnection', {});
+    });
+  }
 
   public.emit = function(eventType, e) {
     if (accepted === false) {
@@ -26,13 +56,17 @@ require(['socket'], function(io) {
     socket.emit(eventType, e);
   };
 
-  public.subscribe = function(alertee) {
-    subscribers.push(alertee);
+  public.subscribe = function(subscriber) {
+    subscribers.push(subscriber);
+  };
+
+  public.getSocket = function() {
+    return socket;
   };
 
   var broadcast = function(msg, e) {
-    _.each(subscribers, function(subscriber) {
-      if (typeof subscriber[msg] !== undefined) {
+    $.each(subscribers, function(i, subscriber) {
+      if (typeof subscriber[msg] === 'function') {
         subscriber[msg](public, e);
       }
     });
@@ -53,34 +87,6 @@ require(['socket'], function(io) {
     }
   };
 
-  public.connectToServer = function(authorizedCallback) {
-    socket = io.connect('/');
-
-    socket.on('connect', function() {
-      broadcast('connection', {});
-    });
-
-    socket.on('authorized', function(e) {
-      clientID = e.clientID;
-      console.log('clientID: ' + clientID);
-      requestRoom();
-
-      broadcast('authorization', {});
-    });
-
-    socket.on('join-room', function(msg) {
-      updateURLToRoom(msg.room);
-      accepted = true;
-
-      broadcast('acceptance', { msg: msg.text });
-    });
-
-    socket.on('disconnect', function() {
-      socket.socket.reconnect();
-      accepted = false;
-
-      broadcast('disconnection', {});
-    });
-  }
+  return public;
 });
 
