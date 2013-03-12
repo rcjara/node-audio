@@ -47,6 +47,13 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
     return '/images/keys/' + type + '.png';
   };
 
+  var centerKeyboard = function() {
+    var keyboardWidth = parseInt( $('#keyboard').css('width') )
+      , keyboardCentering = ($(document).width() - keyboardWidth) / 2
+      ;
+    $('#keyboard').css('left', keyboardCentering + 'px');
+  };
+
   var initialize = function() {
     var x = 0;
 
@@ -72,10 +79,8 @@ define(['/javascripts/image-pre-loader.js'], function(Loader) {
       }
     }
 
-    var keyboardWidth = parseInt( $('#keyboard').css('width') )
-      , keyboardCentering = ($(document).width() - keyboardWidth) / 2
-      ;
-    $('#keyboard').css('left', keyboardCentering + 'px');
+    centerKeyboard();
+    $(window).resize(centerKeyboard);
 
     for (var i = 3; i <= 5; i++) {
       addOctave(i);
