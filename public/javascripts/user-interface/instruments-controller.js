@@ -8,6 +8,8 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
     , keys
     ;
 
+  console.log(keyboard);
+
   public.activate = function(_interact) {
     interact = _interact;
 

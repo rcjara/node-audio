@@ -20,31 +20,7 @@ define(['socket'], function(io) {
   public.connectToServer = function() {
     socket = io.connect('/');
 
-    socket.on('connect', function() {
-      broadcast('connection', {});
-    });
-
-    socket.on('authorized', function(e) {
-      clientID = e.clientID;
-      console.log('clientID: ' + clientID);
-      broadcast('authorization', {});
-
-      requestRoom();
-    });
-
-    socket.on('join-room', function(msg) {
-      updateURLToRoom(msg.room);
-      accepted = true;
-
-      broadcast('acceptance', msg);
-    });
-
-    socket.on('disconnect', function() {
-      socket.socket.reconnect();
-      accepted = false;
-
-      broadcast('disconnection', {});
-    });
+    setUpSocketListeners();
   }
 
   public.emit = function(eventType, e) {
@@ -71,6 +47,35 @@ define(['socket'], function(io) {
       }
     });
   };
+
+  var setUpSocketListeners = function() {
+    socket.on('connect', function() {
+      broadcast('connection', {});
+    });
+
+    socket.on('authorized', function(e) {
+      clientID = e.clientID;
+      console.log('clientID: ' + clientID);
+      broadcast('authorization', {});
+
+      requestRoom();
+    });
+
+    socket.on('join-room', function(msg) {
+      updateURLToRoom(msg.room);
+      accepted = true;
+
+      broadcast('newRoom', msg);
+    });
+
+    socket.on('disconnect', function() {
+      socket.socket.reconnect();
+      accepted = false;
+
+      broadcast('disconnection', {});
+    });
+  };
+
 
   var updateURLToRoom = function(roomName) {
     history.pushState({ state: historyState++ }, '', '/room/' + roomName);

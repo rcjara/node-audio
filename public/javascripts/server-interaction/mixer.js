@@ -9,7 +9,7 @@ define(['mixer'], function(mixer) {
     userSoundInputController = _userSoundInputController;
   }
 
-  public.acceptance = function(_room) {
+  public.newRoom = function(_room) {
     room = _room;
 
     setUpSocketListeners(room.getSocket());

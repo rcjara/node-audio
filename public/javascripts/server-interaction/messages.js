@@ -1,5 +1,6 @@
 define([], function() {
-  var public = {};
+  var public = {}
+    , room;
 
   public.connection = function() {
     echo("Connecting to the server...");
@@ -9,7 +10,8 @@ define([], function() {
     echo("The server has responded...");
   };
 
-  public.acceptance = function(room, msg) {
+  public.newRoom = function(_room, msg) {
+    room = _room;
     var socket = room.getSocket();
 
     echo(msg.text);
