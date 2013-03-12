@@ -1,19 +1,18 @@
-define(['mixer'], function(synth) {
+define(['mixer'], function(mixer) {
   var public = {}
-    , _this = this
     ;
 
-  public.subscribe = function(alertee) {
-    alertee.activate(_this);
+  public.subscribe = function(subscriber) {
+    subscriber.activate(public);
   };
 
   public.emitSynthEvent = function(type, instrument, note) {
     var e = {};
 
     if (type === 'addInstrument') {
-      synth[type]("local", instrument);
+      mixer[type]("local", instrument);
     } else {
-      synth[type]("local", note);
+      mixer[type]("local", note);
     }
   };
 

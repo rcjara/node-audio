@@ -1,13 +1,15 @@
 require.config({
   paths: {
-    interact:       'interact'
-  , localInteract:  'local-interact'
+    localInteract:  'local-interact'
+  , roomInter:      'server-interaction/room'
+  , mixerInter:     'server-interaction/mixer'
+  , messagesInter:  'server-interaction/messages'
   , imgPreloader:   'image-pre-loader'
   , instruments:    'audio/instruments'
   , mixer:          'audio/mixer'
   , note:           'audio/note'
   , sound:          'audio/web-audio-wrapper'
-  , controller:     'user-interface/instruments-controller'
+  , instController: 'user-interface/instruments-controller'
   , keyboard:       'user-interface/keyboard'
   , pianoKeys:      'user-interface/piano-keyboard'
   , keyboardInputs: 'user-interface/instrument-input-catalogue'
@@ -15,13 +17,13 @@ require.config({
   }
 });
 
-requirejs(['localInteract' , 'controller'] ,
-  function( interact,    controller) { //, interact) {
+requirejs(['localInteract' , 'instController'] ,
+  function( interact,         instController) { //, interact) {
   console.log('require ready');
 
   $(document).ready(function() {
     console.log("Document Ready");
-    interact.subscribe(controller);
+    interact.subscribe(instController);
   });
 });
 
