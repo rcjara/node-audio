@@ -15,7 +15,7 @@ define(['mixer'], function(synth) {
     } else {
       synth[type]("local", note);
     }
-  }
+  };
 
   return public;
 });
