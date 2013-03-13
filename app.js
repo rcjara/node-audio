@@ -46,7 +46,7 @@ rooms.setNamingScheme(namingScheme);
 rooms.reset();
 
 //Set up sockets
-socketServerSide.start(socket, httpServer, rooms);
+socketServerSide.start(httpServer, rooms);
 
 //Set up routes
 app.get('/', function(req, res){
