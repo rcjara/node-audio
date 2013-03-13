@@ -4,19 +4,19 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
   var public = {}
     , CONTROLS_ID = '#controls'
     , curInstrument = 'slowOrgan'
-    , interact
+    , gateway
     , keys
     ;
 
-  public.activate = function(_interact) {
-    interact = _interact;
+  public.activate = function(_gateway) {
+    gateway = _gateway;
 
     createPlayArea();
     createInstrumentsSelector();
     updateInputKeys();
     $('#play-area').focus();
 
-    interact.emitSynthEvent("addInstrument", curInstrument);
+    gateway.emitSynthEvent("addInstrument", curInstrument);
   };
 
   public.deactivate = function() {
@@ -31,7 +31,7 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
     var key = String.fromCharCode(e.which).toLowerCase();
     if (keys[key] !== undefined) {
       if (!keyboard.isPushed(key)) {
-        interact.emitSynthEvent("start", KeyboardInputs[curInstrument].mixerID, keys[key]);
+        gateway.emitSynthEvent("start", KeyboardInputs[curInstrument].mixerID, keys[key]);
         keyboard.push(key);
         $.each(keys[key], function(i, noteName) {
           pianoKeys.pressKey(noteName);
@@ -44,7 +44,7 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
     var key = String.fromCharCode(e.which).toLowerCase();
     if (keys[key] !== undefined) {
       if (keyboard.isPushed(key)) {
-        interact.emitSynthEvent("stop", KeyboardInputs[curInstrument].mixerID, keys[key]);
+        gateway.emitSynthEvent("stop", KeyboardInputs[curInstrument].mixerID, keys[key]);
         keyboard.release(key);
         $.each(keys[key], function(i, noteName) {
           pianoKeys.releaseKey(noteName);
@@ -121,7 +121,7 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
     //valid eventTypes are: 'add', 'remove'
     var fullCommand = eventType + 'Instrument';
 
-    interact.emitSynthEvent(fullCommand, KeyboardInputs[curInstrument].mixerID);
+    gateway.emitSynthEvent(fullCommand, KeyboardInputs[curInstrument].mixerID);
   };
 
   var updateInputKeys = function() {

@@ -1,23 +1,24 @@
-define([], function() {
+define(['chatCtrl'], function(chatCtrl) {
   var public = {}
-    , room;
+    , room
+    ;
 
   public.connection = function() {
-    echo("Connecting to the server...");
+    chatCtrl.echo("Connecting to the server...");
   };
 
   public.authorization = function() {
-    echo("The server has responded...");
+    chatCtrl.echo("The server has responded...");
   };
 
   public.newRoom = function(_room, msg) {
     room = _room;
     var socket = room.getSocket();
 
-    echo(msg.text);
+    chatCtrl.echo(msg.text);
 
     socket.on('message', function(msg) {
-      echo(msg.text);
+      chatCtrl.echo(msg.text);
 
       if (msg.toLog !== undefined) {
         console.log(msg.toLog);
@@ -26,12 +27,16 @@ define([], function() {
   };
 
   public.disconnection = function() {
-    echo("So sorry, the connection to the server has gone down.");
+    chatCtrl.echo("So sorry, the connection to the server has gone down.");
   };
 
-  var echo = function(text) {
-    $('#messages').append($('<p>' + text + '</p>'));
+  public.emitMessage = function() {
+    //fill in later
+    return;
   };
+
+  chatCtrl.activate(public);
+  chatCtrl.echo("the controller is hooked up properly");
 
   return public;
 });
