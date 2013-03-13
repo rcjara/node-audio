@@ -1,4 +1,4 @@
-define(['socket'], function(io) {
+define(['socket', 'mockSocket'], function(io, mockSocket) {
   /* Handles direct interactions with the server.
      Rebroadcasts certain events to its subscribers
      In order to receive the message, the subscriber simply
@@ -22,6 +22,14 @@ define(['socket'], function(io) {
 
     setUpSocketListeners();
   }
+
+  public.connectLocally = function() {
+    socket = mockSocket;
+    setUpSocketListeners();
+
+    socket.connect();
+  };
+
 
   public.emit = function(eventType, e) {
     if (accepted === false) {

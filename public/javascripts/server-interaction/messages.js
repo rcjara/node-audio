@@ -18,9 +18,16 @@ define(['chatCtrl'], function(chatCtrl) {
     chatCtrl.echo(msg.text);
 
     socket.on('message', function(msg) {
-      chatCtrl.echo(msg.text);
+      var display;
 
-      if (msg.toLog !== undefined) {
+      if (typeof msg.userName !== 'undefined') {
+        display = msg.userName + ': ' + msg.text;
+      } else {
+        display = msg.text;
+      }
+      chatCtrl.echo(display);
+
+      if (typeof msg.toLog !== 'undefined') {
         console.log(msg.toLog);
       }
     });
@@ -30,9 +37,9 @@ define(['chatCtrl'], function(chatCtrl) {
     chatCtrl.echo("So sorry, the connection to the server has gone down.");
   };
 
-  public.emitMessage = function() {
-    //fill in later
-    return;
+  public.emitMessage = function(text) {
+    var e = { text: text };
+    room.emit('chat-event', e);
   };
 
   chatCtrl.activate(public);

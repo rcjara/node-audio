@@ -1,15 +1,16 @@
 require.config({
   paths: {
-    localInteract:  'local-interact'
-  , roomInter:      'server-interaction/room'
+    roomInter:      'server-interaction/room'
   , mixerInter:     'server-interaction/mixer'
   , messagesInter:  'server-interaction/messages'
+  , mockSocket:     'server-interaction/mock-socket'
   , imgPreloader:   'image-pre-loader'
   , instruments:    'audio/instruments'
   , mixer:          'audio/mixer'
   , note:           'audio/note'
   , sound:          'audio/web-audio-wrapper'
-  , instController: 'user-interface/instruments-controller'
+  , instCtrl:       'user-interface/instruments-controller'
+  , chatCtrl:       'user-interface/chat-controller'
   , keyboard:       'user-interface/keyboard'
   , pianoKeys:      'user-interface/piano-keyboard'
   , keyboardInputs: 'user-interface/instrument-input-catalogue'
@@ -17,13 +18,18 @@ require.config({
   }
 });
 
-requirejs(['localInteract' , 'instController'] ,
-  function( interact,         instController) { //, interact) {
+requirejs(['roomInter',  'mixerInter',  'messagesInter',  'instCtrl', 'chatCtrl' ],
+   function(roomInter,    mixerInter,    messagesInter,    instCtrl ,  chatCtrl) {
   console.log('require ready');
 
   $(document).ready(function() {
     console.log("Document Ready");
-    interact.subscribe(instController);
+    mixerInter.setUserSoundInputController(instCtrl);
+
+    roomInter.subscribe(mixerInter);
+    roomInter.subscribe(messagesInter);
+
+    roomInter.connectLocally();
   });
 });
 

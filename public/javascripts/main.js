@@ -3,6 +3,7 @@ require.config({
     roomInter:      'server-interaction/room'
   , mixerInter:     'server-interaction/mixer'
   , messagesInter:  'server-interaction/messages'
+  , mockSocket:     'server-interaction/mock-socket'
   , imgPreloader:   'image-pre-loader'
   , instruments:    'audio/instruments'
   , mixer:          'audio/mixer'

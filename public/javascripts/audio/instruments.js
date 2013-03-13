@@ -95,11 +95,13 @@ define(['sound', 'note'], function(sound, Note) {
 
     this.notes = {};
     this.dest = sound.getDest();
+
   }
 
   $.each([Organ, SlowOrgan, SawTooth, Square, Triangle], function(i, klass) {
-    klass.prototype = Generic.prototype;
+    klass.prototype.__proto__ = Generic.prototype;
   });
+
 
   public.organ = Organ;
   public.slowOrgan = SlowOrgan;
