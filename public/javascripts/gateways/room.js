@@ -1,4 +1,4 @@
-define(['socket', 'mockSocket'], function(io, mockSocket) {
+define(['socket', 'mockServer'], function(io, mockServer) {
   /* Handles direct interactions with the server.
      Rebroadcasts certain events to its subscribers
      In order to receive the message, the subscriber simply
@@ -10,7 +10,7 @@ define(['socket', 'mockSocket'], function(io, mockSocket) {
        acceptance      // the client is now in a room
   */
   var public = {}
-    , socket
+    , server
     , clientID
     , accepted = false
     , subscribers = []
@@ -18,16 +18,16 @@ define(['socket', 'mockSocket'], function(io, mockSocket) {
     ;
 
   public.connectToServer = function() {
-    socket = io.connect('/');
+    server = io.connect('/');
 
-    setUpSocketListeners();
+    setUpListeners();
   }
 
   public.connectLocally = function() {
-    socket = mockSocket;
-    setUpSocketListeners();
+    server = mockServer;
+    setUpListeners();
 
-    socket.connect();
+    server.connect();
   };
 
 
@@ -37,15 +37,15 @@ define(['socket', 'mockSocket'], function(io, mockSocket) {
       console.log(e);
     }
     e.clientID = clientID;
-    socket.emit(eventType, e);
+    server.emit(eventType, e);
   };
 
   public.subscribe = function(subscriber) {
     subscribers.push(subscriber);
   };
 
-  public.getSocket = function() {
-    return socket;
+  public.on = function(msgType, cb) {
+    server.on(msgType, cb);
   };
 
   var broadcast = function(msg, e) {
@@ -56,12 +56,12 @@ define(['socket', 'mockSocket'], function(io, mockSocket) {
     });
   };
 
-  var setUpSocketListeners = function() {
-    socket.on('connect', function() {
+  var setUpListeners = function() {
+    server.on('connect', function() {
       broadcast('connection', {});
     });
 
-    socket.on('authorized', function(e) {
+    server.on('authorized', function(e) {
       clientID = e.clientID;
       console.log('clientID: ' + clientID);
       broadcast('authorization', {});
@@ -69,15 +69,15 @@ define(['socket', 'mockSocket'], function(io, mockSocket) {
       requestRoom();
     });
 
-    socket.on('join-room', function(msg) {
+    server.on('join-room', function(msg) {
       updateURLToRoom(msg.room);
       accepted = true;
 
       broadcast('newRoom', msg);
     });
 
-    socket.on('disconnect', function() {
-      socket.socket.reconnect();
+    server.on('disconnect', function() {
+      server.socket.reconnect();
       accepted = false;
 
       broadcast('disconnection', {});
@@ -92,11 +92,11 @@ define(['socket', 'mockSocket'], function(io, mockSocket) {
   var requestRoom = function() {
     var $roomName = $('#room-name');
     if ($roomName.length == 0) {
-      socket.emit('request-room', {});
+      server.emit('request-room', {});
     } else if ($roomName.val() === '') {
-      socket.emit('request-room', {});
+      server.emit('request-room', {});
     } else {
-      socket.emit('request-room', { room: $roomName.val() });
+      server.emit('request-room', { room: $roomName.val() });
     }
   };
 

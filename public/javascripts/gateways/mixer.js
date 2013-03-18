@@ -12,7 +12,7 @@ define(['mixer'], function(mixer) {
   public.newRoom = function(_room) {
     room = _room;
 
-    setUpSocketListeners(room.getSocket());
+    setUpListeners();
     userSoundInputController.activate(public);
   };
 
@@ -29,8 +29,8 @@ define(['mixer'], function(mixer) {
   };
 
 
-  var setUpSocketListeners = function(socket) {
-    socket.on('synth-event', function(e) {
+  var setUpListeners = function() {
+    room.on('synth-event', function(e) {
       // This play-area crap needs to be moved out of this
       // otherwise non-dom interacting class
       if (e.type === 'start') {
@@ -47,7 +47,7 @@ define(['mixer'], function(mixer) {
       }
     });
 
-    socket.on('add-instruments', function(e) {
+    room.on('add-instruments', function(e) {
       mixer.addInstruments(e.instruments);
     });
   };
