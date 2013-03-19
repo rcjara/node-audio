@@ -1,20 +1,22 @@
-define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
-  function(keyboard,   KeyboardInputs,   pianoKeys) {
+define(  [ 'templates', 'keyboard', 'keyboardInputs', 'pianoKeys'],
+  function( templates,   keyboard,   KeyboardInputs,   pianoKeys) {
   //keyboard key code, note identifier, frequency
   var public = {}
-    , CONTROLS_ID = '#controls'
-    , curInstrument = 'slowOrgan'
     , gateway
+    , $controls
+    , $playArea
+    , $selector
+    , curInstrument = 'slowOrgan'
     , keys
     ;
 
   public.activate = function(_gateway) {
     gateway = _gateway;
 
-    createPlayArea();
-    createInstrumentsSelector();
+    loadTemplate();
+    bindEvergreenEvents();
     updateInputKeys();
-    $('#play-area').focus();
+    $playArea.focus();
 
     gateway.emitSynthEvent("addInstrument", curInstrument);
   };
@@ -53,6 +55,17 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
     }
   };
 
+  var loadTemplate = function() {
+    ctx = { instruments: KeyboardInputs };
+    html = Handlebars.templates['instrument-controls'](ctx);
+
+    $controls = $(html);
+    $playArea = $controls.find('#play-area');
+    $selector = $controls.find('#instrument-selector');
+
+    $('#right').append($controls);
+  };
+
   var createPianoKeys = function() {
     pianoKeys.initialize();
     $.each(keys, function(key, noteArray) {
@@ -67,8 +80,8 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
     return str.charCodeAt(0);
   };
 
-  var createPlayArea = function() {
-    var $playArea = $('<div id="play-area">');
+  var bindEvergreenEvents = function() {
+    //playArea events
     $playArea.attr('tabindex', -1);
 
     $playArea.focusin(function(e) {
@@ -85,21 +98,7 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
       deactivateKeyBoardEvents();
     });
 
-    $(CONTROLS_ID).append($playArea);
-  };
-
-  var createInstrumentsSelector = function() {
-    var $selector = $('<select id="instrument-selector">');
-    $.each(KeyboardInputs, function(ident, record) {
-      var $option = $('<option value="' + ident + '">' + record.fullName + '</option>');
-
-      if (ident === curInstrument) {
-        $option.attr('selected', 'selected');
-      }
-
-      $selector.append($option);
-    });
-
+    //selector events
     $selector.change( function(e) {
       $selector.children(':selected').each(function () {
         var newInstrument = $(this).attr('value');
@@ -113,8 +112,6 @@ define(  ['keyboard', 'keyboardInputs', 'pianoKeys'],
         $selector.blur();
       });
     });
-
-    $(CONTROLS_ID).append($selector);
   };
 
   var emitInstrumentChangeEvent = function(eventType) {

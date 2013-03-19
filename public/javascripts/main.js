@@ -15,11 +15,13 @@ require.config({
   , pianoKeys:      'user-interface/piano-keyboard'
   , keyboardInputs: 'user-interface/instrument-input-catalogue'
   , socket:         '/socket.io/socket.io'
+  , templates:      'templates'
+  , handlebars:     'vendor/handlebars'
   }
 });
 
-requirejs(['roomGtwy',  'mixerGtwy',  'messagesGtwy',  'instCtrl', 'msgCtrl' ],
-   function(roomGtwy,    mixerGtwy,    messagesGtwy,    instCtrl ,  msgCtrl) {
+requirejs([ 'handlebars', 'roomGtwy',  'mixerGtwy',  'messagesGtwy',  'instCtrl', 'msgCtrl' ],
+   function( Handlebars,   roomGtwy,    mixerGtwy,    messagesGtwy,    instCtrl ,  msgCtrl ) {
   console.log('require ready');
 
   $(document).ready(function() {

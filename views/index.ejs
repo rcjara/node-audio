@@ -10,13 +10,8 @@
       <section class="flash"><%= flash %></section>
     <% } %>
     <section class="clearfix">
-      <section id="chat" class="left clearfix">
-        <h1><%= title %></h1>
-        <section id="display" class="clearfix"></section>
-      </section>
-      <section class="right clearfix">
-        <section id="controls" class="clearfix"></section>
-      </section>
+      <section id="left"  class="left clearfix"> </section>
+      <section id="right" class="right clearfix"></section>
     </section>
     <section id="keyboard"></section>
     <% if (typeof roomName !== 'undefined') { %>

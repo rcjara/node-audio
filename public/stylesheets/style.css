@@ -19,8 +19,10 @@ a {
 
 .left {
   width: 48%;
-  float: left;
-  height: 250px;
+  float: left; }
+
+#messages #display {
+  height: 175px;
   overflow: auto; }
 
 .right {
@@ -60,7 +62,7 @@ a {
     top: 91.25px; }
 
 .beat-pulse-run {
-  -webkit-animation: beat-pulse 1s linear 1; }
+  -webkit-animation: beat-pulse 1.0s linear 1; }
 
 @-webkit-keyframes beat-pulse {
   15% {

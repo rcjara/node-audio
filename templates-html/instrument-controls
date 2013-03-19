@@ -1,0 +1,9 @@
+<section id="controls" class="clearfix">
+  <div id="play-area"></div>
+  <select id="instrument-selector">
+    {{#each instruments}}
+      <option value="{{this.ident}}">{{this.fullName}}</option>
+    {{/each}}
+  </select>
+</section>
+

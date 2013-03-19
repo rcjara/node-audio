@@ -1,0 +1,4 @@
+<section id="messages">
+  <section id="display" class="clearfix"></section>
+  <textarea id="input"></textarea>
+</section>

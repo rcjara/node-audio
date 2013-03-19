@@ -109,6 +109,10 @@ define([], function() {
       , keys: DEFAULT_KEY_MAP }
     };
 
+  $.each(AVAILABLE_INSTRUMENTS, function(ident, record) {
+    record.ident = ident;
+  });
+
   return AVAILABLE_INSTRUMENTS;
 });
 
