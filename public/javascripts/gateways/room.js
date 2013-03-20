@@ -40,12 +40,12 @@ define(['socket', 'mockServer'], function(io, mockServer) {
     server.emit(eventType, e);
   };
 
-  public.subscribe = function(subscriber) {
-    subscribers.push(subscriber);
-  };
-
   public.on = function(msgType, cb) {
     server.on(msgType, cb);
+  };
+
+  public.subscribe = function(subscriber) {
+    subscribers.push(subscriber);
   };
 
   var broadcast = function(msg, e) {
