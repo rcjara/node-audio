@@ -1,5 +1,4 @@
 define(['templates'], function(templates) {
-  console.log("chat controller loading");
   var public = {}
     , gateway
     , $container
@@ -23,15 +22,20 @@ define(['templates'], function(templates) {
     destroyInput();
   };
 
-  public.echo = function(text) {
-    $display.append($('<p>' + text + '</p>'));
+  public.echo = function(msg) {
+    msg = ensureMsgFmt(msg);
+    var html = Handlebars.templates['message'](msg);
+
+    var $obj = $($.trim(html));
+    console.log("It made it this far");
+    $display.append($obj);
     scrollToBottom();
   };
 
   var loadTemplate = function() {
     html = Handlebars.templates['messages']();
     $container = $(html);
-    $display = $container.find('#display');
+    $display = $container.find(' #display');
     $input   = $container.find('#input');
 
     $('#left').append($container);
@@ -44,7 +48,6 @@ define(['templates'], function(templates) {
         e.preventDefault();
 
         var text = $input.val();
-        console.log('the input value: ' + text);
         gateway.emitMessage(text);
         $input.val('');
       }
@@ -52,7 +55,6 @@ define(['templates'], function(templates) {
   };
 
   var scrollToBottom = function() {
-    console.log("scrolling: " + $display[0].scrollHeight);
     $display.scrollTop($display[0].scrollHeight);
   };
 
@@ -61,6 +63,14 @@ define(['templates'], function(templates) {
     $input.remove();
     $input = null;
   };
+
+  var ensureMsgFmt = function(msg) {
+    if (typeof msg === 'string') {
+      return { text: msg };
+    } else {
+      return msg;
+    }
+  }
 
 
   return initialize();

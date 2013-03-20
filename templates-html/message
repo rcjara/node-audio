@@ -1,0 +1,5 @@
+{{#if userName}}
+  <p><span class="user">{{userName}}</span>: {{text}}</p>
+{{else }}
+  <p>{{text}}</p>
+{{/if}}

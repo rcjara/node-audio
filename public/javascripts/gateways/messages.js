@@ -20,17 +20,10 @@ define(['msgCtrl'], function(msgCtrl) {
   public.newRoom = function(_room, msg) {
     room = _room;
 
-    msgCtrl.echo(msg.text);
+    msgCtrl.echo(msg);
 
     room.on('message', function(msg) {
-      var display;
-
-      if (typeof msg.userName !== 'undefined') {
-        display = msg.userName + ': ' + msg.text;
-      } else {
-        display = msg.text;
-      }
-      msgCtrl.echo(display);
+      msgCtrl.echo(msg);
 
       if (typeof msg.toLog !== 'undefined') {
         console.log(msg.toLog);
