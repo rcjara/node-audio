@@ -52,8 +52,6 @@ define([], function() {
     for (var i = 0; i < keys.length; i++) {
       keyMap[ keys[i] ] = [ ALL_NOTES[noteIndex] ];
       noteIndex += scale[ i % scale.length ];
-      console.log('buildKeyMap noteIndex: ' + noteIndex + ' keys[i]: ' + keys[i] +
-                              ' ALL_NOTES[noteIndex]: ' + ALL_NOTES[noteIndex]);
     }
 
     return keyMap;
