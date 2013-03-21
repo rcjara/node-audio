@@ -1,3 +1,5 @@
+@import "mixins.scss";
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -25,6 +27,13 @@ a {
 .left {
   width: 48%;
   float: left;
+}
+
+#welcome {
+  .button {
+    padding: 15px;
+    @include button-gradient(#5e5799);
+  }
 }
 
 #messages {
@@ -98,3 +107,4 @@ a {
     box-shadow: 0px 0px 0px 0px rgba(30, 0, 255, 0.5);
   }
 }
+

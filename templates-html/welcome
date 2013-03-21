@@ -1,0 +1,8 @@
+<section id="welcome">
+  <h1>Wecome to Jam-r!<h1>
+
+  <p>Would you like to?</p>
+
+  <div id="first-available" class="button">Play music with whoever's around</div>
+  <div id="local" class="button">Shun humanity, and make music only for yourself</div>
+</section>

@@ -7,14 +7,13 @@ define(['templates'], function(templates) {
     ;
 
   var initialize = function() {
-    loadTemplate();
-
     return public;
   };
 
   public.activate = function(_gateway) {
     gateway = _gateway;
 
+    loadTemplate();
     bindEvents();
   };
 

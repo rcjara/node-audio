@@ -21,8 +21,8 @@ require.config({
   }
 });
 
-requirejs([ 'handlebars', 'roomGtwy',  'mixerGtwy',  'messagesGtwy',  'instCtrl', 'msgCtrl' ],
-   function( Handlebars,   roomGtwy,    mixerGtwy,    messagesGtwy,    instCtrl ,  msgCtrl ) {
+requirejs([ 'handlebars', 'roomGtwy',  'mixerGtwy',  'messagesGtwy',  'roomsCtrl', 'instCtrl', 'msgCtrl' ],
+   function( Handlebars,   roomGtwy,    mixerGtwy,    messagesGtwy,    roomsCtrl,   instCtrl ,  msgCtrl ) {
   console.log('require ready');
 
   $(document).ready(function() {
@@ -32,7 +32,7 @@ requirejs([ 'handlebars', 'roomGtwy',  'mixerGtwy',  'messagesGtwy',  'instCtrl'
     roomGtwy.subscribe(mixerGtwy);
     roomGtwy.subscribe(messagesGtwy);
 
-    roomGtwy.connectToServer();
+    roomsCtrl.activate(roomGtwy);
   });
 });
 

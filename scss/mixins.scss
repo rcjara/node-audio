@@ -1,0 +1,18 @@
+@mixin button-gradient($base-color, $base-bright: 45%) {
+  $hue: hue($base-color);
+  $saturation: saturation($base-color);
+  $button-bottom:    hsl( $hue, $saturation, $base-bright + 0);
+  $button-mid-point: hsl( $hue - 5, $saturation + 2, $base-bright + 10);
+  $button-split:     hsl( $hue - 5, $saturation + 5, $base-bright + 5);
+  $button-top:       hsl( $hue - 1, $saturation + 3, $base-bright + 20 );
+
+  background: $button-bottom; /* Old browsers */
+  background: -moz-linear-gradient(top, $button-top 0%, $button-mid-point 50%, $button-split 51%, $button-bottom 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$button-top), color-stop(50%,$button-mid-point), color-stop(51%,$button-split), color-stop(100%,$button-bottom)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $button-top 0%,$button-mid-point 50%,$button-split 51%,$button-bottom 100%); /* Chrome10+,Safari5.1+ */
+  background: -ms-linear-gradient(top, $button-top 0%,$button-mid-point 50%,$button-split 51%,$button-bottom 100%); /* IE10+ */
+  background: -o-linear-gradient(top, $button-top 0%,$button-mid-point 50%,$button-split 51%,$button-bottom 100%); /* Opera 11.10+ */
+  background: linear-gradient(top, $button-top 0%,$button-mid-point 50%,$button-split 51%,$button-bottom 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$button-top', endColorstr='$button-bottom',GradientType=0 ); /* IE6-9 */
+}
+

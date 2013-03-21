@@ -66,4 +66,12 @@ helpers = helpers || Handlebars.helpers; data = data || {};
 
   return "<section id=\"messages\">\n  <section id=\"display\" class=\"clearfix\"></section>\n  <textarea id=\"input\"></textarea>\n</section>\n";
   });
+templates['welcome'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
+helpers = helpers || Handlebars.helpers; data = data || {};
+  
+
+
+  return "<section id=\"welcome\">\n  <h1>Wecome to Jam-r!<h1>\n\n  <p>Would you like to?</p>\n\n  <div id=\"first-available\" class=\"button\">Play music with whoever's around</div>\n  <div id=\"local\" class=\"button\">Shun humanity, and make music only for yourself</div>\n</section>\n";
+  });
 })();

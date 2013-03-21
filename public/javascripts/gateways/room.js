@@ -1,4 +1,5 @@
-define(['socket', 'mockServer'], function(io, mockServer) {
+define(  ['socket', 'mockServer'],
+  function(io,       mockServer) {
   /* Handles direct interactions with the server.
      Rebroadcasts certain events to its subscribers
      In order to receive the message, the subscriber simply

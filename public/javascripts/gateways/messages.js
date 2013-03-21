@@ -4,12 +4,13 @@ define(['msgCtrl'], function(msgCtrl) {
     ;
 
   var initialize = function() {
-    msgCtrl.activate(public);
-    msgCtrl.echo("the controller is hooked up properly");
     return public;
   };
 
+
   public.connection = function() {
+    msgCtrl.activate(public);
+    msgCtrl.echo("The controller is hooked up properly");
     msgCtrl.echo("Connecting to the server...");
   };
 
