@@ -72,6 +72,6 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   
 
 
-  return "<section id=\"welcome\">\n  <h1>Wecome to Jam-r!<h1>\n\n  <p>Would you like to?</p>\n\n  <div id=\"first-available\" class=\"button\">Play music with whoever's around</div>\n  <div id=\"local\" class=\"button\">Shun humanity, and make music only for yourself</div>\n</section>\n";
+  return "<section id=\"welcome\">\n  <h1>Wecome to Jam-r!</h1>\n\n  <p>Would you like to?</p>\n\n  <div id=\"first-available\" class=\"button\">\n    <p class=\"label\">Play Online</p>\n    <p class=\"description\">Play music with whoever's around</p>\n  </div>\n  <div id=\"local\" class=\"button\">\n    <p class=\"label\">Play Offline</p>\n    <p class=\"description\">Shun humanity, and make music only for yourself</p>\n  </div>\n</section>\n";
   });
 })();

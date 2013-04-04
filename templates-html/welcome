@@ -1,8 +1,14 @@
 <section id="welcome">
-  <h1>Wecome to Jam-r!<h1>
+  <h1>Wecome to Jam-r!</h1>
 
   <p>Would you like to?</p>
 
-  <div id="first-available" class="button">Play music with whoever's around</div>
-  <div id="local" class="button">Shun humanity, and make music only for yourself</div>
+  <div id="first-available" class="button">
+    <p class="label">Play Online</p>
+    <p class="description">Play music with whoever's around</p>
+  </div>
+  <div id="local" class="button">
+    <p class="label">Play Offline</p>
+    <p class="description">Shun humanity, and make music only for yourself</p>
+  </div>
 </section>

@@ -17,7 +17,6 @@ define([], function() {
   public.emit = function(eventType, e) {
     switch(eventType) {
       case 'synth-event':
-        console.log('Mockserver: synth-event');
         trigger('synth-event', e);
         break;
       case 'disconnect':
@@ -25,17 +24,14 @@ define([], function() {
         console.log("Why was a disconnect called on this mock server?");
         break;
       case 'request-room':
-        console.log('Mockserver: request-room');
         trigger('join-room', { text: "You are playing in local mode"
                              , room: "local" });
         break;
       case 'chat-event':
-        console.log('Mockserver: chat-event');
         e.userName = userName;
         trigger('message', e);
         break;
       case 'set-username':
-        console.log('Mockserver: set-username');
         userName = e.userName;
         break;
     }

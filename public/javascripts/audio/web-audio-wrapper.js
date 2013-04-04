@@ -25,7 +25,6 @@ define(function() {
   };
 
   var setupDynamicCompressor = function() {
-    console.log('setting up compressor');
     /* We want all sound to be routed through
      * the compressor to avoid clipping,
      * so the compressor will pretend to be
@@ -81,7 +80,6 @@ define(function() {
   }
 
   public.soundTest = function() {
-    console.log('starting sound test');
     var request = new XMLHttpRequest();
     request.open("GET", 'audio/beep-1.mp3', true);
     request.responseType = "arraybuffer";

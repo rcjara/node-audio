@@ -64,7 +64,6 @@ define(  ['socket', 'mockServer'],
 
     server.on('authorized', function(e) {
       clientID = e.clientID;
-      console.log('clientID: ' + clientID);
       broadcast('authorization', {});
 
       requestRoom();

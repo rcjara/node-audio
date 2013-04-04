@@ -1,12 +1,18 @@
-define(['sound'], function(sound) {
+define([], function() {
   var ZERO = 0.00001;
 
   /* Convenience vars
    * (these should never change)
    */
-  var ctx = sound.getCtx()
-    , now = function() { return ctx.currentTime; }
+  var public = {}
+    , ctx
+    , now
     ;
+
+  public.setContext = function(_ctx) {
+    ctx = _ctx;
+    now = function() { return ctx.currentTime; }
+  };
 
   function Note(freq, attr, dest) {
     this.attr      = attr;
@@ -74,5 +80,7 @@ define(['sound'], function(sound) {
     gainNode.connect(this.dest);
   };
 
-  return Note;
+  public.klass = Note;
+
+  return public;
 });

@@ -8,4 +8,7 @@ sass:
 templates:
 	handlebars ./templates-html/* -f ./public/javascripts/templates.js
 
+server:
+	node app.js
+
 .PHONY: test

@@ -1,4 +1,7 @@
-define([], function() {
+//This is the first controller to be loaded, so only
+//need to load these global variables once
+define(  ['handlebars', 'templates'],
+  function(__,  ___) {
   var public = {}
     , gateway
     , $welcome

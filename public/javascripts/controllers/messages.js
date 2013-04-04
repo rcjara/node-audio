@@ -1,4 +1,7 @@
-define(['templates'], function(templates) {
+define(  [],
+  function() {
+//define(  ['Handlebars'],
+//  function(Handlebars) {
   var public = {}
     , gateway
     , $container
@@ -26,7 +29,6 @@ define(['templates'], function(templates) {
     var html = Handlebars.templates['message'](msg);
 
     var $obj = $($.trim(html));
-    console.log("It made it this far");
     $display.append($obj);
     scrollToBottom();
   };

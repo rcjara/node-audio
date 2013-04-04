@@ -3,6 +3,8 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: $default_font_size;
+  line-height: $default_line_height;
 }
 
 a {
@@ -30,9 +32,15 @@ a {
 }
 
 #welcome {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+
   .button {
+    @include button;
+    @include glossy-gradient(rgb(30, 30, 100));
     padding: 15px;
-    @include button-gradient(#5e5799);
+    margin: 15px;
   }
 }
 

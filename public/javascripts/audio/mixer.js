@@ -4,6 +4,7 @@ define(['instruments'], function(Instruments) {
     , instruments = {}
     ;
 
+
   var notesArray = [
     { name: "A0",  freq: 27.5000 }
   , { name: "A#0", freq: 29.1352 }
@@ -120,14 +121,11 @@ define(['instruments'], function(Instruments) {
       public.removeInstrument(name);
     }
 
-    console.log("Creating instrument id: " + ident + " name: " + name);
     instruments[ident] = new Instruments[name];
   };
 
   public.addInstruments = function(instruments) {
-    console.log("Adding instruments");
     $.each(instruments, function(i, obj) {
-      console.log(obj);
       public.addInstrument(obj.ident, obj.name);
     });
   };

@@ -1,4 +1,6 @@
 define([], function() {
+  console.log('WHERE DID THE LOADER GO?');
+
   function Loader(imgs, callback) {
     this.numLoaded = 0;
     this.toLoad    = imgs.length;

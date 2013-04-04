@@ -1,5 +1,7 @@
-define(  [ 'templates', 'keyboard', 'keyboardInputs', 'pianoKeys'],
-  function( templates,   keyboard,   KeyboardInputs,   pianoKeys) {
+define(  [ 'keyboard', 'keyboardInputs', 'pianoKeys'],
+  function( keyboard,   KeyboardInputs,   pianoKeys) {
+//define(  [ 'keyboard', 'keyboardInputs', 'pianoKeys','Handlebars'],
+//  function( keyboard,   KeyboardInputs,   pianoKeys,   Handlebars) {
   //keyboard key code, note identifier, frequency
   var public = {}
     , gateway

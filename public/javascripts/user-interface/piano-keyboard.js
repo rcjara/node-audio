@@ -1,4 +1,4 @@
-define(['/javascripts/image-pre-loader.js'], function(Loader) {
+define(['imgPreloader'], function(Loader) {
   var public = {}
     , keys = {}
     , WHITE_KEY_WIDTH = 39

@@ -1,4 +1,4 @@
-define(['sound', 'note'], function(sound, Note) {
+define(['sound', 'note'], function(Sound, note) {
   var WAVE_FORMS = {
     'sine': 0
   , 'square': 1
@@ -8,8 +8,15 @@ define(['sound', 'note'], function(sound, Note) {
 
   var public = {}
     , instruments = {}
-    , ctx = sound.getCtx()
+    , ctx = Sound.getCtx()
+    , Note
     ;
+
+  var initialize = function() {
+    note.setContext(ctx);
+    Note = note.klass;
+    return public;
+  }
 
   function Generic() {};
 
@@ -45,7 +52,7 @@ define(['sound', 'note'], function(sound, Note) {
     };
 
     this.notes = {};
-    this.dest = sound.getDest();
+    this.dest = Sound.getDest();
   };
 
 
@@ -58,7 +65,7 @@ define(['sound', 'note'], function(sound, Note) {
     };
 
     this.notes = {};
-    this.dest = sound.getDest();
+    this.dest = Sound.getDest();
   }
 
   function SawTooth() {
@@ -70,7 +77,7 @@ define(['sound', 'note'], function(sound, Note) {
     };
 
     this.notes = {};
-    this.dest = sound.getDest();
+    this.dest = Sound.getDest();
   }
 
   function Square() {
@@ -82,7 +89,7 @@ define(['sound', 'note'], function(sound, Note) {
     };
 
     this.notes = {};
-    this.dest = sound.getDest();
+    this.dest = Sound.getDest();
   }
 
   function Triangle() {
@@ -94,7 +101,7 @@ define(['sound', 'note'], function(sound, Note) {
     };
 
     this.notes = {};
-    this.dest = sound.getDest();
+    this.dest = Sound.getDest();
 
   }
 
@@ -109,5 +116,5 @@ define(['sound', 'note'], function(sound, Note) {
   public.square = Square;
   public.triangle = Triangle;
 
-  return public;
+  return initialize();
 });

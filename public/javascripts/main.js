@@ -1,28 +1,37 @@
 require.config({
   paths: {
-    roomGtwy:       'gateways/room'
-  , mixerGtwy:      'gateways/mixer'
-  , messagesGtwy:   'gateways/messages'
-  , mockServer:     'gateways/mock-server'
-  , imgPreloader:   'image-pre-loader'
-  , instruments:    'audio/instruments'
-  , mixer:          'audio/mixer'
-  , note:           'audio/note'
-  , sound:          'audio/web-audio-wrapper'
-  , instCtrl:       'controllers/instruments'
-  , msgCtrl:        'controllers/messages'
-  , roomsCtrl:      'controllers/rooms'
-  , keyboard:       'user-interface/keyboard'
-  , pianoKeys:      'user-interface/piano-keyboard'
-  , keyboardInputs: 'user-interface/instrument-input-catalogue'
+    roomGtwy:       '/javascripts/gateways/room'
+  , mixerGtwy:      '/javascripts/gateways/mixer'
+  , messagesGtwy:   '/javascripts/gateways/messages'
+  , mockServer:     '/javascripts/gateways/mock-server'
+  , imgPreloader:   '/javascripts/image-pre-loader'
+  , instruments:    '/javascripts/audio/instruments'
+  , mixer:          '/javascripts/audio/mixer'
+  , note:           '/javascripts/audio/note'
+  , sound:          '/javascripts/audio/web-audio-wrapper'
+  , instCtrl:       '/javascripts/controllers/instruments'
+  , msgCtrl:        '/javascripts/controllers/messages'
+  , roomsCtrl:      '/javascripts/controllers/rooms'
+  , keyboard:       '/javascripts/user-interface/keyboard'
+  , pianoKeys:      '/javascripts/user-interface/piano-keyboard'
+  , keyboardInputs: '/javascripts/user-interface/instrument-input-catalogue'
+  , templates:      '/javascripts/templates'
+  , handlebars:     '/javascripts/vendor/handlebars'
   , socket:         '/socket.io/socket.io'
-  , templates:      'templates'
-  , handlebars:     'vendor/handlebars'
+  },
+  shim: {
+    'handlebars': {
+      exports: 'Handlebars'
+    },
+    'templates': {
+      deps: ['handlebars']
+    , exports: 'no_exports'
+    }
   }
 });
 
-requirejs([ 'handlebars', 'roomGtwy',  'mixerGtwy',  'messagesGtwy',  'roomsCtrl', 'instCtrl', 'msgCtrl' ],
-   function( Handlebars,   roomGtwy,    mixerGtwy,    messagesGtwy,    roomsCtrl,   instCtrl ,  msgCtrl ) {
+requirejs([ 'roomGtwy',  'mixerGtwy',  'messagesGtwy',  'roomsCtrl', 'instCtrl'],
+   function( roomGtwy,    mixerGtwy,    messagesGtwy,    roomsCtrl,   instCtrl)  {
   console.log('require ready');
 
   $(document).ready(function() {
