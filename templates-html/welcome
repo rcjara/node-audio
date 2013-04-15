@@ -4,11 +4,11 @@
   <p>Would you like to?</p>
 
   <div id="first-available" class="button">
-    <p class="label">Play Online</p>
-    <p class="description">Play music with whoever's around</p>
+    <p>Play Online</p>
+    <p class="sub-text">Play music with whoever's around</p>
   </div>
   <div id="local" class="button">
-    <p class="label">Play Offline</p>
-    <p class="description">Shun humanity, and make music only for yourself</p>
+    <p>Play Offline</p>
+    <p class="sub-text">Shun humanity, and make music only for yourself</p>
   </div>
 </section>

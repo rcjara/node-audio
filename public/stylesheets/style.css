@@ -23,53 +23,50 @@ a {
   width: 48%;
   float: left; }
 
-#welcome {
+.button {
+  border-radius: 14px;
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-box-shadow: 1px 1px 1px #777777;
+  -moz-box-shadow: 1px 1px 1px #777777;
+  -ms-box-shadow: 1px 1px 1px #777777;
+  -o-box-shadow: 1px 1px 1px #777777;
+  box-shadow: 1px 1px 1px #777777;
+  padding: 14px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 22px;
+  color: #fcfcfc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background: #3535b1;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7375d8), color-stop(50%, #4c57cc), color-stop(51%, #3441cb), color-stop(100%, #3535b1));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -ms-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
+  /* IE10+ */
+  background: -o-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
+  /* Opera 11.10+ */
+  background: linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-top', endColorstr='$button-bottom',GradientType=0 );
+  /* IE6-9 */
+  padding: 15px;
+  margin: 15px; }
+  .button p.sub-text {
+    color: #d6d6d6;
+    font-weight: normal; }
+
+#name-prompt, #welcome {
   width: 400px;
   margin-left: auto;
   margin-right: auto; }
-  #welcome .button {
-    border-radius: 14px;
-    -webkit-border-radius: 14px;
-    -moz-border-radius: 14px;
-    border-width: 1px;
-    border-style: solid;
-    -webkit-box-shadow: 1px 1px 1px #777777;
-    -moz-box-shadow: 1px 1px 1px #777777;
-    -ms-box-shadow: 1px 1px 1px #777777;
-    -o-box-shadow: 1px 1px 1px #777777;
-    box-shadow: 1px 1px 1px #777777;
-    padding: 14px;
-    background: #3535b1;
-    /* Old browsers */
-    background: -moz-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
-    /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7375d8), color-stop(50%, #4c57cc), color-stop(51%, #3441cb), color-stop(100%, #3535b1));
-    /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
-    /* Chrome10+,Safari5.1+ */
-    background: -ms-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
-    /* IE10+ */
-    background: -o-linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
-    /* Opera 11.10+ */
-    background: linear-gradient(top, #7375d8 0%, #4c57cc 50%, #3441cb 51%, #3535b1 100%);
-    /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-top', endColorstr='$button-bottom',GradientType=0 );
-    /* IE6-9 */
-    padding: 15px;
-    margin: 15px; }
-    #welcome .button p {
-      text-align: center; }
-    #welcome .button p.label {
-      font-size: 18px;
-      line-height: 22px;
-      color: #fcfcfc;
-      margin-top: 0px;
-      margin-bottom: 0px; }
-    #welcome .button p.description {
-      color: #d6d6d6;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      font-weight: normal; }
 
 #messages #display {
   height: 175px;

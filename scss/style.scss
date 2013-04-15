@@ -31,17 +31,17 @@ a {
   float: left;
 }
 
-#welcome {
+.button {
+  @include button;
+  @include glossy-gradient(rgb(30, 30, 100));
+  padding: 15px;
+  margin: 15px;
+}
+
+#name-prompt, #welcome {
   width: 400px;
   margin-left: auto;
   margin-right: auto;
-
-  .button {
-    @include button;
-    @include glossy-gradient(rgb(30, 30, 100));
-    padding: 15px;
-    margin: 15px;
-  }
 }
 
 #messages {

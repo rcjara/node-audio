@@ -5,6 +5,7 @@ define(  ['handlebars', 'templates'],
   var public = {}
     , gateway
     , $welcome
+    , $namePrompt
     ;
 
   var initialize = function() {
@@ -25,7 +26,7 @@ define(  ['handlebars', 'templates'],
     $welcome.find('#first-available').click(function(e) {
       e.preventDefault();
 
-      $welcome.fadeOut(function() { gateway.connectToServer(); });
+      $welcome.fadeOut(function() { loadNamePrompt(); });
     });
 
     $welcome.find('#local').click(function(e) {
@@ -36,6 +37,27 @@ define(  ['handlebars', 'templates'],
 
     $(document.body).prepend($welcome);
     $welcome.fadeIn();
+  };
+
+  var loadNamePrompt = function() {
+    var html = Handlebars.templates['name-prompt']();
+    $namePrompt = $(html);
+
+    var $nameField = $namePrompt.find('#field');
+    var $submit    = $namePrompt.find('#submit');
+
+    $submit.click(function(e) {
+      e.preventDefault();
+
+      if ($nameField.val() === '') { return; }
+
+      gateway.setUserName( $nameField.val() );
+
+      $namePrompt.fadeOut( function() { gateway.connectToServer(); } );
+    });
+
+    $(document.body).prepend($namePrompt);
+    $namePrompt.fadeIn();
   };
 
   return initialize();

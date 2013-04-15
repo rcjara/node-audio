@@ -14,6 +14,7 @@ define(  ['socket', 'mockServer'],
     , server
     , clientID
     , accepted = false
+    , userName = 'NotSet'
     , subscribers = []
     , historyState = 0
     ;
@@ -40,6 +41,11 @@ define(  ['socket', 'mockServer'],
     e.clientID = clientID;
     server.emit(eventType, e);
   };
+
+  public.setUserName = function(name) {
+    userName = name;
+  };
+
 
   public.on = function(msgType, cb) {
     server.on(msgType, cb);
@@ -72,6 +78,7 @@ define(  ['socket', 'mockServer'],
     server.on('join-room', function(msg) {
       updateURLToRoom(msg.room);
       accepted = true;
+      public.emit('set-username', { userName: userName });
 
       broadcast('newRoom', msg);
     });
@@ -82,11 +89,20 @@ define(  ['socket', 'mockServer'],
 
       broadcast('disconnection', {});
     });
+
+    server.on('connection-error', function(e) {
+      userName = 'NotSet';
+      resetURL();
+    })
   };
 
 
   var updateURLToRoom = function(roomName) {
     history.pushState({ state: historyState++ }, '', '/room/' + roomName);
+  };
+
+  var resetURL = function() {
+    history.pushState({ state: historyState++ }, '', '/');
   };
 
   var requestRoom = function() {

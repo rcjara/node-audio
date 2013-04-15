@@ -33,22 +33,15 @@ $black: #222222;
   @include shadows(#777, 1px, 1px, 1px);
   padding: $button-padding;
 
-  p {
-    text-align: center;
-  }
+  text-align: center;
+  font-size: $default_font_size + 4;
+  line-height: $default_line_height + 4;
+  color: $white;
+  margin-top: 0px;
+  margin-bottom: 0px;
 
-  p.label {
-    font-size: $default_font_size + 4;
-    line-height: $default_line_height + 4;
-    color: $white;
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-
-  p.description {
+  p.sub-text {
     color: darken($white, 15%);
-    margin-top: 0px;
-    margin-bottom: 0px;
     font-weight: normal;
   }
 }

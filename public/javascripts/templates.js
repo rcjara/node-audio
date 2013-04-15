@@ -66,12 +66,20 @@ helpers = helpers || Handlebars.helpers; data = data || {};
 
   return "<section id=\"messages\">\n  <section id=\"display\" class=\"clearfix\"></section>\n  <textarea id=\"input\"></textarea>\n</section>\n";
   });
+templates['name-prompt'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
+helpers = helpers || Handlebars.helpers; data = data || {};
+  
+
+
+  return "<section id=\"name-prompt\">\n\n  <p>Please select a name to identify yourself to the other musicians:</p>\n  <input id=\"field\" type=\"text\">\n  <div id=\"submit\" class=\"button\">Submit</div>\n</section>\n";
+  });
 templates['welcome'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [2,'>= 1.0.0-rc.3'];
 helpers = helpers || Handlebars.helpers; data = data || {};
   
 
 
-  return "<section id=\"welcome\">\n  <h1>Wecome to Jam-r!</h1>\n\n  <p>Would you like to?</p>\n\n  <div id=\"first-available\" class=\"button\">\n    <p class=\"label\">Play Online</p>\n    <p class=\"description\">Play music with whoever's around</p>\n  </div>\n  <div id=\"local\" class=\"button\">\n    <p class=\"label\">Play Offline</p>\n    <p class=\"description\">Shun humanity, and make music only for yourself</p>\n  </div>\n</section>\n";
+  return "<section id=\"welcome\">\n  <h1>Wecome to Jam-r!</h1>\n\n  <p>Would you like to?</p>\n\n  <div id=\"first-available\" class=\"button\">\n    <p>Play Online</p>\n    <p class=\"sub-text\">Play music with whoever's around</p>\n  </div>\n  <div id=\"local\" class=\"button\">\n    <p>Play Offline</p>\n    <p class=\"sub-text\">Shun humanity, and make music only for yourself</p>\n  </div>\n</section>\n";
   });
 })();

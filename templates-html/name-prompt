@@ -1,0 +1,6 @@
+<section id="name-prompt">
+
+  <p>Please select a name to identify yourself to the other musicians:</p>
+  <input id="field" type="text">
+  <div id="submit" class="button">Submit</div>
+</section>
