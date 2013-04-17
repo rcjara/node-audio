@@ -102,7 +102,11 @@ define(  ['socket', 'mockServer'],
     server.on('connection-error', function(e) {
       userName = 'NotSet';
       resetURL();
-    })
+    });
+
+    server.on('lag-query', function(e) {
+      public.emit('lag-response', e);
+    });
   };
 
 
