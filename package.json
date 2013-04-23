@@ -1,21 +1,22 @@
 {
-  "name": "application-name"
-, "version": "0.0.1"
-, "private": true
-, "scripts": {
-    "start": "node app"
-  , "test": "make test"
-  }
-, "dependencies": {
-    "express": "3.1.0"
-  , "underscore": "*"
-  , "socket.io": "0.9.x"
-  , "ejs": "*"
-  , "mocha": "*"
-  , "expect.js": "0.2.0"
-  }
-, "engines": {
-    "node": "0.8.19"
-  , "npm":  "1.2.10"
+  "name": "Jam-r",
+  "subdomain": "jam-r",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "test": "make test"
+  },
+  "dependencies": {
+    "express": "3.1.0",
+    "underscore": "*",
+    "socket.io": "0.9.x",
+    "ejs": "*",
+    "mocha": "*",
+    "expect.js": "0.2.0"
+  },
+  "engines": {
+    "node": "v0.8.x",
+    "npm": "1.2.10"
   }
 }
