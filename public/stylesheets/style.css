@@ -84,10 +84,8 @@ a {
   position: absolute;
   top: 325px;
   left: 50px;
-  width: 819px; }
-  #keyboard img {
-    position: absolute;
-    z-index: 4; }
+  width: 819px;
+  /* Key sprite classes */ }
   #keyboard p {
     color: #f4f4f4;
     font-size: 15px;
@@ -107,6 +105,54 @@ a {
     line-height: 19.5px;
     border-radius: 9.75px;
     top: 91.25px; }
+  #keyboard .black {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 -196px;
+    width: 26px;
+    height: 146px; }
+  #keyboard .black-pressed {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 0;
+    width: 26px;
+    height: 146px; }
+  #keyboard .white-both {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 -651px;
+    width: 37px;
+    height: 209px; }
+  #keyboard .white-both-pressed {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 -392px;
+    width: 37px;
+    height: 209px; }
+  #keyboard .white-left {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 -1169px;
+    width: 37px;
+    height: 209px; }
+  #keyboard .white-left-pressed {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 -910px;
+    width: 37px;
+    height: 209px; }
+  #keyboard .white-right {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 -1687px;
+    width: 37px;
+    height: 209px; }
+  #keyboard .white-right-pressed {
+    background-image: url("/images/piano-keys-sprite.png");
+    position: absolute;
+    background-position: 0 -1428px;
+    width: 37px;
+    height: 209px; }
 
 .beat-pulse-run {
   -webkit-animation: beat-pulse 1.0s linear 1; }

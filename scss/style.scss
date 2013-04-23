@@ -67,11 +67,6 @@ a {
   left: 50px;
   width: 819px;
 
-  img {
-    position: absolute;
-    z-index: 4;
-  }
-
   p {
     color: rgb(244, 244, 244);
     font-size: 15px;
@@ -98,6 +93,62 @@ a {
     top:  91.25px;
   }
 
+  /* Key sprite classes */
+  .black {
+    @include piano-key();
+    background-position: 0 -196px;
+    width: 26px;
+    height: 146px;
+  }
+
+  .black-pressed {
+    @include piano-key();
+    background-position: 0 0;
+    width: 26px;
+    height: 146px;
+  }
+
+  .white-both {
+    @include piano-key();
+    background-position: 0 -651px;
+    width: 37px;
+    height: 209px;
+  }
+
+  .white-both-pressed {
+    @include piano-key();
+    background-position: 0 -392px;
+    width: 37px;
+    height: 209px;
+  }
+
+  .white-left {
+    @include piano-key();
+    background-position: 0 -1169px;
+    width: 37px;
+    height: 209px;
+  }
+
+  .white-left-pressed {
+    @include piano-key();
+    background-position: 0 -910px;
+    width: 37px;
+    height: 209px;
+  }
+
+  .white-right {
+    @include piano-key();
+    background-position: 0 -1687px;
+    width: 37px;
+    height: 209px;
+  }
+
+  .white-right-pressed {
+    @include piano-key();
+    background-position: 0 -1428px;
+    width: 37px;
+    height: 209px;
+  }
 }
 
 .beat-pulse-run {

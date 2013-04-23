@@ -28,6 +28,11 @@ $black: #222222;
           box-shadow: inset $x $y $blur $color;
 }
 
+@mixin piano-key() {
+  background-image: url('/images/piano-keys-sprite.png');
+  position: absolute;
+}
+
 @mixin button($button-padding: 14px) {
   @include rounded-corners($button-padding);
   @include shadows(#777, 1px, 1px, 1px);

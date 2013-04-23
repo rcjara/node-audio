@@ -37,16 +37,6 @@ define(['imgPreloader'], function(Loader) {
   , 'black':       -0.5 * BLACK_KEY_WIDTH
   };
 
-
-
-  var pressedURL = function(type) {
-    return '/images/pressed-keys/' + type + '.png';
-  };
-
-  var unpressedURL = function(type) {
-    return '/images/keys/' + type + '.png';
-  };
-
   var centerKeyboard = function() {
     var keyboardWidth = parseInt( $('#keyboard').css('width') )
       , keyboardCentering = ($(document).width() - keyboardWidth) / 2
@@ -68,7 +58,7 @@ define(['imgPreloader'], function(Loader) {
         key.type = keyTemplate.type;
         keys[keyID] = key;
 
-        var $elem = $('<img/>', { src: unpressedURL(key.type) });
+        var $elem = $('<div/>', { class: key.type });
         newX += advanceBy[key.type];
 
         key.elem = $elem;
@@ -89,17 +79,8 @@ define(['imgPreloader'], function(Loader) {
   };
 
   public.initialize = function() {
-    var urls = [ '/images/keys/white-left.png'
-               , '/images/keys/white-right.png'
-               , '/images/keys/white-both.png'
-               , '/images/keys/black.png'
-               , '/images/pressed-keys/white-left.png'
-               , '/images/pressed-keys/white-right.png'
-               , '/images/pressed-keys/white-both.png'
-               , '/images/pressed-keys/black.png'
-               ];
     public.destroy();
-    new Loader(urls, initialize);
+    new Loader(['/images/piano-keys-sprite.png'], initialize);
   };
 
 
@@ -158,12 +139,14 @@ define(['imgPreloader'], function(Loader) {
 
   public.pressKey = function(keyID) {
     key = keys[keyID];
-    key.elem.attr('src', pressedURL(key.type));
+    key.elem.removeClass(key.type);
+    key.elem.addClass(key.type + '-pressed');
   };
 
   public.releaseKey = function(keyID) {
     key = keys[keyID];
-    key.elem.attr('src', unpressedURL(key.type));
+    key.elem.removeClass(key.type + '-pressed');
+    key.elem.addClass(key.type);
   };
 
 
