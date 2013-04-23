@@ -112,6 +112,7 @@ define(  [ 'keyboard', 'keyboardInputs', 'pianoKeys'],
         updateInputKeys();
 
         $selector.blur();
+        $playArea.focus();
       });
     });
   };
