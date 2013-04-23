@@ -16,8 +16,13 @@ define(  ['handlebars', 'templates'],
     gateway = _gateway;
 
     if ($('#room-name').length === 1 && $('#room-name').val() !== '') {
-      gateway.setRoomName($('#room-name').val());
-      loadNamePrompt();
+      var roomName = $('#room-name').val();
+      if (roomName == 'local') {
+        gateway.connectLocally();
+      } else {
+        gateway.setRoomName(roomName);
+        loadNamePrompt();
+      }
     } else {
       loadWelcome();
     }

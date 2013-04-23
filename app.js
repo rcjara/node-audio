@@ -55,7 +55,7 @@ app.get('/', function(req, res){
 
 //Play without connecting to the server
 app.get('/room/local', function(req, res){
-  res.render('local', { title: 'Jam-r Local Synth Mode' });
+  res.render('index', { title: 'Jam-r Local Synth Mode', roomName: 'local' });
 });
 
 //Enter a room directly
