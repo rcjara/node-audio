@@ -80,7 +80,11 @@ define(['imgPreloader'], function(Loader) {
 
   public.initialize = function() {
     public.destroy();
-    new Loader(['/images/piano-keys-sprite.png'], initialize);
+    if (!doneLoading) {
+      new Loader(['/images/piano-keys-sprite.png'], initialize);
+    } else {
+      initialize();
+    }
   };
 
 
@@ -92,7 +96,6 @@ define(['imgPreloader'], function(Loader) {
       }
     });
     keys = {};
-    doneLoading = false;
   };
 
   public.getKey = function(keyID) {
