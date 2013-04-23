@@ -24,6 +24,7 @@ define(['msgCtrl'], function(msgCtrl) {
     msgCtrl.echo(msg);
 
     room.on('message', function(msg) {
+      if (room.shouldIgnore(msg)) { return; }
       msgCtrl.echo(msg);
 
       if (typeof msg.toLog !== 'undefined') {

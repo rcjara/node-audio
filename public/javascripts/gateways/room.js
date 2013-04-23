@@ -17,11 +17,11 @@ define(  ['socket', 'mockServer'],
     , userName = 'NotSet'
     , subscribers = []
     , historyState = 0
+    , roomName = null
     ;
 
   public.connectToServer = function() {
     server = io.connect('/');
-
     setUpListeners();
   }
 
@@ -54,6 +54,15 @@ define(  ['socket', 'mockServer'],
   public.subscribe = function(subscriber) {
     subscribers.push(subscriber);
   };
+
+  public.setRoomName = function(name) {
+    roomName = name;
+  }
+
+  public.shouldIgnore = function(msg) {
+    if (msg.originator === undefined) { return false; }
+    return msg.originator === clientID;
+  }
 
   var broadcast = function(msg, e) {
     $.each(subscribers, function(i, subscriber) {
@@ -106,13 +115,10 @@ define(  ['socket', 'mockServer'],
   };
 
   var requestRoom = function() {
-    var $roomName = $('#room-name');
-    if ($roomName.length == 0) {
-      server.emit('request-room', {});
-    } else if ($roomName.val() === '') {
-      server.emit('request-room', {});
+    if (roomName) {
+      server.emit('request-room', { room: roomName });
     } else {
-      server.emit('request-room', { room: $roomName.val() });
+      server.emit('request-room', {});
     }
   };
 

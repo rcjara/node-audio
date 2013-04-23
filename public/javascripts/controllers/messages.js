@@ -36,7 +36,7 @@ define(  [],
   var loadTemplate = function() {
     html = Handlebars.templates['messages']();
     $container = $(html);
-    $display = $container.find(' #display');
+    $display = $container.find('#display');
     $input   = $container.find('#input');
 
     $('#left').append($container);

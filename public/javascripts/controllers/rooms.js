@@ -15,7 +15,12 @@ define(  ['handlebars', 'templates'],
   public.activate = function(_gateway) {
     gateway = _gateway;
 
-    loadWelcome();
+    if ($('#room-name').length === 1 && $('#room-name').val() !== '') {
+      gateway.setRoomName($('#room-name').val());
+      loadNamePrompt();
+    } else {
+      loadWelcome();
+    }
   };
 
 
@@ -53,7 +58,7 @@ define(  ['handlebars', 'templates'],
 
       gateway.setUserName( $nameField.val() );
 
-      $namePrompt.fadeOut( function() { gateway.connectToServer(); } );
+      $namePrompt.fadeOut( function() { console.log('about to connect to server'); gateway.connectToServer(); } );
     });
 
     $(document.body).prepend($namePrompt);
