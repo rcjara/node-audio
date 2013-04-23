@@ -17,7 +17,9 @@ var ClientMock = function() {
     this.counter[eventType]++;
 
     //actually call event
-    this.responses[eventType].call(this, e);
+    if (this.responses[eventType]) { //ignore events that were undefined
+      this.responses[eventType].call(this, e);
+    }
   };
 
   this.respondTo =function(eventType, fn) {

@@ -68,5 +68,41 @@ describe('LagDetector', function() {
       }, 100);
     });
 
+    it("keeps track of multiple clients' lag times", function(done) {
+      var client1 = new ClientMock()
+        , client2 = new ClientMock()
+        ;
+
+      client1.respondTo('lag-query', function(e) {
+        var that = this;
+        setTimeout(function() {
+          that.events['lag-response'](e);
+        }, Math.random() * 3 + 4);
+      });
+
+      client2.respondTo('lag-query', function(e) {
+        var that = this;
+        setTimeout(function() {
+          that.events['lag-response'](e);
+        }, Math.random() * 3);
+      });
+
+      var lagDetector = new LagDetector();
+      lagDetector.setIntervalLength(10)
+                 .addClient(client1)
+                 .addClient(client2)
+                 .start();
+
+      setTimeout(function() {
+        expect(lagDetector.getLag(client1))
+              .to.be.within(4, 8);
+        expect(lagDetector.getLag(client2))
+              .to.be.within(0, 4);
+
+        lagDetector.stop();
+        done();
+      }, 100);
+    });
+
   });
 });
