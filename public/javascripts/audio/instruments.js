@@ -43,6 +43,18 @@ define(['sound', 'note'], function(Sound, note) {
     });
   };
 
+  Generic.prototype.pulse = function(name, freq) {
+    this.killNote(name);
+
+    var that = this
+      , note = new Note(freq, this.attr, this.dest)
+      ;
+
+    this.notes[name] = note;
+    note.pulse();
+  }
+
+  /* Specific instruments */
   function Organ() {
     this.attr = {
       targetVolume: 0.3
@@ -102,10 +114,21 @@ define(['sound', 'note'], function(Sound, note) {
 
     this.notes = {};
     this.dest = Sound.getDest();
-
   }
 
-  $.each([Organ, SlowOrgan, SawTooth, Square, Triangle], function(i, klass) {
+  function Metronome() {
+    this.attr = {
+      targetVolume: 0.1
+    , attack: 0.05
+    , release: 0.1
+    , waveFrom: WAVE_FORMS['sine']
+    };
+
+    this.notes = {};
+    this.dest = Sound.newDestination();
+  }
+
+  $.each([Organ, SlowOrgan, SawTooth, Square, Triangle, Metronome], function(i, klass) {
     klass.prototype.__proto__ = Generic.prototype;
   });
 
@@ -115,6 +138,7 @@ define(['sound', 'note'], function(Sound, note) {
   public.sawTooth = SawTooth;
   public.square = Square;
   public.triangle = Triangle;
+  public.metronome = Metronome;
 
   return initialize();
 });

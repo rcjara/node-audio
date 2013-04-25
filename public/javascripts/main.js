@@ -8,6 +8,7 @@ require.config({
   , instruments:    '/javascripts/audio/instruments'
   , mixer:          '/javascripts/audio/mixer'
   , note:           '/javascripts/audio/note'
+  , metronome:      '/javascripts/audio/metronome'
   , sound:          '/javascripts/audio/web-audio-wrapper'
   , instCtrl:       '/javascripts/controllers/instruments'
   , msgCtrl:        '/javascripts/controllers/messages'

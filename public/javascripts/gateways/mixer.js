@@ -1,4 +1,4 @@
-define(['mixer'], function(mixer) {
+define(['mixer', 'metronome'], function(mixer, metronome) {
   var public = {}
     , userSoundInputController
     , clientID
@@ -13,6 +13,7 @@ define(['mixer'], function(mixer) {
     room = _room;
 
     setUpListeners();
+    setUpMetronome();
     userSoundInputController.activate(public);
   };
 
@@ -26,6 +27,14 @@ define(['mixer'], function(mixer) {
             , noteName:       noteName };
 
     room.emit('synth-event', e);
+  };
+
+  var setUpMetronome = function() {
+    mixer.addInstrument('metronome', 'metronome');
+    metronome.setBeatCB(function() {
+      mixer.pulse('metronome', ['C8']);
+    });
+    metronome.start();
   };
 
 

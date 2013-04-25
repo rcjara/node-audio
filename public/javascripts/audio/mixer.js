@@ -115,6 +115,12 @@ define(['instruments'], function(Instruments) {
     });
   };
 
+  public.pulse = function(ident, notes) {
+    $.each(notes, function(i, noteName) {
+      instruments[ident].pulse(noteName);
+    });
+  }
+
   public.addInstrument = function(ident, name) {
     if (instruments[ident] !== undefined) {
       console.log("Instrument id: " + ident + " already existed.");

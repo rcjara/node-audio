@@ -29,10 +29,17 @@ define(function() {
      * the compressor to avoid clipping,
      * so the compressor will pretend to be
      * the final destination */
-    destination = ctx.createDynamicsCompressor();
-    destination.connect(ctx.destination);
-    destination.threshold.value = -60;
+    destination = public.newDestination();
   };
+
+  public.newDestination = function() {
+    var dest = ctx.createDynamicsCompressor();
+    dest.connect(ctx.destination);
+    dest.threshold.value = -60;
+
+    return dest;
+  };
+
 
   public.loadSound = function(soundName, url) {
     echo('starting loadSound');

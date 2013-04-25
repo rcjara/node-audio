@@ -42,12 +42,33 @@ define([], function() {
     gain.setValueAtTime(curGain, now() );
     gain.exponentialRampToValueAtTime(ZERO, endTime);
 
-    var target = this;
-    var killNoteFn = function() {
-      target.source.noteOff(0);
-    };
-    setTimeout(killNoteFn, this.attr.release * 1000 + 10);
+    this.source.noteOff(endTime + 10);
   }
+
+  Note.prototype.pulse = function() {
+    if (!this.playing) {
+      this.playing = true;
+
+      this.setupGainNode();
+      this.setupSource();
+    }
+
+    var volume   = this.attr.targetVolume
+      , gain     = this.gainNode.gain
+      , attack   = this.attr.attack
+      , release  = this.attr.release
+      , peakTime = now() + attack
+      , endTime  = peakTime + release
+      ;
+
+    gain.cancelScheduledValues( now() );
+    gain.setValueAtTime(ZERO, now() );
+    gain.exponentialRampToValueAtTime(volume, peakTime);
+    gain.exponentialRampToValueAtTime(ZERO, endTime);
+
+    this.source.noteOff(endTime + 1);
+  };
+
 
   Note.prototype.setupSource = function() {
     var gainNode = this.gainNode
