@@ -103,21 +103,21 @@ define(['instruments'], function(Instruments) {
   };
 
 
-  public.start = function(ident, notes) {
+  public.start = function(ident, notes, time) {
     $.each(notes, function(i, noteName) {
-      instruments[ident].start(noteName, notesHash[noteName]);
+      instruments[ident].start(noteName, notesHash[noteName], time);
     });
   };
 
-  public.stop = function(ident, notes) {
+  public.stop = function(ident, notes, time) {
     $.each(notes, function(i, noteName) {
-      instruments[ident].stop(noteName);
+      instruments[ident].stop(noteName, time);
     });
   };
 
   public.pulse = function(ident, notes, startTime) {
     $.each(notes, function(i, noteName) {
-      instruments[ident].pulse(noteName, startTime);
+      instruments[ident].pulse(noteName, notesHash[noteName], startTime);
     });
   }
 

@@ -20,20 +20,20 @@ define(['sound', 'note'], function(Sound, note) {
 
   function Generic() {};
 
-  Generic.prototype.killNote = function(name) {
-    if (this.notes[name]) { this.notes[name].stop(); }
+  Generic.prototype.killNote = function(name, time) {
+    if (this.notes[name]) { this.notes[name].stop(time); }
   }
 
-  Generic.prototype.start = function(name, freq) {
+  Generic.prototype.start = function(name, freq, time) {
     this.killNote(name);
 
     var note = new Note(freq, this.attr, this.dest);
     this.notes[name] = note;
-    note.play();
+    note.play(time);
   };
 
-  Generic.prototype.stop = function(name) {
-    this.killNote(name);
+  Generic.prototype.stop = function(name, time) {
+    this.killNote(name, time);
     delete this.notes[name];
   };
 
@@ -43,14 +43,14 @@ define(['sound', 'note'], function(Sound, note) {
     });
   };
 
-  Generic.prototype.pulse = function(name, freq) {
-    this.killNote(name);
+  Generic.prototype.pulse = function(name, freq, time) {
+    var note = this.notes[name];
 
-    var that = this
-      , note = new Note(freq, this.attr, this.dest)
-      ;
+    if (!note) {
+      note = new Note(freq, this.attr, this.dest);
+      this.notes[name] = note;
+    }
 
-    this.notes[name] = note;
     note.pulse();
   }
 

@@ -24,7 +24,8 @@ define(['mixer', 'metronome'], function(mixer, metronome) {
   public.emitSynthEvent = function(type, instrumentName, noteName) {
     var e = { type:           type
             , instrumentName: instrumentName
-            , noteName:       noteName };
+            , noteName:       noteName
+            , beatOffset:     metronome.beatOffset() };
 
     room.emit('synth-event', e);
   };
@@ -49,7 +50,9 @@ define(['mixer', 'metronome'], function(mixer, metronome) {
       if (e.type === 'addInstrument') {
         mixer[e.type](e.clientID, e.instrumentName);
       } else {
-        mixer[e.type](e.clientID, e.noteName);
+        var time = metronome.timeFromOffset(e.beatOffset);
+        console.log(e.type + " offset: " + e.beatOffset + " time: " + time);
+        mixer[e.type](e.clientID, e.noteName, time);
       }
     });
 

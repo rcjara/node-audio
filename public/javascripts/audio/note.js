@@ -22,38 +22,48 @@ define([], function() {
   };
 
 
-  Note.prototype.play = function() {
+  Note.prototype.play = function(time) {
     if (this.playing) { return; }
     this.playing = true;
 
+    if (time === undefined) {
+      console.log("Note.prototype.play(): Time was undefined");
+      time = now();
+    }
+
+    console.log("Note.play atTime: " + time + " now: " + now());
+
     this.setupGainNode();
-    this.setupSource();
-    this.rampUpGain();
+    this.setupSource(time);
+    this.rampUpGain(time);
   };
 
-  Note.prototype.stop = function() {
+  Note.prototype.stop = function(time) {
     if (!this.playing) { return; }
 
-    var endTime = now() + this.attr.release
-      , gain    = this.gainNode.gain
-      , curGain = gain.value
+    if (time === undefined) {
+      console.log("Note.prototype.stop(): Time was undefined");
+      time = now();
+    }
 
-    gain.cancelScheduledValues( now() );
-    gain.setValueAtTime(curGain, now() );
+    var endTime = time + this.attr.release
+      , gain    = this.gainNode.gain
+
+    gain.cancelScheduledValues(endTime);
     gain.exponentialRampToValueAtTime(ZERO, endTime);
 
     this.source.noteOff(endTime + 10);
   }
 
   Note.prototype.pulse = function(startTime) {
+    if (startTime === undefined) { startTime = now(); }
+
     if (!this.playing) {
       this.playing = true;
 
       this.setupGainNode();
-      this.setupSource();
+      this.setupSource(startTime);
     }
-
-    if (startTime === undefined) { startTime = now(); }
 
     var volume    = this.attr.targetVolume
       , gain      = this.gainNode.gain
@@ -69,7 +79,7 @@ define([], function() {
   };
 
 
-  Note.prototype.setupSource = function() {
+  Note.prototype.setupSource = function(time) {
     var gainNode = this.gainNode
       , source = ctx.createOscillator()
       ;
@@ -81,17 +91,19 @@ define([], function() {
     }
     source.connect(gainNode);
     source.frequency.value = this.frequency;
-    source.noteOn( now() );
+    source.noteOn(time);
   };
 
-  Note.prototype.rampUpGain = function() {
-    var endTime = now() + this.attr.attack
+  Note.prototype.rampUpGain = function(time) {
+    var endTime = time + this.attr.attack
       , targetVolume = this.attr.targetVolume
       ;
 
+    console.log("rampUpGain for time: " + time) ;
+
     var gain = this.gainNode.gain;
-    gain.setValueAtTime(ZERO, now() );
-    gain.linearRampToValueAtTime(targetVolume, endTime);
+    gain.setValueAtTime(ZERO, time);
+    gain.exponentialRampToValueAtTime(targetVolume, endTime);
   };
 
   Note.prototype.setupGainNode = function() {
