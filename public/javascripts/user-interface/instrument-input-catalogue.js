@@ -16,7 +16,9 @@ define([], function() {
                   , "A7", "A#7", "B7", "C8" ]
 
   var PENTATONIC_SCALE = [2, 2, 3, 2, 3];
+  var MINOR_PENTATONIC_SCALE = [3, 2, 2, 3, 2];
   var MAJOR_SCALE = [2, 2, 2, 1, 2, 2, 2, 1];
+  var MINOR_SCALE = [2, 1, 2, 2, 1, 2, 2, 2];
   var MAJ_CHORD = [0, 4, 3, 5];
   var MIN_CHORD = [0, 3, 4, 5];
   var DIM_CHORD = [0, 3, 3];
@@ -57,7 +59,7 @@ define([], function() {
     return keyMap;
   };
 
-  var DEFAULT_KEY_MAP = buildKeyMap('C3', PENTATONIC_SCALE, STANDARD_KEYS);
+  var DEFAULT_KEY_MAP = buildKeyMap('C3', MINOR_PENTATONIC_SCALE, STANDARD_KEYS);
 
   var CHORD_KEY_MAP = {
     z: buildChordOff('C3', MAJ_CHORD)
