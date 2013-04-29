@@ -30,11 +30,8 @@ define(['mixer', 'metronome'], function(mixer, metronome) {
   };
 
   var setUpMetronome = function() {
-    mixer.addInstrument('metronome', 'metronome');
-    metronome.setBeatCB(function() {
-      mixer.pulse('metronome', ['C8']);
-    });
-    metronome.start();
+    metronome.setMixer(mixer)
+             .start();
   };
 
 

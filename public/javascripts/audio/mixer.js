@@ -115,9 +115,9 @@ define(['instruments'], function(Instruments) {
     });
   };
 
-  public.pulse = function(ident, notes) {
+  public.pulse = function(ident, notes, startTime) {
     $.each(notes, function(i, noteName) {
-      instruments[ident].pulse(noteName);
+      instruments[ident].pulse(noteName, startTime);
     });
   }
 
