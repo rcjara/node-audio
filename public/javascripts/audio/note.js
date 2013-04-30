@@ -19,12 +19,13 @@ define([], function() {
     this.frequency = freq;
     this.dest      = dest;
     this.playing   = false;
+
+    this.setupGainNode();
+    this.setupSource();
   };
 
 
   Note.prototype.play = function(time) {
-    if (this.playing) { return; }
-    this.playing = true;
 
     if (time === undefined) {
       console.log("Note.prototype.play(): Time was undefined");
@@ -33,14 +34,11 @@ define([], function() {
 
     console.log("Note.play atTime: " + time + " now: " + now());
 
-    this.setupGainNode();
-    this.setupSource(time);
+    this.source.noteOn(time);
     this.rampUpGain(time);
   };
 
   Note.prototype.stop = function(time) {
-    if (!this.playing) { return; }
-
     if (time === undefined) {
       console.log("Note.prototype.stop(): Time was undefined");
       time = now();
@@ -48,8 +46,10 @@ define([], function() {
 
     var endTime = time + this.attr.release
       , gain    = this.gainNode.gain
+      ;
 
     gain.cancelScheduledValues(endTime);
+    gain.exponentialRampToValueAtTime(this.attr.targetVolume, time);
     gain.exponentialRampToValueAtTime(ZERO, endTime);
 
     this.source.noteOff(endTime + 10);
@@ -91,7 +91,6 @@ define([], function() {
     }
     source.connect(gainNode);
     source.frequency.value = this.frequency;
-    source.noteOn(time);
   };
 
   Note.prototype.rampUpGain = function(time) {
@@ -102,6 +101,7 @@ define([], function() {
     console.log("rampUpGain for time: " + time) ;
 
     var gain = this.gainNode.gain;
+    gain.cancelScheduledValues(time);
     gain.setValueAtTime(ZERO, time);
     gain.exponentialRampToValueAtTime(targetVolume, endTime);
   };

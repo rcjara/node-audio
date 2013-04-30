@@ -1,7 +1,7 @@
 {
   "name": "Jam-r",
   "subdomain": "jam-r",
-  "version": "0.0.4",
+  "version": "0.0.4-1",
   "private": true,
   "scripts": {
     "start": "node app.js",
