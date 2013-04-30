@@ -46,4 +46,29 @@ describe('Room', function() {
       });
     });
   });
+
+  describe('getDelay()', function() {
+    var lagDetectorMock
+      , socketMock
+      ;
+
+    describe('with sockets and very predictable lag', function() {
+      beforeEach(function() {
+        socketMock = { clients: function() { return [1, 2, 3, 4]; } };
+        lagDetectorMock = { getLag: function(client) {
+                                      return client + 2;
+                                    }
+                          , getStdDev: function(client) {
+                                         return 0;
+                                       }
+                          }
+
+        room = new Room(defaultAttr, socketMock);
+      });
+
+      it('returns a delay equal to the longest lag', function() {
+        expect( room.getDelay(lagDetectorMock) ).to.equal(6);
+      });
+    });
+  });
 });
