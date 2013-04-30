@@ -103,6 +103,35 @@ describe('LagDetector', function() {
         done();
       }, 100);
     });
-
   });
+
+  describe('.getStdDev()', function() {
+    it('computes a standard deviation', function(done) {
+      var mock = new ClientMock();
+
+      var lagDetector = new LagDetector();
+      lagDetector.setIntervalLength(10)
+                 .addClient(mock)
+                 .start();
+
+      mock.respondTo('lag-query', function(e) {
+        var that = this;
+        setTimeout(function() {
+          that.events['lag-response'](e);
+        }, Math.random() * 5 + 5);
+      });
+
+      setTimeout(function() {
+        expect(mock.counter['lag-query'])
+              .to.be.greaterThan(5);
+        expect(lagDetector.getStdDev(mock))
+              .to.be.within(0.1, 5);
+
+        lagDetector.stop();
+        done();
+      }, 100);
+    });
+  });
+
+
 });
