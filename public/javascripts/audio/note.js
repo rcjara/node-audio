@@ -48,9 +48,9 @@ define([], function() {
       , gain    = this.gainNode.gain
       ;
 
-    gain.cancelScheduledValues(endTime);
-    gain.exponentialRampToValueAtTime(this.attr.targetVolume, time);
+    //gain.exponentialRampToValueAtTime(this.attr.targetVolume, time);
     gain.exponentialRampToValueAtTime(ZERO, endTime);
+    gain.cancelScheduledValues(endTime + ZERO);
 
     this.source.noteOff(endTime + 10);
   }
@@ -62,7 +62,8 @@ define([], function() {
       this.playing = true;
 
       this.setupGainNode();
-      this.setupSource(startTime);
+      this.setupSource();
+      this.source.noteOn(startTime);
     }
 
     var volume    = this.attr.targetVolume
@@ -72,6 +73,7 @@ define([], function() {
       , peakTime  = startTime + attack
       , endTime   = peakTime + release
       ;
+
 
     gain.exponentialRampToValueAtTime(ZERO, startTime);
     gain.exponentialRampToValueAtTime(volume, peakTime);

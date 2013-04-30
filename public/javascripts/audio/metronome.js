@@ -2,7 +2,6 @@ define(['sound'], function(Sound) {
   var public = {}
     , now = function() { return Sound.getCtx().currentTime; }
     , MINUTE = 60 * 1000
-    , beatNum = 0
     , beatsPerMinute = 100
     , intervalLength  = MINUTE / beatsPerMinute
     , mixer = false
@@ -18,7 +17,7 @@ define(['sound'], function(Sound) {
     addPulse(2);
   };
 
-  public.getBeat  = function() { return beatNum; };
+  public.getBeat = function() { return public.beatForTime(now()); };
 
   public.setMixer = function(_mixer) {
     if (mixer) {
@@ -32,29 +31,35 @@ define(['sound'], function(Sound) {
     return public;
   };
 
-  public.beatOffset = function() {
-    var offset = (now() - startTime) % (intervalLength / 1000);
-    return offset === 0 ? intervalLength / 1000 : offset;
+  public.beatForTime = function(time) {
+    return Math.floor((now() - startTime) * 1000 / intervalLength);
   };
 
-  public.timeFromOffset = function(offset) {
-    console.log("timeFromOffset: " + offset + " beatFor: " + beatFor(beatNum + 2));
-    return beatFor(beatNum + 1) + offset;
+  public.beatOffset = function() {
+    return (now() - startTime) % (intervalLength / 1000);
+  };
+
+  public.timeFromOffset = function(offset, whichBeat) {
+    console.log("timeFromOffset: " + offset + " getBeat(): " + public.getBeat());
+    if (whichBeat === undefined) { whichBeat = public.getBeat(); }
+
+    var theTime = beatTime(whichBeat) + offset;
+
+    return theTime < now() ? now() : theTime;
   };
 
   var beat = function() {
-    beatNum++;
     addPulse(2);
   };
 
-  var beatFor = function(num) {
+  var beatTime = function(num) {
     return startTime + (num * intervalLength / 1000);
   };
 
 
   var addPulse = function(beatsInAdvance) {
-    var pulseTime = beatFor(beatNum + beatsInAdvance);
-    mixer.pulse('metronome', ['C6'], pulseTime);
+    var pulseTime = beatTime(public.getBeat() + beatsInAdvance);
+    mixer.pulse('metronome', ['C5'], pulseTime);
   };
 
 
