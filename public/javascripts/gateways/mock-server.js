@@ -27,6 +27,9 @@ define([], function() {
         trigger('join-room', { text: "You are playing in local mode"
                              , room: "local" });
         break;
+      case 'request-beat':
+        trigger('set-beat', { bpm: 100
+                            , officialTime: 0 });
       case 'chat-event':
         e.userName = userName;
         trigger('message', e);

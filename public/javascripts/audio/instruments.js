@@ -128,7 +128,8 @@ define(['sound', 'note'], function(Sound, note) {
     this.dest = Sound.newDestination();
   }
 
-  $.each([Organ, SlowOrgan, SawTooth, Square, Triangle, Metronome], function(i, klass) {
+  var classes = [Organ, SlowOrgan, SawTooth, Square, Triangle, Metronome];
+  $.each(classes, function(i, klass) {
     klass.prototype.__proto__ = Generic.prototype;
   });
 

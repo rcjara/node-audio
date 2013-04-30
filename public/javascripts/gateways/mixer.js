@@ -57,6 +57,10 @@ define(['mixer', 'metronome'], function(mixer, metronome) {
       }
     });
 
+    room.on('set-beat', function(e) {
+      metronome.setBeat(e.bpm, e.officialTime);
+    });
+
     room.on('add-instruments', function(e) {
       mixer.addInstruments(e.instruments);
     });
