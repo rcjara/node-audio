@@ -15,10 +15,20 @@ define([], function() {
                   , "D#7", "E7", "F7", "F#7", "G7", "G#7"
                   , "A7", "A#7", "B7", "C8" ]
 
+  // Scales are represented by arrays with
+  // the number of half steps inbetween notes.
+  // Scales have an implicit zero at the front for
+  // the first note in the scale (e.g. a scale
+  // built on C3 includes C3 as its first note)
   var PENTATONIC_SCALE = [2, 2, 3, 2, 3];
   var MINOR_PENTATONIC_SCALE = [3, 2, 2, 3, 2];
   var MAJOR_SCALE = [2, 2, 2, 1, 2, 2, 2, 1];
   var MINOR_SCALE = [2, 1, 2, 2, 1, 2, 2, 2];
+
+  // Chords are represented by arrays with containing
+  // the number of half steps inbetween notes.
+  // There is no implicity 0, to take into account
+  // the possibility of inverted chords.
   var MAJ_CHORD = [0, 4, 3, 5];
   var MIN_CHORD = [0, 3, 4, 5];
   var DIM_CHORD = [0, 3, 3];
