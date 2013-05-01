@@ -19,6 +19,7 @@ define([], function() {
     this.frequency = freq;
     this.dest      = dest;
     this.playing   = false;
+    this.startedPlayingAt = false;
 
     this.setupGainNode();
     this.setupSource();
@@ -32,7 +33,7 @@ define([], function() {
       time = now();
     }
 
-    console.log("Note.play atTime: " + time + " now: " + now());
+    this.playing = true;
 
     this.source.noteOn(time);
     this.rampUpGain(time);
@@ -40,20 +41,34 @@ define([], function() {
 
   Note.prototype.stop = function(time) {
     if (time === undefined) {
-      console.log("Note.prototype.stop(): Time was undefined");
       time = now();
     }
+
+    if (!this.playing) { console.log("Why was this not playing"); }
 
     var endTime = time + this.attr.release
       , gain    = this.gainNode.gain
       ;
 
-    //gain.exponentialRampToValueAtTime(this.attr.targetVolume, time);
-    gain.exponentialRampToValueAtTime(ZERO, endTime);
-    gain.cancelScheduledValues(endTime + ZERO);
 
-    this.source.noteOff(endTime + 10);
+    gain.setValueAtTime(this.volumeAtTime(time), time);
+    gain.exponentialRampToValueAtTime(ZERO, endTime);
+
+    //this.source.noteOff(endTime + ZERO);
   }
+
+  Note.prototype.volumeAtTime = function(t) {
+    var v0 = ZERO
+      , v1 = this.attr.targetVolume
+      , t0 = this.startedPlayingAt
+      , t1 = this.startedPlayingAt + this.attr.attack
+      ;
+
+    if (v0 === undefined || t < t0) { return ZERO; }
+    if (t > t1)                     { return v1; }
+
+    return v0 * Math.pow((v1 / v0), ((t - t0) / (t1 - t0)));
+  };
 
   Note.prototype.pulse = function(startTime) {
     if (startTime === undefined) { startTime = now(); }
@@ -98,12 +113,10 @@ define([], function() {
   Note.prototype.rampUpGain = function(time) {
     var endTime = time + this.attr.attack
       , targetVolume = this.attr.targetVolume
+      , gain = this.gainNode.gain;
       ;
 
-    console.log("rampUpGain for time: " + time) ;
-
-    var gain = this.gainNode.gain;
-    gain.cancelScheduledValues(time);
+    this.startedPlayingAt = time;
     gain.setValueAtTime(ZERO, time);
     gain.exponentialRampToValueAtTime(targetVolume, endTime);
   };
