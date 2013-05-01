@@ -51,14 +51,17 @@ define(['mixer', 'metronome'], function(mixer, metronome) {
       if (e.type === 'addInstrument') {
         mixer[e.type](e.clientID, e.instrumentName);
       } else {
-        var time = metronome.timeFromOffset(e.beatOffset + 2);
-        console.log(e.type + " offset: " + e.beatOffset + " time: " + time);
+        var time = metronome.timeFromOffset(e.beatOffset);
         mixer[e.type](e.clientID, e.noteName, time);
       }
     });
 
     room.on('set-beat', function(e) {
       metronome.setBeat(e.bpm, e.officialTime);
+    });
+
+    room.on('set-delay', function(e) {
+      metronome.setDelay(e.delay);
     });
 
     room.on('add-instruments', function(e) {
