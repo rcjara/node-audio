@@ -8,6 +8,8 @@ define(['sound'], function(Sound) {
     , callbackPulse = false
     , startTime
     , timeOffset = 0
+    , beatDelay = 0
+    , ACCEPTABLE_DELAY = 0.02
     ;
 
 
@@ -40,13 +42,15 @@ define(['sound'], function(Sound) {
     return (now() - startTime) % intervalLength;
   };
 
+  public.now = now;
+
   public.timeFromOffset = function(offset, whichBeat) {
     console.log("timeFromOffset: " + offset + " getBeat(): " + public.getBeat());
     if (whichBeat === undefined) { whichBeat = public.getBeat(); }
 
-    var theTime = beatTime(whichBeat) + offset;
+    var theTime = beatTime(whichBeat + beatDelay) + offset;
 
-    return theTime < now() ? now() : theTime;
+    return theTime < now() + 0.01 ? now() + 0.01 : theTime;
   };
 
   public.setBeat = function(bpm, officialTime) {
@@ -56,6 +60,13 @@ define(['sound'], function(Sound) {
     timeOffset = officialTime - now();
 
     public.start();
+  };
+
+  public.setDelay = function(delay) {
+    delayInSeconds = delay / 1000;
+    oldBeatDelay = beatDelay;
+    beatDelay = Math.ceil((delayInSeconds - ACCEPTABLE_DELAY) / intervalLength)
+    return beatDelay !== oldBeatDelay;
   };
 
   var beat = function() {
