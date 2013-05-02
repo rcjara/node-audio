@@ -3,7 +3,7 @@ define(['sound'], function(Sound) {
     , now = function() { return Sound.getCtx().currentTime; }
     , MINUTE = 60
     , beatsPerMinute = 100
-    , intervalLength  = MINUTE / beatsPerMinute
+    , intervalLength = MINUTE / beatsPerMinute
     , mixer = false
     , callbackPulse = false
     , startTime
