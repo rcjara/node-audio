@@ -62,11 +62,9 @@ define(['sound'], function(Sound) {
     public.start();
   };
 
-  public.setDelay = function(delay) {
-    delayInSeconds = delay / 1000;
-    oldBeatDelay = beatDelay;
-    beatDelay = Math.ceil((delayInSeconds - ACCEPTABLE_DELAY) / intervalLength)
-    return beatDelay !== oldBeatDelay;
+  public.setBeatDelay = function(_beatDelay) {
+    beatDelay = _beatDelay;
+    return public;
   };
 
   var beat = function() {

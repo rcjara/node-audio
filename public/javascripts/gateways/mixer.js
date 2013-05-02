@@ -61,7 +61,7 @@ define(['mixer', 'metronome'], function(mixer, metronome) {
     });
 
     room.on('set-delay', function(e) {
-      metronome.setDelay(e.delay);
+      metronome.setBeatDelay(e.delay);
     });
 
     room.on('add-instruments', function(e) {
